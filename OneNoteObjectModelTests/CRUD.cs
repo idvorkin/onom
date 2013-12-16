@@ -86,30 +86,9 @@ namespace OneNoteObjectModelTests
             var newPage1 = OneNote.CreatePage(newSection, Guid.NewGuid().ToString());
             Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.Any(p => p.ID == newPage1.ID));
 
-            var newPage2 = OneNote.ClonePage(newSection,newPage1);
+            var newPage2 = OneNote.ClonePage(newSection,newPage1,"NewTitle");
             Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.Any(p => p.ID == newPage2.ID));
+            Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.Any(p => p.name == "NewTitle"));
         }
-
-        [Test]
-        public void CreateTemplatePage()
-        {
-            // Hand building onenote pages is going to suck, figure out a simple way to make this happen - maybe from yaml or markdown?
-            // Play with it from here. 
-            var sectionName = Guid.NewGuid().ToString();
-            var newSection = OneNote.CreateSection(testNotebook, sectionName);
-
-            var newPage1 = OneNote.CreatePage(newSection, Guid.NewGuid().ToString());
-            Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.Any(p => p.ID == newPage1.ID));
-            newPage1.QuickStyleDef = new QuickStyleDef[]
-            {
-                new QuickStyleDef{index = "1", name="p",fontSize=11.0, font="Calibri"},
-                new QuickStyleDef{index = "2", name="h1",fontSize=16.0, font ="Calibri"},
-
-            };
-
-            OneNote.OneNoteApplication.UpdatePageContent(OneNote.XMLSerialize(newPage1));
-
-        }
-
     }
 }

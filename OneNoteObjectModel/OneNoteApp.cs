@@ -114,20 +114,29 @@ namespace OneNoteObjectModel
             return XMLDeserialize<Page>(pageContent);
         }
 
-        // Onenote syntax is really complex, I recommend cloning pages instead of updating them.
-        // XXX: This doesn't work for a reason I don't yet understand - TODO add a failing unit test.
-        public Page ClonePage (Section section,Page pageToClone)
+        // Onenote syntax is really complex, I recommend cloning pages instead of creating them by hand.
+        public Page ClonePage (Section section,Page pageToClone, string title)
         {
-            string newPageID = String.Empty;
-            OneNoteApplication.CreateNewPage(section.ID, out newPageID);
-
             // copy the source page.
-            var clonedPage = GetPageContent(pageToClone.ID);
-            clonedPage.ID = newPageID;
-            OneNoteApplication.UpdatePageContent(XMLSerialize(clonedPage));
+            string clonedPageContent;
+            OneNoteApplication.GetPageContent(pageToClone.ID,out clonedPageContent,PageInfo.piAll);
+            var pageToCloneAsXDoc = XDocument.Parse(clonedPageContent);
 
-            // hydrate the cloned paged
-            return GetPageContent(newPageID);
+            // When cloning a page need to remove all object ID's as oneonte neeeds to write them out.
+            pageToCloneAsXDoc.DescendantNodes() .OfType<XElement>() .ToList() .ForEach(x => x.Attributes().Where(a => a.Name == "objectID").Remove());
+
+            // Remove title as we don't want to replace it.
+            pageToCloneAsXDoc.DescendantNodes().OfType<XElement>().Where(x => x.Name == "{http://schemas.microsoft.com/office/onenote/2013/onenote}Title").Remove();
+
+            // Create the new Page and write it to onenote.
+            var newPage = CreatePage(section, title);
+            var newPageXML = XMLDeserialize<Page>(pageToCloneAsXDoc.ToString());
+            // update the XML as it still points to the page to clone.
+            newPageXML.ID = newPage.ID;
+            OneNoteApplication.UpdatePageContent(XMLSerialize(newPageXML));
+
+            // Return the cloned page with content.
+            return GetPageContent(newPage.ID);
         }
     }
 }
