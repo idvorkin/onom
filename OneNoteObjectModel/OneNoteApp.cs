@@ -11,8 +11,11 @@ using System.Xml.Serialization;
 using Microsoft.Office.Interop.OneNote;
 using OneNoteObjectModel;
 
+
+
 namespace OneNoteObjectModel
 {
+    // A wrapper around the COM API's here: http://msdn.microsoft.com/en-us/library/office/gg649853(v=office.14).aspx
     public class OneNoteApp
     {
         private Application _oneNoteApplication = new Microsoft.Office.Interop.OneNote.Application();
@@ -24,9 +27,22 @@ namespace OneNoteObjectModel
 
         public Notebooks GetNotebooks()
         {
-            var serializer = new XmlSerializer(typeof (Notebooks));
-            return XMLDeserialize<Notebooks>(GetHierarchy("",HierarchyScope.hsNotebooks));
+            return XMLDeserialize<Notebooks>(GetHierarchy("", HierarchyScope.hsNotebooks));
         }
+
+        public IEnumerable<Section> GetSections(Notebook notebook)
+        {
+            return GetSections(notebook, true);
+        }
+
+        // GetSections is slower if you enumerate pages. If Performance is a concern set includePages to false.
+
+        public IEnumerable<Section> GetSections(Notebook notebook, bool includePages)
+        {
+            return XMLDeserialize<Notebook>(GetHierarchy(notebook.ID,   includePages? HierarchyScope.hsPages : HierarchyScope.hsSections)).Section;
+        }
+
+
 
         // Return the hierarchy as a string (instead of an out paramater)
         public string GetHierarchy(string root, HierarchyScope hsScope)
@@ -51,7 +67,7 @@ namespace OneNoteObjectModel
             return (T) new XmlSerializer(typeof (T)).Deserialize(new XmlTextReader(new StringReader(input)));
         }
 
-        public void CreateNoteBook(string path, string name)
+        public Notebook CreateNoteBook(string path, string name)
         {
             // create the new notebook.
             var notebook = new Notebook {path = path, name = name, nickname = name};
@@ -62,8 +78,51 @@ namespace OneNoteObjectModel
 
             // tell onenote about it.
             _oneNoteApplication.UpdateHierarchy(notebookList.ToString());
+            return GetNotebooks().Notebook.First(n => n.path == path);
+        }
 
+        public Section CreateSection(Notebook notebook, string name)
+        {
+            var sectionList = XDocument.Parse(GetHierarchy(notebook.ID, HierarchyScope.hsSections));
+            sectionList.Root.Add(XDocument.Parse(XMLSerialize(new Section {name = name})).Root);
+            _oneNoteApplication.UpdateHierarchy(sectionList.ToString());
+            return GetSections(notebook).First(s => s.name == name);
+        }
 
+        public IEnumerable<Page> GetPages(Section section)
+        {
+            return XMLDeserialize<Section>(GetHierarchy(section.ID, HierarchyScope.hsPages)).Page;
+        }
+
+        public Page CreatePage(Section section)
+        {
+            string pageId = String.Empty;
+            OneNoteApplication.CreateNewPage(section.ID, out pageId);
+            return GetPageContent(pageId);
+        }
+
+        public Page GetPageContent(string PageId)
+        {
+            
+            string pageContent;
+            OneNoteApplication.GetPageContent(PageId,out pageContent);
+            return XMLDeserialize<Page>(pageContent);
+        }
+
+        // Onenote syntax is really complex, I recommend cloning pages instead of updating them.
+        public Page ClonePage (Section section,Page pageToClone)
+        {
+            string clonePageID = String.Empty;
+            OneNoteApplication.CreateNewPage(section.ID, out clonePageID);
+
+            // copy the source page.
+            var clonedPage = GetPageContent(pageToClone.ID);
+            clonedPage.ID = clonePageID;
+            OneNoteApplication.UpdatePageContent(XMLSerialize(clonedPage));
+
+            // hydrate the cloned paged
+            return GetPageContent(clonePageID);
         }
     }
+
 }

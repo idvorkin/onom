@@ -8,12 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Office.Interop.OneNote;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 using OneNoteObjectModel;
 
 namespace OneNoteObjectModelTests
 {
     [TestFixture]
-    class Query
+    class CRUD
     {
         public OneNoteApp OneNote;
 
@@ -22,6 +23,7 @@ namespace OneNoteObjectModelTests
         private static readonly string TestNoteBookPath = Path.Combine(CurrentAssemblyPath, @"..\..\..\TestNoteBooks\");
         private string tempTestNoteBookName;
         private string tempTestNoteBookDirectory;
+        private Notebook testNotebook;
             
         [TestFixtureSetUp]
         public void Setup()
@@ -30,7 +32,7 @@ namespace OneNoteObjectModelTests
             tempTestNoteBookName = "onomTest_" + Guid.NewGuid();
             tempTestNoteBookDirectory=  Path.Combine(Path.GetTempPath(),tempTestNoteBookName);
             Directory.CreateDirectory(tempTestNoteBookDirectory);
-            OneNote.CreateNoteBook(tempTestNoteBookDirectory, tempTestNoteBookDirectory);
+            testNotebook = OneNote.CreateNoteBook(tempTestNoteBookDirectory, tempTestNoteBookDirectory);
         }
 
         [TestFixtureTearDown]
@@ -50,17 +52,41 @@ namespace OneNoteObjectModelTests
         [Test]
         public void ListNoteBooks()
         {
-            /*
-            var onePkgPath = Path.Combine(TestNoteBookPath, @"Simple\Section 1.one");
-            Console.WriteLine(onePkgPath);
-            string unusedNoteBookID=string.Empty;
-            // OneNote.OneNoteApplication.CreateN
-            OneNote.OneNoteApplication.OpenHierarchy(onePkgPath, "", out unusedNoteBookID, CreateFileType.cftNone);
-            */
             var notebooks = OneNote.GetNotebooks();
             Assert.That(notebooks.Notebook.Any(), "You should have notebooks in Onenote");
             Assert.That(notebooks.Notebook.Any(n=>n.name == tempTestNoteBookName), "You should have the notebook we created");
-            Console.WriteLine(TestNoteBookPath);
+        }
+
+        [Test]
+        public void AddSection()
+        {
+            var sectionName = Guid.NewGuid().ToString();
+            var newSection = OneNote.CreateSection(testNotebook, sectionName);
+            Assert.That(newSection.name, Is.EqualTo(sectionName));
+            Assert.That(OneNote.GetSections(testNotebook).Any(s => s.name == sectionName));
+        }
+
+        [Test]
+        public void AddPage()
+        {
+            var sectionName = Guid.NewGuid().ToString();
+            var newSection = OneNote.CreateSection(testNotebook, sectionName);
+
+            var newPage1 = OneNote.CreatePage(newSection);
+            Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.Any(p => p.ID == newPage1.ID));
+        }
+
+        [Test]
+        public void ClonePage()
+        {
+            var sectionName = Guid.NewGuid().ToString();
+            var newSection = OneNote.CreateSection(testNotebook, sectionName);
+
+            var newPage1 = OneNote.CreatePage(newSection);
+            Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.Any(p => p.ID == newPage1.ID));
+
+            var newPage2 = OneNote.ClonePage(newSection,newPage1);
+            Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.Any(p => p.ID == newPage2.ID));
         }
 
     }
