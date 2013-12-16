@@ -32,7 +32,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.Office.Interop.OneNote, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
       <HintPath>$(MSBuildProjectDirectiory)\..\InterOpAssembly\onom\Microsoft.Office.Interop.OneNote.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -47,6 +47,7 @@
     <Compile Include="onenote.cs">
       <DependentUpon>onenote.xsd</DependentUpon>
     </Compile>
+    <Compile Include="OneNoteApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
