@@ -27,6 +27,8 @@ namespace OneNoteObjectModel
 
         public Notebooks GetNotebooks()
         {
+            // XXX: Figure out how to deal with performance implictions of this.
+            // Maybe make this a paramater.
             return XMLDeserialize<Notebooks>(GetHierarchy("", HierarchyScope.hsNotebooks));
         }
 
@@ -53,7 +55,7 @@ namespace OneNoteObjectModel
         }
 
         // Simple syntax object to XML string, but very inefficient.
-        private string XMLSerialize<T>(T input)
+        public string XMLSerialize<T>(T input)
         {
             var tempXML = new StringBuilder();
             new XmlSerializer(typeof (T)).Serialize(new XmlTextWriter(new StringWriter(tempXML)), input);
@@ -62,7 +64,7 @@ namespace OneNoteObjectModel
 
         // I
         // Simple syntax XML string to object, but very inefficient.
-        private T XMLDeserialize<T>(string input)
+        public T XMLDeserialize<T>(string input)
         {
             return (T) new XmlSerializer(typeof (T)).Deserialize(new XmlTextReader(new StringReader(input)));
         }
@@ -94,11 +96,14 @@ namespace OneNoteObjectModel
             return XMLDeserialize<Section>(GetHierarchy(section.ID, HierarchyScope.hsPages)).Page;
         }
 
-        public Page CreatePage(Section section)
+        public Page CreatePage(Section section, string title)
         {
             string pageId = String.Empty;
             OneNoteApplication.CreateNewPage(section.ID, out pageId);
-            return GetPageContent(pageId);
+            var page = GetPageContent(pageId);
+            (page.Title.OE.First().Items.First() as TextRange).Value = title;
+            OneNoteApplication.UpdatePageContent(XMLSerialize(page));
+            return GetPageContent(page.ID);
         }
 
         public Page GetPageContent(string PageId)
@@ -110,19 +115,19 @@ namespace OneNoteObjectModel
         }
 
         // Onenote syntax is really complex, I recommend cloning pages instead of updating them.
+        // XXX: This doesn't work for a reason I don't yet understand - TODO add a failing unit test.
         public Page ClonePage (Section section,Page pageToClone)
         {
-            string clonePageID = String.Empty;
-            OneNoteApplication.CreateNewPage(section.ID, out clonePageID);
+            string newPageID = String.Empty;
+            OneNoteApplication.CreateNewPage(section.ID, out newPageID);
 
             // copy the source page.
             var clonedPage = GetPageContent(pageToClone.ID);
-            clonedPage.ID = clonePageID;
+            clonedPage.ID = newPageID;
             OneNoteApplication.UpdatePageContent(XMLSerialize(clonedPage));
 
             // hydrate the cloned paged
-            return GetPageContent(clonePageID);
+            return GetPageContent(newPageID);
         }
     }
-
 }
