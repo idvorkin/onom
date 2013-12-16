@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneNoteObjectModel", "OneNoteObjectModel\OneNoteObjectModel.csproj", "{19946843-D5DA-4FB7-9B7E-A1799B18F9F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListNoteBooks", "ListNoteBooks\ListNoteBooks.csproj", "{30923395-3C82-4437-BF28-344779DD70FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{19946843-D5DA-4FB7-9B7E-A1799B18F9F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19946843-D5DA-4FB7-9B7E-A1799B18F9F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19946843-D5DA-4FB7-9B7E-A1799B18F9F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30923395-3C82-4437-BF28-344779DD70FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30923395-3C82-4437-BF28-344779DD70FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30923395-3C82-4437-BF28-344779DD70FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30923395-3C82-4437-BF28-344779DD70FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
