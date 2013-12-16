@@ -7,6 +7,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneNoteObjectModel", "OneNo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListNoteBooks", "ListNoteBooks\ListNoteBooks.csproj", "{30923395-3C82-4437-BF28-344779DD70FE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B0228F75-0816-4BB0-BE88-914EAE920666}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneNoteObjectModelTests", "OneNoteObjectModelTests\OneNoteObjectModelTests.csproj", "{84B7AE6D-B663-4EAC-9DDF-1AA9A30A6C6F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B7EF29FC-417A-47C0-98DE-11AA17E7D0CB}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +33,10 @@ Global
 		{30923395-3C82-4437-BF28-344779DD70FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30923395-3C82-4437-BF28-344779DD70FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30923395-3C82-4437-BF28-344779DD70FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84B7AE6D-B663-4EAC-9DDF-1AA9A30A6C6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84B7AE6D-B663-4EAC-9DDF-1AA9A30A6C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84B7AE6D-B663-4EAC-9DDF-1AA9A30A6C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84B7AE6D-B663-4EAC-9DDF-1AA9A30A6C6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
