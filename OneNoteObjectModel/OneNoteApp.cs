@@ -139,4 +139,12 @@ namespace OneNoteObjectModel
             return GetPageContent(newPage.ID);
         }
     }
+    public static class ExtensionMethods
+    {
+        // These extension methods need a OneNoteApp so that they can be static, without making a singleton app (TODO consider a singleton pattern)
+        public static IEnumerable<Section> PopulatedSections(this Notebook notebook, OneNoteApp onom)
+        {
+            return onom.GetSections(notebook);
+        }
+    }
 }

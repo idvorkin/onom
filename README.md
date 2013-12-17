@@ -16,31 +16,38 @@ Many OneNote APIs, like GetHierarchy, are not conveniently typed, so ONOM implem
 ```csharp
 // Access your notebooks and sections using Linq
 
-var onom = new OneNoteObjectModel.OneNoteApp();
-var notebook = onom.GetNotebooks().Notebook.First(n=>n.name == "BlogContentAndResearch");
-var section = onom.GetSections(notebook).First(s=>s.name == "Current");
+var ona = new OneNoteObjectModel.OneNoteApp();
+var notebook = ona.GetNotebooks().Notebook.First(n=>n.name == "BlogContentAndResearch");
+var section = ona.GetSections(notebook).First(s=>s.name == "Current");
 ```
 
 Clone Pages:
 ----------------
-Updating raw onenote page XML is miserable.  Thus, there is an API's for cloning pages:
+Updating raw onenote page XML is miserable.  Thus, there is an API's for [cloning pages](http://share.linqpad.net/ekfuve.linq):
 
 ```csharp
-// Clone the daily template into a page named with today's date.
 
-var onom = new OneNoteObjectModel.OneNoteApp();
-var notebook = onom.GetNotebooks().Notebook.First(n=>n.name == "BlogContentAndResearch");
-var section = onom.GetSections(notebook).First(s=>s.name == "Current");
-var template = section.Page.First(p=>p.name == "Daily Template");
+// Clone the daily template into a page named with today's date.
+var ona = new OneNoteObjectModel.OneNoteApp();
+
+var templateForDay = ona.GetNotebooks().Notebook.First(n=>n.name == "Templates")
+					  .PopulatedSections(ona).First(s=>s.name == "Default")
+					  .Page.First(p=>p.name == "Daily");
+					  
+var sectionForDayPage = ona.GetNotebooks().Notebook.First(n=>n.name == "BlogContentAndResearch")
+					 .PopulatedSections(ona).First(s=>s.name == "Current");		
+
 var newPageTitle = DateTime.Now.Date.ToShortDateString();
-if (section.Page.Any(p=>p.name == newPageTitle))
+if (sectionForDayPage.Page.Any(p=>p.name == newPageTitle))
 {
-    Console.WriteLine("Today's template has already been created");
+	Console.WriteLine("Today's template ({0}) has already been created.",newPageTitle);
 }
 else
 {
-    onom.ClonePage(section,template,newPageTitle);
+	ona.ClonePage(sectionForDayPage,templateForDay,newPageTitle);
+	Console.WriteLine("Created today's template page ({0}).",newPageTitle);
 }
+
 ```
 
 
