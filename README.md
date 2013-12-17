@@ -6,12 +6,12 @@ The OneNote Object Model exposed via C#. This project contains the following sub
 * OneNoteObjectModel - An assembly exposing the ObjectModel
 * ListNotebooks - An example showing listing the notebooks. 
 
-Features:
+Usage snippets:
 ==========
 
-Typed Helpers:
+List Notebooks
 ----------------
-Many OneNote APIs, like GetHierarchy, are not conveniently typed, so ONOM implements typed helpers, like GetNotebooks, which are exposed on the OneNoteApp class. 
+Many OneNote APIs, like GetHierarchy, are not conveniently typed, so ONOM implements typed helpers. which you can use to list notebooks in a type safe manner:
 
 ```csharp
 // Access your notebooks and sections using Linq
@@ -23,7 +23,7 @@ var section = ona.GetSections(notebook).First(s=>s.name == "Current");
 
 Erase Blank Sections and Pages
 ---------------------
-It's easy to accidently create new pages and sections, this script finds and erases them: 
+It's easy to accidently create new pages and sections, this snippet finds and erases them using the IsDefaultUnModified extension methods: 
 
 ```csharp
 // Find and erase blank pages
@@ -36,24 +36,10 @@ var blankPages = ona.GetNotebooks().Notebook.SelectMany(n=>n.PopulatedSections(o
 blankPages.ToList().ForEach(p=>ona.OneNoteApplication.DeleteHierarchy(p.ID));
 ```
 
-Erase Blank Pages
----------------------
-It's easy to accidently create a new section, this script finds and erases them: 
 
-```csharp
-var ona = new OneNoteObjectModel.OneNoteApp();
-var blankSections = ona.GetNotebooks().Notebook.SelectMany(n=>n.PopulatedSections(ona)).Where(s=>s.IsDefaultUnmodified(ona));
-blankSections.ToList().ForEach(s=>ona.OneNoteApplication.DeleteHierarchy(s.ID));
-```
-
-
-Erase Blank Pages
--------------------
-
-
-Create a new page for every day from a template:
+Create a new "Daily Page" from a template:
 ----------------
-Updating raw onenote page XML is miserable.  Thus, there is an API's for [cloning pages](http://share.linqpad.net/ekfuve.linq):
+It's great to create a new page per day using a template. But updating page XML is painful, this snippet create a new page by using the ClonePage method:
 
 ```csharp
 
