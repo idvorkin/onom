@@ -21,7 +21,37 @@ var notebook = ona.GetNotebooks().Notebook.First(n=>n.name == "BlogContentAndRes
 var section = ona.GetSections(notebook).First(s=>s.name == "Current");
 ```
 
-Clone Pages:
+Erase Blank Sections and Pages
+---------------------
+It's easy to accidently create new pages and sections, this script finds and erases them: 
+
+```csharp
+// Find and erase blank pages
+var ona = new OneNoteObjectModel.OneNoteApp();
+var blankSections = ona.GetNotebooks().Notebook.SelectMany(n=>n.PopulatedSections(ona)).Where(s=>s.IsDefaultUnmodified(ona));
+blankSections.ToList().ForEach(s=>ona.OneNoteApplication.DeleteHierarchy(s.ID));
+
+// You can also find and erase blank pages, but that's slow: 
+var blankPages = ona.GetNotebooks().Notebook.SelectMany(n=>n.PopulatedSections(ona).SelectMany(s=>s.Page)).Where(s=>s.IsDefaultUnmodified(ona));
+blankPages.ToList().ForEach(p=>ona.OneNoteApplication.DeleteHierarchy(p.ID));
+```
+
+Erase Blank Pages
+---------------------
+It's easy to accidently create a new section, this script finds and erases them: 
+
+```csharp
+var ona = new OneNoteObjectModel.OneNoteApp();
+var blankSections = ona.GetNotebooks().Notebook.SelectMany(n=>n.PopulatedSections(ona)).Where(s=>s.IsDefaultUnmodified(ona));
+blankSections.ToList().ForEach(s=>ona.OneNoteApplication.DeleteHierarchy(s.ID));
+```
+
+
+Erase Blank Pages
+-------------------
+
+
+Create a new page for every day from a template:
 ----------------
 Updating raw onenote page XML is miserable.  Thus, there is an API's for [cloning pages](http://share.linqpad.net/ekfuve.linq):
 

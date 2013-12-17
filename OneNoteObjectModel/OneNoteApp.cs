@@ -142,9 +142,35 @@ namespace OneNoteObjectModel
     public static class ExtensionMethods
     {
         // These extension methods need a OneNoteApp so that they can be static, without making a singleton app (TODO consider a singleton pattern)
-        public static IEnumerable<Section> PopulatedSections(this Notebook notebook, OneNoteApp onom)
+        public static IEnumerable<Section> PopulatedSections(this Notebook notebook, OneNoteApp ona)
         {
-            return onom.GetSections(notebook);
+            return ona.GetSections(notebook);
+        }
+
+        /// <summary>
+        ///  Test if a section is the default section added by the onenote applications.
+        /// <returns></returns>
+        public static bool IsDefaultUnmodified(this Section s, OneNoteApp ona)
+        {
+            // f it doesn't start with default new section starting string it's not empty.
+            const string newSectionStartingName = "New Section";
+            if (!s.name.StartsWith(newSectionStartingName)) return false;
+
+            // If has default name, and no pages, it's empty
+            if (!s.Page.Any()) return true;
+
+            // If has more then one page, it's not empty.  
+            if (s.Page.Count() != 1) return false;
+
+            // If there are no page items or title it's empty
+            return s.Page.First().IsDefaultUnmodified(ona);
+        }
+
+        public static bool IsDefaultUnmodified(this Page p, OneNoteApp ona)
+        {
+            // Get page content just to be safe.
+            var page = ona.GetPageContent(p.ID);
+            return page.Items == null && page.Title.OE.First().Items.OfType<TextRange>().All(x => x.Value == "");
         }
     }
 }
