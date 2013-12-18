@@ -55,7 +55,7 @@ namespace OneNoteObjectModel
         }
 
         // Simple syntax object to XML string, but very inefficient.
-        public string XMLSerialize<T>(T input)
+        public static string XMLSerialize<T>(T input)
         {
             var tempXML = new StringBuilder();
             new XmlSerializer(typeof (T)).Serialize(new XmlTextWriter(new StringWriter(tempXML)), input);
@@ -64,7 +64,7 @@ namespace OneNoteObjectModel
 
         // I
         // Simple syntax XML string to object, but very inefficient.
-        public T XMLDeserialize<T>(string input)
+        public static T XMLDeserialize<T>(string input)
         {
             return (T) new XmlSerializer(typeof (T)).Deserialize(new XmlTextReader(new StringReader(input)));
         }
@@ -102,13 +102,23 @@ namespace OneNoteObjectModel
             OneNoteApplication.CreateNewPage(section.ID, out pageId);
             var page = GetPageContent(pageId);
             (page.Title.OE.First().Items.First() as TextRange).Value = title;
+            return UpdatePage(page);
+        }
+        public Page UpdatePage(Page page)
+        {
             OneNoteApplication.UpdatePageContent(XMLSerialize(page));
+            // return what the page is from onenote (with for example ID's filled in)
+            return GetPageContent(page);
+        }
+
+        // Need a concept here something around page stubs vs page content. 
+        public Page GetPageContent(Page page)
+        {
             return GetPageContent(page.ID);
         }
 
         public Page GetPageContent(string PageId)
         {
-            
             string pageContent;
             OneNoteApplication.GetPageContent(PageId,out pageContent);
             return XMLDeserialize<Page>(pageContent);
@@ -136,7 +146,7 @@ namespace OneNoteObjectModel
             OneNoteApplication.UpdatePageContent(XMLSerialize(newPageXML));
 
             // Return the cloned page with content.
-            return GetPageContent(newPage.ID);
+            return GetPageContent(newPage);
         }
     }
     public static class ExtensionMethods
@@ -169,7 +179,7 @@ namespace OneNoteObjectModel
         public static bool IsDefaultUnmodified(this Page p, OneNoteApp ona)
         {
             // Get page content just to be safe.
-            var page = ona.GetPageContent(p.ID);
+            var page = ona.GetPageContent(p);
             return page.Items == null && page.Title.OE.First().Items.OfType<TextRange>().All(x => x.Value == "");
         }
     }
