@@ -23,7 +23,8 @@ else
     var todaysPage = ona.ClonePage(sectionForDailyPages,pageTemplateForDay,newPageTitle);
     Console.WriteLine("Created today's template page ({0}).",newPageTitle);
 	
-	// TODO - Reimplement with helper functions
-	// todaysPage.pageLevel = 1;
-	// ona.OneNoteApplication.UpdatePageContent(todaysPage.ID,
+	// Indent page because it will be folded into a weekly template.
+	 todaysPage.pageLevel = "2";
+	 ona.UpdatePage(todaysPage);
+
 }
