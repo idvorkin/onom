@@ -74,6 +74,7 @@ Button CreateButton(string Content, Action OnClick)
 {
 	var button = new Button(){Content = Content};
 	button.Click += (o,e) => {OnClick();};
+	button.FontSize=20;
 	return button;
 }
 void Main()
