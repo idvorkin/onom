@@ -76,7 +76,7 @@ namespace OneNoteObjectModel
 
             // add new notebook to notebooklist.
             var notebookList = XDocument.Parse(GetHierarchy("", HierarchyScope.hsNotebooks));
-            notebookList.Root.Add(XDocument.Parse(XMLSerialize(notebook)).Root);
+            notebookList.Root.AddFirst(XDocument.Parse(XMLSerialize(notebook)).Root);
 
             // tell onenote about it.
             _oneNoteApplication.UpdateHierarchy(notebookList.ToString());
@@ -141,8 +141,14 @@ namespace OneNoteObjectModel
             // Create the new Page and write it to onenote.
             var newPage = CreatePage(section, title);
             var newPageXML = XMLDeserialize<Page>(pageToCloneAsXDoc.ToString());
+
+
+
             // update the XML as it still points to the page to clone.
             newPageXML.ID = newPage.ID;
+
+            // Update current time to be now
+            newPageXML.dateTime = DateTime.Now;
             OneNoteApplication.UpdatePageContent(XMLSerialize(newPageXML));
 
             // Return the cloned page with content.

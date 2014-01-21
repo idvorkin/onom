@@ -19,8 +19,10 @@ namespace OneNoteObjectModelTests
         public OneNoteApp OneNote;
 
         // GRR - I don't understant why I can't open hierarchy, clearly I'm missing something.
+        /*
         private static readonly string CurrentAssemblyPath = Path.GetDirectoryName(new Uri(Assembly.GetAssembly(typeof (OneNoteApp)).CodeBase).LocalPath);
         private static readonly string TestNoteBookPath = Path.Combine(CurrentAssemblyPath, @"..\..\..\TestNoteBooks\");
+        */ 
         private string tempTestNoteBookName;
         private string tempTestNoteBookDirectory;
         private Notebook testNotebook;
@@ -32,7 +34,7 @@ namespace OneNoteObjectModelTests
             tempTestNoteBookName = "onomTest_" + Guid.NewGuid();
             tempTestNoteBookDirectory=  Path.Combine(Path.GetTempPath(),tempTestNoteBookName);
             Directory.CreateDirectory(tempTestNoteBookDirectory);
-            testNotebook = OneNote.CreateNoteBook(tempTestNoteBookDirectory, tempTestNoteBookDirectory);
+            testNotebook = OneNote.CreateNoteBook(tempTestNoteBookDirectory, tempTestNoteBookName);
         }
 
         [TestFixtureTearDown]
@@ -83,12 +85,19 @@ namespace OneNoteObjectModelTests
             var sectionName = Guid.NewGuid().ToString();
             var newSection = OneNote.CreateSection(testNotebook, sectionName);
 
+            var firstPageTime = DateTime.Now - TimeSpan.FromHours(1.0);
             var newPage1 = OneNote.CreatePage(newSection, Guid.NewGuid().ToString());
             Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.Any(p => p.ID == newPage1.ID));
+            newPage1.dateTime = firstPageTime;
+            OneNote.OneNoteApplication.UpdatePageContent(OneNoteApp.XMLSerialize(newPage1));
 
             var newPage2 = OneNote.ClonePage(newSection,newPage1,"NewTitle");
-            Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.Any(p => p.ID == newPage2.ID));
-            Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.Any(p => p.name == "NewTitle"));
+            Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.Any(p => p.ID == newPage2.ID), "New ID not set");
+
+            Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.Any(p => p.name == "NewTitle"), "Title Not Update");
+
+            Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.First(p => p.name == "NewTitle").dateTime != firstPageTime, "Page Creation Time Not Updated ");
         }
+
     }
 }
