@@ -84,28 +84,57 @@ Dictionary<string, List<string>> GetTwoColumnTable(OneNoteObjectModel.Table tabl
 	var keys = table.Row.Select(r=>OneNoteListTolist(r.Cell[0].OEChildren)).Select(k=>k.First());
 	var values = table.Row.Select(r=>OneNoteListTolist(r.Cell[1].OEChildren));
 	return keys.Zip(values, (k,v) => new {k,v}).ToDictionary(z=>z.k, z=>z.v);
-
 }
-void GotoTodayPage()
+IEnumerable<string> GetTableRowContent(OneNoteObjectModel.Page page, string tableTitle, string rowTitle)
 {
-	var pageTemplateForDay = ona.GetNotebooks().Notebook.First(n=>n.name == settings.TemplateNotebook )
-						.PopulatedSections(ona).First(s=>s.name == settings.TemplateSection)
-						.Page.First(p=>p.name == settings.TemplateDailyPageTitle);
-	
+	var content = ona.GetPageContent(page);
+	// ASSUME: Outline is the outer box which contains child items.
+	// ASSUME: OEChildren is always a list of OE
+	var  children =  content.Items.OfType<Outline>().SelectMany(x=>x.OEChildren);
+	var oes = children.SelectMany (x=>x.Items).Cast<OE>();
+	return GetTableAfterTitle(tableTitle, oes)[rowTitle];
+}
+void DumpYesterdayPage()
+{
 	var sectionForDailyPages = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook)
 						.PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);     
 	
-	var today = sectionForDailyPages.Page.First(p=>p.name == "1/17/2014");
+	var today = sectionForDailyPages.Page.First(p=>p.name == (DateTime.Now.Date - TimeSpan.FromDays(1)).ToShortDateString());
 	var content = ona.GetPageContent(today);
-	
-	// Outline is the outer box which contains child items.
+	// ASSUME: Outline is the outer box which contains child items.
+	// ASSUME: OEChildren is always a list of OE
 	var  children =  content.Items.OfType<Outline>().SelectMany(x=>x.OEChildren);
-	GetTableAfterTitle("SUMMARY",children.SelectMany (x=>x.Items).Cast<OE>()).Dump("Summary");
-	GetTableAfterTitle("WORK",children.SelectMany (x=>x.Items).Cast<OE>()).Dump("Work");
-	GetTableAfterTitle("HOME",children.SelectMany (x=>x.Items).Cast<OE>()).Dump("Home");
-	GetTableAfterTitle("STATS",children.SelectMany (x=>x.Items).Cast<OE>()).Dump("Stats");
+	var oes = children.SelectMany (x=>x.Items).Cast<OE>();
+	GetTableAfterTitle("SUMMARY", oes).Dump("Summary");
+	GetTableAfterTitle("WORK", oes).Dump("Work");
+	GetTableAfterTitle("HOME", oes).Dump("Home");
+	GetTableAfterTitle("STATS", oes).Dump("Stats");
 }
+void WhatDidILearnLastWeek()
+{
+	var sectionForDailyPages = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook)
+						.PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);     
+	
+	
+	var days = Enumerable.Range(0,7).Select(i=> (DateTime.Now - TimeSpan.FromDays(i)).ToShortDateString());
+	var pages = sectionForDailyPages.Page.Where(p=> days.Contains(p.name));
+	GetTableRowContentForWeek("SUMMARY","What did I learn").Dump();
+}
+
+Tuple<string, string>  GetTableRowContentForWeek (string tableTitle, string rowTitle)
+{
+	var sectionForDailyPages = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook)
+						.PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);     
+	
+	
+	var days = Enumerable.Range(0,7).Select(i=> (DateTime.Now - TimeSpan.FromDays(i)).ToShortDateString());
+	var pages = sectionForDailyPages.Page.Where(p=> days.Contains(p.name));
+	return pages.SelectMany(  p =>GetTableRowContent(p,tableTitle,rowTitle).Select(lesson => Tuple.Create(p.name, lesson)));
+}
+
+
 void Main()
 {
-	GotoTodayPage();
+	//	DumpYesterdayPage();
+	WhatDidILearnLastWeek();
 }
