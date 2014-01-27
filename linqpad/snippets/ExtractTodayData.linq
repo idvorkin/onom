@@ -27,7 +27,7 @@ public class Settings {
 	public string TemplateDailyPageTitle = "Daily";
 	public string DailyPagesNotebook = "BlogContentAndResearch";
 	public string DailyPagesSection = "Current";
-	public string TodayPageTitle = DateTime.Now.Date.ToShortDateString();
+    public string TodayPageTitle = DateTime.Now.Date.ToShortDateString();
 };
 
 public Settings settings = new Settings();
@@ -116,18 +116,12 @@ void WhatDidILearnLastWeek()
 						.PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);     
 	
 	
-	var days = Enumerable.Range(0,7).Select(i=> (DateTime.Now - TimeSpan.FromDays(i)).ToShortDateString());
+	var days = Enumerable.Range(0,12).Select(i=> (DateTime.Now - TimeSpan.FromDays(i)).ToShortDateString());
 	var pages = sectionForDailyPages.Page.Where(p=> days.Contains(p.name));
-	GetTableRowContentForWeek("SUMMARY","What did I learn").Dump();
+	GetTableRowContent(pages,"SUMMARY","What did I learn").Dump();
 }
-IEnumerable<Tuple<string, string>>  GetTableRowContentForWeek (string tableTitle, string rowTitle)
-{
-	var sectionForDailyPages = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook)
-						.PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);     
-	
-	
-	var days = Enumerable.Range(0,7).Select(i=> (DateTime.Now - TimeSpan.FromDays(i)).ToShortDateString());
-	var pages = sectionForDailyPages.Page.Where(p=> days.Contains(p.name));
+IEnumerable<Tuple<string, string>>  GetTableRowContent (IEnumerable<OneNoteObjectModel.Page> pages, string tableTitle, string rowTitle)
+{  
 	return pages.SelectMany(  p =>GetTableRowContent(p,tableTitle,rowTitle).Select(lesson => Tuple.Create(p.name, lesson)));
 }
 

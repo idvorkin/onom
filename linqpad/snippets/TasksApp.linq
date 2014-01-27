@@ -25,11 +25,14 @@ public class Settings {
 	public string TemplateNotebook  = "Templates";
 	public string TemplateSection = "Default";
 	public string TemplateDailyPageTitle = "Daily";
+	public string TemplateWeeklyPageTitle = "Weekly";
 	public string DailyPagesNotebook = "BlogContentAndResearch";
 	public string DailyPagesSection = "Current";
 	// TodayPageTitle needs to be a functor as it depends on the day. 
 	public Func<String>  TodayPageTitle = () => DateTime.Now.Date.ToShortDateString();
-};
+	public Func<String>  ThisWeekPageTitle = () => 	"Week "+ (DateTime.Now.Date - TimeSpan.FromDays(1-(int)DateTime.Now.DayOfWeek)).ToShortDateString();
+}
+
 
 public Settings settings = new Settings();
 public OneNoteApp ona = new OneNoteObjectModel.OneNoteApp();
@@ -66,6 +69,36 @@ void GotoTodayPage()
 	ona.OneNoteApplication.NavigateTo(today.ID);	
 
 }
+
+// TODO: Merge with Daily Page
+void GotoThisWeekPage()
+{
+	var pageTemplateForWeek = ona.GetNotebooks().Notebook.First(n=>n.name == settings.TemplateNotebook )
+						.PopulatedSections(ona).First(s=>s.name == settings.TemplateSection)
+						.Page.First(p=>p.name == settings.TemplateWeeklyPageTitle);
+	
+	var sectionForDailyPages = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook)
+						.PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);     
+	
+	if (sectionForDailyPages.Page.Any(p=>p.name == settings.ThisWeekPageTitle()))
+	{
+		Console.WriteLine("This Week's template ({0}) has already been created,going to it",settings.TodayPageTitle);
+	}
+	else
+	{
+		var thisWeeksPage = ona.ClonePage(sectionForDailyPages,pageTemplateForWeek,settings.ThisWeekPageTitle());
+		Console.WriteLine("Creating this week's template page ({0}).",settings.TodayPageTitle);
+		ona.UpdatePage(thisWeeksPage);
+		
+		// reload section since we modified the tree. 
+		sectionForDailyPages = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook)
+						.PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);    
+	}
+
+	var thisWeek = sectionForDailyPages.Page.First(p=>p.name == settings.ThisWeekPageTitle());
+	ona.OneNoteApplication.NavigateTo(thisWeek.ID);	
+}
+
 // Remove accidently created empty sections
 void DeleteEmptySections()
 {
@@ -82,11 +115,13 @@ Button CreateButton(string Content, Action OnClick)
 	button.FontSize=20;
 	return button;
 }
+
 void Main()
 {
 	var buttons = new []{
-		CreateButton("Goto Today Page", GotoTodayPage),
-		CreateButton("Erase Empty Section", DeleteEmptySections)
+		CreateButton("Goto Today", GotoTodayPage),
+		CreateButton("Goto This Week", GotoThisWeekPage),
+		CreateButton("Erase Empty Section", DeleteEmptySections),
 	}.ToList();
 	buttons.ForEach((b)=>PanelManager.StackWpfElement(b));
 }
