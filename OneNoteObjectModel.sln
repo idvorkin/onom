@@ -19,6 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B7EF29
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneNoteMenu", "OneNoteMenu\OneNoteMenu.csproj", "{273E3B5A-A711-4656-A5A4-3F3BDF2CD14C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnenoteCapabilities", "OnenoteCapabilities\OnenoteCapabilities.csproj", "{299B7B9F-4BD1-4692-A869-643FBCA51647}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +41,14 @@ Global
 		{84B7AE6D-B663-4EAC-9DDF-1AA9A30A6C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84B7AE6D-B663-4EAC-9DDF-1AA9A30A6C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84B7AE6D-B663-4EAC-9DDF-1AA9A30A6C6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{273E3B5A-A711-4656-A5A4-3F3BDF2CD14C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{273E3B5A-A711-4656-A5A4-3F3BDF2CD14C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{273E3B5A-A711-4656-A5A4-3F3BDF2CD14C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{273E3B5A-A711-4656-A5A4-3F3BDF2CD14C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{299B7B9F-4BD1-4692-A869-643FBCA51647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{299B7B9F-4BD1-4692-A869-643FBCA51647}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{299B7B9F-4BD1-4692-A869-643FBCA51647}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{299B7B9F-4BD1-4692-A869-643FBCA51647}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
