@@ -47,10 +47,11 @@ namespace OneNoteMenu
             var buttons = new[]{
                 CreateButton("Goto _Today", dailyPages.GotoTodayPage),
                 CreateButton("Goto This _Week", dailyPages.GotoThisWeekPage),
+                CreateButton("Goto _Yesterday", dailyPages.GotoYesterday),
                 CreateButton("Erase Empty Section", erase.DeleteEmptySections),
             }.ToList();
 
-            buttons.ForEach((b) => this.StackPanel.Children.Add(b));
+            buttons.ForEach((b) => this.Grid.Children.Add(b));
         }
     }
 

@@ -15,11 +15,19 @@ namespace OnenoteCapabilities
         public string DailyPagesNotebook = "BlogContentAndResearch";
         public string DailyPagesSection = "Current";
         // TodayPageTitle needs to be a functor as it depends on the day. 
-        public Func<String> TodayPageTitle = () => DateTime.Now.Date.ToShortDateString();
+        public string TodayPageTitle()
+        {
+            return DayPageTitleFromDate(DateTime.Now);
+        }
 
-        public Func<String> ThisWeekPageTitle =
-            () =>
-                "Week " + (DateTime.Now.Date - TimeSpan.FromDays((int) DateTime.Now.DayOfWeek - 1)).ToShortDateString();
+        public string DayPageTitleFromDate(DateTime day)
+        {
+            return day.Date.ToShortDateString();
+        }
+        public string ThisWeekPageTitle() 
+        {
+               return "Week " + (DateTime.Now.Date - TimeSpan.FromDays((int) DateTime.Now.DayOfWeek - 1)).ToShortDateString();
+        }
     }
 }
 

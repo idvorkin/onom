@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using OneNoteObjectModel;
 
+// TODO Add Test Cases.
+
 namespace OnenoteCapabilities
 {
     public class DailyPages
@@ -17,67 +19,64 @@ namespace OnenoteCapabilities
         public Settings settings;
 
         public OneNoteApp ona = new OneNoteApp();
-            
-        // Goto page for today, create from template if it doesn't exist yet. 
+        private const int NO_INDENT_VALUE = -1;
+
         public void GotoTodayPage()
         {
-            var pageTemplateForDay = ona.GetNotebooks().Notebook.First(n=>n.name == settings.TemplateNotebook )
-                                .PopulatedSections(ona).First(s=>s.name == settings.TemplateSection)
-                                .Page.First(p=>p.name == settings.TemplateDailyPageTitle);
-            
-            var sectionForDailyPages = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook)
-                                .PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);     
-            
-            if (sectionForDailyPages.Page.Any(p=>p.name == settings.TodayPageTitle()))
-            {
-                Console.WriteLine("Today's template ({0}) has already been created,going to it",settings.TodayPageTitle);
-            }
-            else
-            {
-                var todaysPage = ona.ClonePage(sectionForDailyPages,pageTemplateForDay,settings.TodayPageTitle());
-                Console.WriteLine("Created today's template page ({0}).",settings.TodayPageTitle);
-                
-                // Indent page because it will be folded into a weekly template.
-                todaysPage.pageLevel = "2";
-                ona.UpdatePage(todaysPage);
-                
-                // reload section since we modified the tree. 
-                sectionForDailyPages = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook)
-                                .PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);    
-            }
-
-            var today = sectionForDailyPages.Page.First(p=>p.name == settings.TodayPageTitle());
-            ona.OneNoteApplication.NavigateTo(today.ID);	
-
+            string todayPageTitle = settings.TodayPageTitle();
+            GotoOrCreateDayPage(todayPageTitle, settings.TemplateDailyPageTitle, 2);
         }
 
-        // TODO: Merge with Daily Page
-        public void GotoThisWeekPage()
+        public void GotoYesterday()
         {
-            var pageTemplateForWeek = ona.GetNotebooks().Notebook.First(n=>n.name == settings.TemplateNotebook )
-                                .PopulatedSections(ona).First(s=>s.name == settings.TemplateSection)
-                                .Page.First(p=>p.name == settings.TemplateWeeklyPageTitle);
-            
-            var sectionForDailyPages = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook)
-                                .PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);     
-            
-            if (sectionForDailyPages.Page.Any(p=>p.name == settings.ThisWeekPageTitle()))
+            string yesterdayPageTitle = settings.DayPageTitleFromDate(DateTime.Now - TimeSpan.FromDays(1.0));
+            GotoOrCreateDayPage(yesterdayPageTitle, settings.TemplateDailyPageTitle, 2);
+        }
+
+        public void GotoThisWeekPage ()
+        {
+            GotoOrCreateDayPage(settings.ThisWeekPageTitle(), settings.TemplateWeeklyPageTitle);
+        }
+
+        private void GotoOrCreateDayPage(string dayPageTitle, string templateName)
+        {
+            GotoOrCreateDayPage(dayPageTitle, templateName, NO_INDENT_VALUE);
+        }
+
+            // Goto page for today, create from template if it doesn't exist yet. 
+        protected void GotoOrCreateDayPage (string dayPageTitle, string templateName, int indentValue)
+        {
+            var pageTemplateForDay = ona.GetNotebooks().Notebook.First(n => n.name == settings.TemplateNotebook)
+                .PopulatedSections(ona).First(s => s.name == settings.TemplateSection)
+                .Page.First(p => p.name == templateName);
+
+            var sectionForDailyPages = ona.GetNotebooks().Notebook.First(n => n.name == settings.DailyPagesNotebook)
+                .PopulatedSections(ona).First(s => s.name == settings.DailyPagesSection);
+
+            if (sectionForDailyPages.Page.Any(p => p.name == dayPageTitle))
             {
-                Console.WriteLine("This Week's template ({0}) has already been created,going to it",settings.TodayPageTitle);
+                Console.WriteLine(" page ({0}) has already been created,going to it", dayPageTitle);
             }
             else
             {
-                var thisWeeksPage = ona.ClonePage(sectionForDailyPages,pageTemplateForWeek,settings.ThisWeekPageTitle());
-                Console.WriteLine("Creating this week's template page ({0}).",settings.TodayPageTitle);
-                ona.UpdatePage(thisWeeksPage);
-                
+                var todaysPage = ona.ClonePage(sectionForDailyPages, pageTemplateForDay, dayPageTitle);
+                Console.WriteLine("Created Page ({0} from template {1}).", dayPageTitle, templateName);
+
+                // Indent page because it will be folded into a weekly template.
+                if (indentValue != NO_INDENT_VALUE)
+                {
+                    todaysPage.pageLevel = indentValue.ToString();
+                }
+                ona.UpdatePage(todaysPage);
+
                 // reload section since we modified the tree. 
-                sectionForDailyPages = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook)
-                                .PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);    
+                sectionForDailyPages = ona.GetNotebooks().Notebook.First(n => n.name == settings.DailyPagesNotebook)
+                    .PopulatedSections(ona).First(s => s.name == settings.DailyPagesSection);
             }
 
-            var thisWeek = sectionForDailyPages.Page.First(p=>p.name == settings.ThisWeekPageTitle());
-            ona.OneNoteApplication.NavigateTo(thisWeek.ID);
+            var today = sectionForDailyPages.Page.First(p => p.name == dayPageTitle);
+            ona.OneNoteApplication.NavigateTo(today.ID);
+
         }
     }
 }

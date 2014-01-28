@@ -1,8 +1,8 @@
 ﻿<Window x:Class="OneNoteMenu.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="OneMenu" Height="350" Width="525">
-    <StackPanel Name="StackPanel">
+        Title="OneMenu" Height="80" Width="800">
+    <UniformGrid Name="Grid" Rows="1">
         
-    </StackPanel>
+    </UniformGrid>
 </Window>
