@@ -30,7 +30,7 @@ public class Settings {
 	public string DailyPagesSection = "Current";
 	// TodayPageTitle needs to be a functor as it depends on the day. 
 	public Func<String>  TodayPageTitle = () => DateTime.Now.Date.ToShortDateString();
-	public Func<String>  ThisWeekPageTitle = () => 	"Week "+ (DateTime.Now.Date - TimeSpan.FromDays(1-(int)DateTime.Now.DayOfWeek)).ToShortDateString();
+	public Func<String>  ThisWeekPageTitle = () => 	"Week "+ (DateTime.Now.Date - TimeSpan.FromDays((int)DateTime.Now.DayOfWeek-1)).ToShortDateString();
 }
 
 
