@@ -5,12 +5,21 @@ The OneNote Object Model exposed via C#. This project contains the following sub
 
 * OneNoteObjectModel - An assembly exposing the ObjectModel
 * ListNotebooks - An example showing listing the notebooks. 
+* OneNoteCapabilities - a collection of useful capabilities.
+* OneNoteMenu - A menu exposing the many OneNote Capabilities
 * Linqpad\Snippets - Snippets in Linqpad including a UX application. 
+
+
+OneNote Menu 
+====
+Capabilities exposed via a menu: 
+TBD Describe these capabilities
+![](http://i.imgur.com/cKWWa09.png)
 
 
 LinqPad based UX:
 ====
-Snippets are great, but often you just want a UI application. Until I have time to build one, I've setup a primitve UI in [linqpad](http://ig2600.blogspot.com/2012/12/cool-toolslinqpad.html)
+Snippets are great, but often you just want a UI application. Until I have time to build one, I've setup a primitive UI in [linqpad](http://ig2600.blogspot.com/2012/12/cool-toolslinqpad.html)
 ![LinqPadOnenoteUX](http://i.imgur.com/O7qMx36.png)
 
 
