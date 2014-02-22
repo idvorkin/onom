@@ -53,12 +53,14 @@ namespace OnenoteCapabilities
             var sectionForDailyPages = ona.GetNotebooks().Notebook.First(n => n.name == settings.DailyPagesNotebook)
                 .PopulatedSections(ona).First(s => s.name == settings.DailyPagesSection);
 
-            if (sectionForDailyPages.Page.Any(p => p.name == dayPageTitle))
+            bool isAnyPagesInSection = sectionForDailyPages.Page != null;
+            if (isAnyPagesInSection && sectionForDailyPages.Page.Any(p => p.name == dayPageTitle))
             {
-                Console.WriteLine(" page ({0}) has already been created,going to it", dayPageTitle);
+                // page already exists
             }
             else
             {
+                // page does not exist.
                 var todaysPage = ona.ClonePage(sectionForDailyPages, pageTemplateForDay, dayPageTitle);
                 Console.WriteLine("Created Page ({0} from template {1}).", dayPageTitle, templateName);
 
@@ -69,7 +71,7 @@ namespace OnenoteCapabilities
                 }
                 else
                 {
-                    todaysPage.pageLevel = "1".ToString();
+                    todaysPage.pageLevel = 1.ToString();
                 }
                 ona.UpdatePage(todaysPage);
 

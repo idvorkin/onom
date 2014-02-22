@@ -55,6 +55,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OnenoteCapabilities\OnenoteCapabilities.csproj">
+      <Project>{299b7b9f-4bd1-4692-a869-643fbca51647}</Project>
+      <Name>OnenoteCapabilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OneNoteObjectModel\OneNoteObjectModel.csproj">
       <Project>{19946843-D5DA-4FB7-9B7E-A1799B18F9F1}</Project>
       <Name>OneNoteObjectModel</Name>
