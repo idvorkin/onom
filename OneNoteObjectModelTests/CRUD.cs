@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using System.Reflection;
@@ -16,32 +15,28 @@ namespace OneNoteObjectModelTests
     [TestFixture]
     class CRUD
     {
-        public OneNoteApp OneNote;
+        public OneNoteApp ona;
 
         // GRR - I don't understant why I can't open hierarchy, clearly I'm missing something.
         /*
         private static readonly string CurrentAssemblyPath = Path.GetDirectoryName(new Uri(Assembly.GetAssembly(typeof (OneNoteApp)).CodeBase).LocalPath);
         private static readonly string TestNoteBookPath = Path.Combine(CurrentAssemblyPath, @"..\..\..\TestNoteBooks\");
         */ 
-        private string tempTestNoteBookName;
-        private string tempTestNoteBookDirectory;
-        private Notebook testNotebook;
+        private TemporaryNoteBookHelper _tempNoteBookHelperHelper;
+        private Notebook tempNotebook;
             
         [TestFixtureSetUp]
         public void Setup()
         {
-            OneNote = new OneNoteApp();
-            tempTestNoteBookName = "onomTest_" + Guid.NewGuid();
-            tempTestNoteBookDirectory=  Path.Combine(Path.GetTempPath(),tempTestNoteBookName);
-            Directory.CreateDirectory(tempTestNoteBookDirectory);
-            testNotebook = OneNote.CreateNoteBook(tempTestNoteBookDirectory, tempTestNoteBookName);
+            ona = new OneNoteApp();
+            _tempNoteBookHelperHelper = new TemporaryNoteBookHelper(ona);
+            tempNotebook = _tempNoteBookHelperHelper.Get();
         }
 
         [TestFixtureTearDown]
         public void TearDown()
         {
-            OneNote.OneNoteApplication.CloseNotebook(OneNote.GetNotebooks().Notebook.First(n=>n.name == tempTestNoteBookName).ID);
-            Directory.Delete(tempTestNoteBookDirectory,recursive:true);
+            _tempNoteBookHelperHelper.Dispose();
         }
 
         [Test]
@@ -54,49 +49,49 @@ namespace OneNoteObjectModelTests
         [Test]
         public void ListNoteBooks()
         {
-            var notebooks = OneNote.GetNotebooks();
+            var notebooks = ona.GetNotebooks();
             Assert.That(notebooks.Notebook.Any(), "You should have notebooks in Onenote");
-            Assert.That(notebooks.Notebook.Any(n=>n.name == tempTestNoteBookName), "You should have the notebook we created");
+            Assert.That(notebooks.Notebook.Any(n=>n.name == tempNotebook.name), "You should have the notebook we created");
         }
 
         [Test]
         public void AddSection()
         {
             var sectionName = Guid.NewGuid().ToString();
-            var newSection = OneNote.CreateSection(testNotebook, sectionName);
+            var newSection = ona.CreateSection(tempNotebook, sectionName);
             Assert.That(newSection.name, Is.EqualTo(sectionName));
-            Assert.That(OneNote.GetSections(testNotebook).Any(s => s.name == sectionName));
+            Assert.That(ona.GetSections(tempNotebook).Any(s => s.name == sectionName));
         }
 
         [Test]
         public void AddPage()
         {
             var sectionName = Guid.NewGuid().ToString();
-            var newSection = OneNote.CreateSection(testNotebook, sectionName);
+            var newSection = ona.CreateSection(tempNotebook, sectionName);
 
             var newPageName = Guid.NewGuid().ToString();
-            var newPage1 = OneNote.CreatePage(newSection, newPageName);
-            Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.Any(p => p.ID == newPage1.ID && p.name == newPageName));
+            var newPage1 = ona.CreatePage(newSection, newPageName);
+            Assert.That( ona.GetSections(tempNotebook).First(s => s.name == sectionName).Page.Any(p => p.ID == newPage1.ID && p.name == newPageName));
         }
 
         [Test]
         public void ClonePage()
         {
             var sectionName = Guid.NewGuid().ToString();
-            var newSection = OneNote.CreateSection(testNotebook, sectionName);
+            var newSection = ona.CreateSection(tempNotebook, sectionName);
 
             var firstPageTime = DateTime.Now - TimeSpan.FromHours(1.0);
-            var newPage1 = OneNote.CreatePage(newSection, Guid.NewGuid().ToString());
-            Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.Any(p => p.ID == newPage1.ID));
+            var newPage1 = ona.CreatePage(newSection, Guid.NewGuid().ToString());
+            Assert.That( ona.GetSections(tempNotebook).First(s => s.name == sectionName).Page.Any(p => p.ID == newPage1.ID));
             newPage1.dateTime = firstPageTime;
-            OneNote.OneNoteApplication.UpdatePageContent(OneNoteApp.XMLSerialize(newPage1));
+            ona.OneNoteApplication.UpdatePageContent(OneNoteApp.XMLSerialize(newPage1));
 
-            var newPage2 = OneNote.ClonePage(newSection,newPage1,"NewTitle");
-            Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.Any(p => p.ID == newPage2.ID), "New ID not set");
+            var newPage2 = ona.ClonePage(newSection,newPage1,"NewTitle");
+            Assert.That( ona.GetSections(tempNotebook).First(s => s.name == sectionName).Page.Any(p => p.ID == newPage2.ID), "New ID not set");
 
-            Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.Any(p => p.name == "NewTitle"), "Title Not Update");
+            Assert.That( ona.GetSections(tempNotebook).First(s => s.name == sectionName).Page.Any(p => p.name == "NewTitle"), "Title Not Update");
 
-            Assert.That( OneNote.GetSections(testNotebook).First(s => s.name == sectionName).Page.First(p => p.name == "NewTitle").dateTime != firstPageTime, "Page Creation Time Not Updated ");
+            Assert.That( ona.GetSections(tempNotebook).First(s => s.name == sectionName).Page.First(p => p.name == "NewTitle").dateTime != firstPageTime, "Page Creation Time Not Updated ");
         }
 
     }
