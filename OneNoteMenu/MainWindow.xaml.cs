@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,10 +28,16 @@ namespace OneNoteMenu
     {
         DailyPages dailyPages = new DailyPages(new Settings());
         EraseEmpty erase = new EraseEmpty();
+        private static string[] _people = "SeanSe;AlaksS;MaSudame;AmmonL;LarryS;IgorD;ToriS".Split(';');
+        private ObservableCollection<string> _observablePeople = new ObservableCollection<string>(_people);
+
+        // should be done in the XAML, but I'm lazy.
+        private double defaultFontSize = 20;
+
         public MainWindow()
         {
             InitializeComponent();
-            CreateButtons();
+            DrawDynamicUXElements();
         }
         // UX Helpers - These should move to an alternate assembly
         Button CreateButton(string Content, Action OnClick)
@@ -38,20 +45,43 @@ namespace OneNoteMenu
             var button = new Button() { Content = Content };
             button.Click += (o, e) => { OnClick(); };
 
-            button.FontSize = 20;
+            button.FontSize = defaultFontSize;
             return button;
         }
 
-        void CreateButtons()
+        void MessageBoxPerson(string person)
         {
-            var buttons = new[]{
-                CreateButton("Goto _Today", dailyPages.GotoTodayPage),
-                CreateButton("Goto This _Week", dailyPages.GotoThisWeekPage),
-                CreateButton("Goto _Yesterday", dailyPages.GotoYesterday),
-                CreateButton("Erase Empty Section", erase.DeleteEmptySections),
+            MessageBox.Show(this, "Showing:" + person);
+        }
+
+        void DrawDynamicUXElements()
+        {
+            var dailyPagesButtons = new[]
+            {
+                CreateButton("_Today", dailyPages.GotoTodayPage),
+                CreateButton("This _Week", dailyPages.GotoThisWeekPage),
+                CreateButton("_Yesterday", dailyPages.GotoYesterday),
+                CreateButton("Cleanup", erase.DeleteEmptySections),
             }.ToList();
 
-            buttons.ForEach((b) => this.Grid.Children.Add(b));
+            dailyPagesButtons.ForEach((b) => this.GridDailyPages.Children.Add(b));
+
+            Action doNothing = ()=> { } ;
+
+            var peoplePagesButtons = new[]{
+                CreateButton("_Next", () =>
+                {
+                    MessageBoxPerson(this.PeopleList.SelectedValue as string);
+                }),
+                CreateButton("_Current", doNothing),
+                CreateButton("_Last", doNothing),
+            }.ToList();
+
+            this.PeopleList.FontSize = defaultFontSize;
+            this.PeopleList.ItemsSource = _observablePeople;
+            // set the default item to a person.
+            this.PeopleList.SelectedIndex = 0;
+            peoplePagesButtons.ForEach((b) => this.GridPeoplePages.Children.Add(b));
         }
     }
 
