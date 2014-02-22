@@ -67,6 +67,10 @@ namespace OnenoteCapabilities
                 {
                     todaysPage.pageLevel = indentValue.ToString();
                 }
+                else
+                {
+                    todaysPage.pageLevel = "1".ToString();
+                }
                 ona.UpdatePage(todaysPage);
 
                 // reload section since we modified the tree. 
@@ -76,7 +80,6 @@ namespace OnenoteCapabilities
 
             var today = sectionForDailyPages.Page.First(p => p.name == dayPageTitle);
             ona.OneNoteApplication.NavigateTo(today.ID);
-
         }
     }
 }
