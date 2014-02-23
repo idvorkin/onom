@@ -30,7 +30,7 @@ namespace OneNoteMenu
         readonly EraseEmpty erase = new EraseEmpty();
         readonly DailyPages dailyPages = new DailyPages(ona, new SettingsDailyPages());
         readonly PeoplePages peoplePages = new PeoplePages(ona, new SettingsPeoplePages());
-        private static string[] _people = "SeanSe;AlaksS;MaSudame;AmmonL;LarryS;IgorD;ToriS".Split(';');
+        private static string[] _people = new SettingsPeoplePages().People.Split(';');
         private ObservableCollection<string> _observablePeople = new ObservableCollection<string>(_people);
 
         // should be done in the XAML, but I'm lazy.
