@@ -36,6 +36,7 @@ namespace OnenoteCapabilities
         public string TemplatePeopleMeetingTitle = "Person:Meeting";
         public string PeoplePagesNotebook = "BlogContentAndResearch";
         public string PeoplePagesSection = "People";
+        public string People = "SeanSe;IgorD;AlaksS;AmmonL;ToriS;SriRama;MaSudame;Demo1;Demo2";
 
         public string PersonMeetingTitle(string personName, DateTime now)
         {
