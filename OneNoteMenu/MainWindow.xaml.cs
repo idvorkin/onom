@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 // A collection of onenote capabilities with a button for each.
 using OnenoteCapabilities;
 using OneNoteMenu.Properties;
+using OneNoteObjectModel;
 using Settings = OnenoteCapabilities.Settings;
 
 namespace OneNoteMenu
@@ -26,8 +27,9 @@ namespace OneNoteMenu
     /// </summary>
     public partial class MainWindow : Window
     {
-        DailyPages dailyPages = new DailyPages(new Settings());
-        EraseEmpty erase = new EraseEmpty();
+        static readonly OneNoteApp ona = new OneNoteApp();
+        readonly EraseEmpty erase = new EraseEmpty();
+        readonly DailyPages dailyPages = new DailyPages(ona, new Settings());
         private static string[] _people = "SeanSe;AlaksS;MaSudame;AmmonL;LarryS;IgorD;ToriS".Split(';');
         private ObservableCollection<string> _observablePeople = new ObservableCollection<string>(_people);
 

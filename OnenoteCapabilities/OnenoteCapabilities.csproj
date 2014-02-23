@@ -46,6 +46,7 @@
     <Compile Include="EraseEmpty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="TemplatePageCreator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OneNoteObjectModel\OneNoteObjectModel.csproj">

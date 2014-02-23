@@ -48,7 +48,7 @@ namespace OneNoteObjectModelTests
             ona.CreatePage(dailySection, "Parent Week");
 
             // Instantiate dailyPages
-            dailyPages = new DailyPages(settings);
+            dailyPages = new DailyPages(ona, settings);
         }
 
         [Test]
