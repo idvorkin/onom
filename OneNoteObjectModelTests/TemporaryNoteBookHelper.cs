@@ -5,7 +5,7 @@ using OneNoteObjectModel;
 
 namespace OneNoteObjectModelTests
 {
-    class TemporaryNoteBookHelper:IDisposable
+    public class TemporaryNoteBookHelper:IDisposable
     {
         private OneNoteApp ona;
         private Notebook notebook;

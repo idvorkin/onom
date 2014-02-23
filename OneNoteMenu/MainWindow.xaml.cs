@@ -29,6 +29,7 @@ namespace OneNoteMenu
         static readonly OneNoteApp ona = new OneNoteApp();
         readonly EraseEmpty erase = new EraseEmpty();
         readonly DailyPages dailyPages = new DailyPages(ona, new SettingsDailyPages());
+        readonly PeoplePages peoplePages = new PeoplePages(ona, new SettingsPeoplePages());
         private static string[] _people = "SeanSe;AlaksS;MaSudame;AmmonL;LarryS;IgorD;ToriS".Split(';');
         private ObservableCollection<string> _observablePeople = new ObservableCollection<string>(_people);
 
@@ -55,6 +56,11 @@ namespace OneNoteMenu
             MessageBox.Show(this, "Showing:" + person);
         }
 
+        string selectedPerson()
+        {
+            return this.PeopleList.SelectedValue as string;
+        }
+
         void DrawDynamicUXElements()
         {
             var dailyPagesButtons = new[]
@@ -70,12 +76,9 @@ namespace OneNoteMenu
             Action doNothing = ()=> { } ;
 
             var peoplePagesButtons = new[]{
-                CreateButton("_Next", () =>
-                {
-                    MessageBoxPerson(this.PeopleList.SelectedValue as string);
-                }),
-                CreateButton("_Current", doNothing),
-                CreateButton("_Previous", doNothing),
+                CreateButton("Next", ()=> peoplePages.GotoPersonNextPage(selectedPerson())),
+                CreateButton("_Current", ()=> peoplePages.GotoPersonCurrentMeetingPage(selectedPerson())),
+                CreateButton("_Previous", ()=> peoplePages.GotoPersonPreviousMeetingPage(selectedPerson())),
             }.ToList();
 
             this.PeopleList.FontSize = defaultFontSize;
