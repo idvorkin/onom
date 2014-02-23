@@ -18,7 +18,6 @@ using System.Windows.Shapes;
 using OnenoteCapabilities;
 using OneNoteMenu.Properties;
 using OneNoteObjectModel;
-using Settings = OnenoteCapabilities.Settings;
 
 namespace OneNoteMenu
 {
@@ -29,7 +28,7 @@ namespace OneNoteMenu
     {
         static readonly OneNoteApp ona = new OneNoteApp();
         readonly EraseEmpty erase = new EraseEmpty();
-        readonly DailyPages dailyPages = new DailyPages(ona, new Settings());
+        readonly DailyPages dailyPages = new DailyPages(ona, new SettingsDailyPages());
         private static string[] _people = "SeanSe;AlaksS;MaSudame;AmmonL;LarryS;IgorD;ToriS".Split(';');
         private ObservableCollection<string> _observablePeople = new ObservableCollection<string>(_people);
 
@@ -76,7 +75,7 @@ namespace OneNoteMenu
                     MessageBoxPerson(this.PeopleList.SelectedValue as string);
                 }),
                 CreateButton("_Current", doNothing),
-                CreateButton("_Last", doNothing),
+                CreateButton("_Previous", doNothing),
             }.ToList();
 
             this.PeopleList.FontSize = defaultFontSize;

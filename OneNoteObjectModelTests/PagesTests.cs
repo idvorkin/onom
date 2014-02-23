@@ -10,7 +10,7 @@ using OneNoteObjectModel;
 namespace OneNoteObjectModelTests
 {
     [TestFixture]
-    public class PageTests
+    public class DailyPageTests
     {
         public OneNoteApp ona;
 
@@ -21,7 +21,7 @@ namespace OneNoteObjectModelTests
         */
         private TemporaryNoteBookHelper _templateNotebook;
         private TemporaryNoteBookHelper _dailyPagesNotebook;
-        private OnenoteCapabilities.Settings settings;
+        private OnenoteCapabilities.SettingsDailyPages _settingsDailyPages;
         private DailyPages dailyPages;
 
 
@@ -32,23 +32,23 @@ namespace OneNoteObjectModelTests
             _templateNotebook = new TemporaryNoteBookHelper(ona);
             _dailyPagesNotebook = new TemporaryNoteBookHelper(ona);
 
-            settings = new Settings()
+            _settingsDailyPages = new SettingsDailyPages()
             {
                     TemplateNotebook = _templateNotebook.Get().name,
                     DailyPagesNotebook =  _dailyPagesNotebook.Get().name
             };
 
             // create template structure.
-            var templateSection  = ona.CreateSection(_templateNotebook.Get(), settings.TemplateSection);
-            ona.CreatePage(templateSection, settings.TemplateDailyPageTitle);
-            ona.CreatePage(templateSection, settings.TemplateWeeklyPageTitle);
+            var templateSection  = ona.CreateSection(_templateNotebook.Get(), _settingsDailyPages.TemplateSection);
+            ona.CreatePage(templateSection, _settingsDailyPages.TemplateDailyPageTitle);
+            ona.CreatePage(templateSection, _settingsDailyPages.TemplateWeeklyPageTitle);
 
             // create DailyPages Section
-            var dailySection = ona.CreateSection(_dailyPagesNotebook.Get(), settings.DailyPagesSection);
+            var dailySection = ona.CreateSection(_dailyPagesNotebook.Get(), _settingsDailyPages.DailyPagesSection);
             ona.CreatePage(dailySection, "Parent Week");
 
             // Instantiate dailyPages
-            dailyPages = new DailyPages(ona, settings);
+            dailyPages = new DailyPages(ona, _settingsDailyPages);
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace OneNoteObjectModelTests
             dailyPages.GotoThisWeekPage();
             // verify week page is created.
             var pagesNotebook = ona.GetNotebooks().Notebook.First(n => n.name == _dailyPagesNotebook.Get().name);
-            var weekPage = ona.GetSections(pagesNotebook,true).First().Page.First(n => n.name == settings.ThisWeekPageTitle());
+            var weekPage = ona.GetSections(pagesNotebook,true).First().Page.First(n => n.name == _settingsDailyPages.ThisWeekPageTitle());
             Assert.That(weekPage.pageLevel, Is.EqualTo(1.ToString()));
         }
         [Test]
@@ -66,7 +66,7 @@ namespace OneNoteObjectModelTests
             dailyPages.GotoTodayPage();
             // verify week page is created.
             var pagesNotebook = ona.GetNotebooks().Notebook.First(n => n.name == _dailyPagesNotebook.Get().name);
-            var todayPage = ona.GetSections(pagesNotebook,true).First().Page.First(n => n.name == settings.TodayPageTitle());
+            var todayPage = ona.GetSections(pagesNotebook,true).First().Page.First(n => n.name == _settingsDailyPages.TodayPageTitle());
             Assert.That(todayPage.pageLevel, Is.EqualTo(2.ToString()));
         }
 

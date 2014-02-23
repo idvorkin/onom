@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace OnenoteCapabilities
 {
-    public class Settings
+    // TODO Split this into different settings files.
+    public class SettingsDailyPages:SettingsBase
     {
-        public string TemplateNotebook = "Templates";
-        public string TemplateSection = "Default";
         public string TemplateDailyPageTitle = "Daily";
         public string TemplateWeeklyPageTitle = "Weekly";
         public string DailyPagesNotebook = "BlogContentAndResearch";
         public string DailyPagesSection = "Current";
+
         // TodayPageTitle needs to be a functor as it depends on the day. 
         public string TodayPageTitle()
         {
@@ -27,6 +27,24 @@ namespace OnenoteCapabilities
         public string ThisWeekPageTitle() 
         {
                return "Week " + (DateTime.Now.Date - TimeSpan.FromDays((int) DateTime.Now.DayOfWeek - 1)).ToShortDateString();
+        }
+    }
+
+    public class SettingsPeoplePages:SettingsBase
+    {
+        public string TemplatePeopleNextTitle = "Person:Next";
+        public string TemplatePeopleMeetingTitle = "Person:Meeting";
+        public string PeoplePagesNotebook = "BlogContentAndResearch";
+        public string PeoplePagesSection = "People";
+
+        public string PersonMeetingTitle(string personName, DateTime now)
+        {
+            return String.Format("{0}:{1}",personName,now.ToShortDateString());
+        }
+
+        public string PersonNextTitle(string personName )
+        {
+            return String.Format("{0}:Next",personName);
         }
     }
 }
