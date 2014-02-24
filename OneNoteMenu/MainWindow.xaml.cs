@@ -77,8 +77,8 @@ namespace OneNoteMenu
 
             var peoplePagesButtons = new[]{
                 CreateButton("Next", ()=> peoplePages.GotoPersonNextPage(selectedPerson())),
-                CreateButton("_Current", ()=> peoplePages.GotoPersonCurrentMeetingPage(selectedPerson())),
                 CreateButton("_Previous", ()=> peoplePages.GotoPersonPreviousMeetingPage(selectedPerson())),
+                CreateButton("_NewDay", ()=> peoplePages.GotoPersonCurrentMeetingPage(selectedPerson())),
             }.ToList();
 
             this.PeopleList.FontSize = defaultFontSize;

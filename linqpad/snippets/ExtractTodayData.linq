@@ -13,7 +13,7 @@
   <Namespace>System.Windows.Controls</Namespace>
 </Query>
 
-public Settings settings = new Settings();
+public SettingsDailyPages settings = new SettingsDailyPages();
 public OneNoteApp ona = new OneNoteObjectModel.OneNoteApp();
 List<string> OneNoteListTolist(IEnumerable<Object>  objects)
 {
