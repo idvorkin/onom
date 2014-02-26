@@ -15,6 +15,40 @@
 
 public SettingsDailyPages settings = new SettingsDailyPages();
 public OneNoteApp ona = new OneNoteObjectModel.OneNoteApp();
+List<string> OneNoteTextTolist(IEnumerable<Object>  objects)
+{
+	return objects.SelectMany(o=>
+	{
+	
+		if (o is OEChildren)
+		{
+			return OneNoteTextTolist((o as OEChildren).Items);
+		}
+		if (o is OE)
+		{
+			return OneNoteTextTolist((o as OE).Items);
+		}
+		if (o is TextRange)
+		{
+			return 	new List<string>() { (o as TextRange).Value};
+		}
+		if (o is OneNoteObjectModel.Table)
+		{
+				// "skipping Table Processing".Dump();
+				return new List<string>();
+		}
+		if (o is OneNoteObjectModel.InkWord)
+		{
+					return 	new List<string>() { (o as InkWord).recognizedText ?? ""};
+		}
+		else // (o is OneNoteObjectModel.List)
+		{
+			o.Dump();
+			return new List<string>();
+		}
+	}
+	).ToList();
+}
 List<string> OneNoteListTolist(IEnumerable<Object>  objects)
 {
 	return objects.SelectMany(o=>
@@ -102,12 +136,28 @@ void WhatDidILearnLastWeek()
 	var days = Enumerable.Range(0,12).Select(i=> (DateTime.Now - TimeSpan.FromDays(i)).ToShortDateString());
 	var pages = sectionForDailyPages.Page.Where(p=> days.Contains(p.name));
 	GetTableRowContent(pages,"SUMMARY","What did I learn").Dump();
+	pages.ToList().Select(p=>ona.GetPageContent(p)).Select( p => 
+	{
+		var  oes =  p.Items.OfType<Outline>().SelectMany(x=>x.OEChildren).SelectMany(x=>x.Items).OfType<OE>();
+		return new {p.name, smartTags = GetSmartTags(oes) };
+	}
+	).Dump();
 }
 IEnumerable<Tuple<string, string>>  GetTableRowContent (IEnumerable<OneNoteObjectModel.Page> pages, string tableTitle, string rowTitle)
 {  
 	return pages.SelectMany(  p =>GetTableRowContent(p,tableTitle,rowTitle).Select(lesson => Tuple.Create(p.name, lesson)));
 }
 
+IEnumerable<Tuple <string, string>> GetSmartTags(IEnumerable<Object> oes)
+{
+	var text = OneNoteTextTolist(oes);
+	var smartTagMatcher = new Regex("(#[a-zA-Z]+)");
+	return text.Select( t => new {t, match=smartTagMatcher.Match(t)}).Where(x => x.match.Success).Select(x=>
+	{
+		var tag = x.match.Captures[0].Value;
+		return Tuple.Create(tag, smartTagMatcher.Replace(x.t,""));
+	});
+}
 
 void Main()
 {
