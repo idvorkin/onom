@@ -12,15 +12,21 @@ The OneNote Object Model exposed via C#. This project contains the following sub
 
 OneNote Menu 
 ====
-Capabilities exposed via a menu: 
-TBD Describe these capabilities
-![](http://i.imgur.com/cKWWa09.png)
+Onenote menu exposes multiple features via a graphical interface. The current exposed features are:
 
+* Daily Pages - Organize your day to day life via daily pages and per week summaries.
+*   People Pages - Organize your interactions via people pages, with pages per day you meet a person, and personal agenda.
+*    Default Section Cleanup - Erase blank sections which are accidently created during onenote usage.
 
-LinqPad based UX:
+![](http://i.imgur.com/5Rq5bUI.png)
+
+LinqPad Snippets:
 ====
-Snippets are great, but often you just want a UI application. Until I have time to build one, I've setup a primitive UI in [linqpad](http://ig2600.blogspot.com/2012/12/cool-toolslinqpad.html)
-![LinqPadOnenoteUX](http://i.imgur.com/O7qMx36.png)
+Experimental functionality is developed and exposed in [linqpad]((ig2600.blogspot.com/2012/12/cool-toolslinqpad.html). This is a great way to try out the experimental features, and contribute to them if you desire. 
+
+![](http://i.imgur.com/nuyCfdk.png)
+
+
 
 
 Usage snippets:
@@ -86,5 +92,6 @@ else
 
 TODO List:
 
+* Split OnenoteMenu into its own project.
 * Create a NuGet project for easy access from other projects and LinqPad
 

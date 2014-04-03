@@ -127,22 +127,7 @@ void DumpYesterdayPage()
 	GetTableAfterTitle("HOME", oes).Dump("Home");
 	GetTableAfterTitle("STATS", oes).Dump("Stats");
 }
-void WhatDidILearnLastWeek()
-{
-	var sectionForDailyPages = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook)
-						.PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);     
-	
-	
-	var days = Enumerable.Range(0,12).Select(i=> (DateTime.Now - TimeSpan.FromDays(i)).ToShortDateString());
-	var pages = sectionForDailyPages.Page.Where(p=> days.Contains(p.name));
-	GetTableRowContent(pages,"SUMMARY","What did I learn").Dump();
-	pages.ToList().Select(p=>ona.GetPageContent(p)).Select( p => 
-	{
-		var  oes =  p.Items.OfType<Outline>().SelectMany(x=>x.OEChildren).SelectMany(x=>x.Items).OfType<OE>();
-		return new {p.name, smartTags = GetSmartTags(oes) };
-	}
-	).Dump();
-}
+
 IEnumerable<Tuple<string, string>>  GetTableRowContent (IEnumerable<OneNoteObjectModel.Page> pages, string tableTitle, string rowTitle)
 {  
 	return pages.SelectMany(  p =>GetTableRowContent(p,tableTitle,rowTitle).Select(lesson => Tuple.Create(p.name, lesson)));
@@ -158,9 +143,23 @@ IEnumerable<Tuple <string, string>> GetSmartTags(IEnumerable<Object> oes)
 		return Tuple.Create(tag, smartTagMatcher.Replace(x.t,""));
 	});
 }
-
+void WhatDidILearnLastWeek()
+{
+	var sectionForDailyPages = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook)
+						.PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);     
+	
+	
+	var days = Enumerable.Range(0,8).Select(i=> (DateTime.Now - TimeSpan.FromDays(i)).ToShortDateString());
+	var pages = sectionForDailyPages.Page.Where(p=> days.Contains(p.name));
+	GetTableRowContent(pages,"SUMMARY","What did I learn").Dump("What did I learn last week");
+	pages.ToList().Select(p=>ona.GetPageContent(p)).Select( p => 
+	{
+		var  oes =  p.Items.OfType<Outline>().SelectMany(x=>x.OEChildren).SelectMany(x=>x.Items).OfType<OE>();
+		return new {p.name, smartTags = GetSmartTags(oes) };
+	}
+	).Dump("Smart Tags");
+}
 void Main()
 {
-	//	DumpYesterdayPage();
 	WhatDidILearnLastWeek();
 }
