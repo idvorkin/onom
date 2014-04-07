@@ -37,6 +37,10 @@ List<string> OneNoteTextTolist(IEnumerable<Object>  objects)
 				// "skipping Table Processing".Dump();
 				return new List<string>();
 		}
+		if (o is OneNoteObjectModel.InkParagraph)
+		{
+					return 	OneNoteTextTolist((o as InkParagraph).InkWord);
+		}
 		if (o is OneNoteObjectModel.InkWord)
 		{
 					return 	new List<string>() { (o as InkWord).recognizedText ?? ""};
