@@ -30,11 +30,14 @@ void WhatDidILearnLastMonth()
 	
 	var pages = sectionForDailyPages.Page.Where(p=> p.name.StartsWith("Week ")).ToList();
 	// GetTableRowContent(pages,"SUMMARY","What did I learn").Dump("What did I learn last week");
-	var week = pages.First();
-	week.name.Dump("title");
-	var oes = ona.GetPageContent(week).Items.OfType<Outline>().SelectMany(x => x.OEChildren).SelectMany(x => x.Items).Cast<OE>();
-   	var summaryTable = contentProcessor.GetTableAfterTitle("SUMMARY",oes);
-	summaryTable.Row.Select(r=>r.Cell[1].OEChildren.First() ).Dump();
+	var propBags = pages.Select ( week =>
+	{
+		var oes = ona.GetPageContent(week).Items.OfType<Outline>().SelectMany(x => x.OEChildren).SelectMany(x => x.Items).Cast<OE>();
+		var summaryTable = contentProcessor.GetTableAfterTitle("SUMMARY",oes);
+		var whatDidILearnTable = summaryTable.Row.Select(r=>r.Cell[1].OEChildren.First().Items.First()).Cast<OE>().Select(oe=>oe.Items[0]).OfType<Table>().First();
+		return contentProcessor.PropertyBagFromOneColumnPropertyTable(whatDidILearnTable);
+	});
+	new PropertyBag().Merge(propBags).Dump();
 }
 
 void Main()

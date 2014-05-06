@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using OneNoteObjectModel;
 
@@ -15,6 +16,27 @@ namespace OnenoteCapabilities
         // ASTs are parsed from various formats.
         // ASTs ban be converted to various formats.
         // While we store the most complex AST, if an AST has special properties, there are simpler parser/converters available.
+
+        public static class PropertyBagExtensions
+        {
+            public static PropertyBag Merge(this PropertyBag first, IEnumerable<PropertyBag> bags)
+            {
+                var ret = new PropertyBag(first);
+                bags.ToList().ForEach(bag =>
+                {
+                    foreach (var property in bag.Properties)
+                    {
+                        if (!ret.Properties.ContainsKey(property.Key))
+                        {
+                            ret.Properties.Add(property.Key,new List<string>());
+                        }
+                        ret.Properties[property.Key].AddRange(property.Value);
+                    };
+                });
+                return ret;
+            }
+
+        }
         
         public class PropertyBag
         {
@@ -23,6 +45,23 @@ namespace OnenoteCapabilities
 
             // Store only the most complex representation, but can use the IsFunctions below to see if there are special case parsers/serializers available.
             public Dictionary<string, List<string>> Properties = new Dictionary<string, List<string>>();
+
+
+
+
+            public PropertyBag(PropertyBag first)
+            {
+                foreach (var property in first.Properties)
+                {
+                    // TBD add a test to make sure this is a deep copy.
+                    this.Properties.Add(property.Key, property.Value.ToList());
+                }
+            }
+
+            public PropertyBag()
+            {
+                // TODO: Complete member initialization
+            }
 
             // When property bags have the following shapes they can have different syntactic representatics.
             public bool IsShapeSingleProperty()
@@ -33,6 +72,7 @@ namespace OnenoteCapabilities
             {
                 return Properties.Values.All(x => x.Count == 1);
             }
+                
         }
 
         public class ContentProcessor
@@ -102,9 +142,55 @@ namespace OnenoteCapabilities
                 .First().Items[0] as OneNoteObjectModel.Table;
             }
 
+            // Because it's very easy to work with flat lists/tables in onenote, a great way to do categorization is to have a single column table, with bold items being keys.
+            // Thus a one column table encoding has the key as bold columns
+            //  |<b> A </b> | a1|a2|a3 |<b> B </b>  | b1 | b2 b3 |
+
+            // Will result in the following property bag
+
+            // Key | {Values}
+            //  A  | {a1, a2 , a3 }
+            //  B  | {b1, b2 , b3 }
+
+
+
+            public PropertyBag PropertyBagFromOneColumnPropertyTable(OneNoteObjectModel.Table table)
+            {
+                if (table.Columns.Count() != 1) 
+                {
+                    throw new ArgumentOutOfRangeException("Table is not 1 dimensional");
+                }
+
+                var rowTexts = table.Row.Select(r=>r.Cell[0].OEChildren.First().Items.First()).Cast<OE>().Select(oe=>(oe.Items.First() as TextRange).Value);
+
+                // TODO: - having a single bold element makes this a category, need a better model. 
+
+                var boldMatcher = new Regex("style='font-weight:bold'*>(.*)</span.*>");
+                // TODO: Figure out how to handle this, maybe throw? 
+                var currentKey = "FIRST-ROW-SHOULD-BE-BOLD-TO-MAKE-IT-THE-KEY";
+                var propertyBag = new PropertyBag();
+                foreach (var rowText in rowTexts)
+                {
+                    bool isKey =  boldMatcher.Match(rowText).Success;
+                    if(isKey)
+                    {
+                        var keyValueFromRow = boldMatcher.Match(rowText).Groups[1].Value;
+                        currentKey = keyValueFromRow;
+                        continue;
+                    }
+                    if (!propertyBag.Properties.ContainsKey(currentKey))
+                    {
+                        propertyBag.Properties.Add(currentKey,new List<string>(){});
+                    }
+                    propertyBag.Properties[currentKey].Add(rowText);
+                }
+                return propertyBag;
+            }
+
+
             public PropertyBag PropertyBagFromTwoColumnTable(OneNoteObjectModel.Table table)
             {
-                if (!table.Row.All(r => r.Cell.Count() == 2))
+                if (table.Columns.Count() != 2)
                 {
                     throw new ArgumentOutOfRangeException("Table is not 2 dimensional");
                 }
