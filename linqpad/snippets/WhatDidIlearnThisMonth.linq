@@ -22,22 +22,49 @@ IEnumerable<Tuple<string, string>>  GetTableRowContent (IEnumerable<OneNoteObjec
 	return pages.SelectMany(  p =>contentProcessor.GetTableRowContent(p,tableTitle,rowTitle).Select(lesson => Tuple.Create(p.name, lesson)));
 }
 
+List<string> FlattenPropertyBag(PropertyBag pb)
+{
+	var ret = new List<string>();
+	foreach(var property in pb.Properties)
+	{
+		ret.Add(property.Key.Replace("&nbsp;",""));
+		ret.AddRange(property.Value.Select(v=>v.Replace("&nbsp;","")));
+	}
+	return ret;
+}
+
 void WhatDidILearnLastMonth()
 {
 	var sectionForDailyPages = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook)
 						.PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);     
+						
+	var sectionForDailyPagesArchive = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook)
+						.PopulatedSections(ona).First(s=>s.name == "Diary 2014");
 	
+	Func<OneNoteObjectModel.Page,bool>  isWeekSummary = (p) => {p.name.StartsWith("Week 4");};
 	
-	var pages = sectionForDailyPages.Page.Where(p=> p.name.StartsWith("Week ")).ToList();
+	var pages = sectionForDailyPages.Page.Where(isWeekSummary).ToList();
+	pages.AddRange(sectionForDailyPagesArchive.Page.Where(isWeekSummary));
+	
 	// GetTableRowContent(pages,"SUMMARY","What did I learn").Dump("What did I learn last week");
 	var propBags = pages.Select ( week =>
 	{
 		var oes = ona.GetPageContent(week).Items.OfType<Outline>().SelectMany(x => x.OEChildren).SelectMany(x => x.Items).Cast<OE>();
-		var summaryTable = contentProcessor.GetTableAfterTitle("SUMMARY",oes);
-		var whatDidILearnTable = summaryTable.Row.Select(r=>r.Cell[1].OEChildren.First().Items.First()).Cast<OE>().Select(oe=>oe.Items[0]).OfType<Table>().First();
+		Table summaryTable;
+		Table whatDidILearnTable;
+		try
+		{
+			summaryTable = contentProcessor.GetTableAfterTitle("SUMMARY",oes);
+			whatDidILearnTable = summaryTable.Row.Select(r=>r.Cell[1].OEChildren.First().Items.First()).Cast<OE>().Select(oe=>oe.Items[0]).OfType<Table>().First();
+		}
+		catch (Exception e)
+		{
+			return new PropertyBag();
+		}
+		
 		return contentProcessor.PropertyBagFromOneColumnPropertyTable(whatDidILearnTable);
 	});
-	new PropertyBag().Merge(propBags).Dump();
+	FlattenPropertyBag( new PropertyBag().Merge(propBags)).Dump();
 }
 
 void Main()
