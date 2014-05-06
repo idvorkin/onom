@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="ContentProcessorTests.cs" />
     <Compile Include="PagesTests.cs" />
     <Compile Include="PeoplePagesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

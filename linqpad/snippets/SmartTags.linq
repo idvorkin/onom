@@ -15,45 +15,11 @@
 
 public SettingsDailyPages settings = new SettingsDailyPages();
 public OneNoteApp ona = new OneNoteObjectModel.OneNoteApp();
-List<string> OneNoteTextTolist(IEnumerable<Object>  objects)
-{
-	return objects.SelectMany(o=>
-	{
-	
-		if (o is OEChildren)
-		{
-			return OneNoteTextTolist((o as OEChildren).Items);
-		}
-		if (o is OE)
-		{
-			return OneNoteTextTolist((o as OE).Items);
-		}
-		if (o is TextRange)
-		{
-			return 	new List<string>() { (o as TextRange).Value};
-		}
-		if (o is OneNoteObjectModel.Table)
-		{
-				// "skipping Table Processing".Dump();
-				return new List<string>();
-		}
-		if (o is OneNoteObjectModel.InkWord)
-		{
-			var ink = o as InkWord;
-			return 	new List<string>() { (o as InkWord).recognizedText ?? ""};
-		}
-		else // (o is OneNoteObjectModel.List)
-		{
-			o.Dump();
-			return new List<string>();
-		}
-	}
-	).ToList();
-}
+public ContentProcessor contentProcessor = new ContentProcessor(new OneNoteObjectModel.OneNoteApp(),false);
 
 IEnumerable<Tuple <string, string>> GetSmartTags(IEnumerable<Object> oes)
 {
-	var text = OneNoteTextTolist(oes); //5.Where(t=>t != null);
+	var text = contentProcessor.OneNoteContentToList(oes); //5.Where(t=>t != null);
 	var smartTagMatcher = new Regex("(#[a-zA-Z]+)");
 	return text.Select( t => new {t, match=smartTagMatcher.Match(t)}).Where(x => x.match.Success).Select(x=>
 	{
