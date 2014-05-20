@@ -52,7 +52,7 @@ void WhatDidILearnLastWeek()
 						.PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);     
 	
 	
-	var days = Enumerable.Range(0,15).Select(i=> (DateTime.Now - TimeSpan.FromDays(i)).ToShortDateString());
+	var days = Enumerable.Range(0,7).Select(i=> (DateTime.Now - TimeSpan.FromDays(i)).ToShortDateString());
 	var pages = sectionForDailyPages.Page.Where(p=> days.Contains(p.name)).ToList();
 	GetTableRowContent(pages,"SUMMARY","What did I learn").Dump("What did I learn last week");
 	pages.ToList().Select(p=>ona.GetPageContent(p)).Select( p => 
