@@ -1,6 +1,8 @@
 Onenote Object Model (onom)
 ====
 
+*This projet is a lab in [OneNoteLabs](https://github.com/idvorkin/OneNoteLabs/wiki)*
+
 The OneNote Object Model exposed via C#. This project contains the following sub directories:
 
 * OneNoteObjectModel - An assembly exposing the ObjectModel
