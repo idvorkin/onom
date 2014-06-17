@@ -108,6 +108,15 @@ namespace OnenoteCapabilities
                         // "skipping Table Processing".Dump();
                         return new List<string>();
                     }
+                    if (o is OneNoteObjectModel.Image)
+                    {
+                        var image = o as Image;
+                        if (image.OCRData != null && image.OCRData.OCRText != null ) 
+                        {
+                            return new List<string>(){image.OCRData.OCRText};
+                        }
+                        return new List<string>();
+                    }
                     if (o is OneNoteObjectModel.InkWord)
                     {
                         return new List<string>() { (o as InkWord).recognizedText ?? "" };
