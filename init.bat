@@ -13,6 +13,13 @@ if EXIST "c:\Program Files (x86)\NUnit 2.6.3\bin\nunit-console.exe" (
     choco install NUnit
 )
 
+if EXIST "c:\Chocolatey\bin\nuget.bat" (
+    ECHO FOUND NUGet SKIPPING Installation.
+) ELSE (
+    ECHO Installing NUGet via chocolatey
+    choco install Nuget.CommandLine
+)
+
 ECHO NUGET Package Installation.
 call nuget restore
 
