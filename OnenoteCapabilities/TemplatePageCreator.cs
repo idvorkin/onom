@@ -24,6 +24,12 @@ namespace OnenoteCapabilities
 
         public void GotoOrCreatePage (string pageTitle, string templateName, int indentValue)
         {
+            var reloadedNewPage = CreatePageIfNotExists(pageTitle, templateName, indentValue);
+            ona.OneNoteApplication.NavigateTo(reloadedNewPage.ID);
+        }
+
+        public Page CreatePageIfNotExists(string pageTitle, string templateName, int indentValue)
+        {
             var templatePage = ona.GetNotebooks().Notebook.First(n => n.name == templateNotebook)
                 .PopulatedSections(ona).First(s => s.name == templateSection)
                 .Page.First(p => p.name == templateName);
@@ -31,7 +37,7 @@ namespace OnenoteCapabilities
             var sectionForPages = SectionForPages();
 
             bool isAnyPagesInSection = sectionForPages.Page != null;
-            bool isPageExists =  isAnyPagesInSection && sectionForPages.Page.Any(p => p.name == pageTitle);
+            bool isPageExists = isAnyPagesInSection && sectionForPages.Page.Any(p => p.name == pageTitle);
             if (!isPageExists)
             {
                 // page does not exist.
@@ -53,7 +59,7 @@ namespace OnenoteCapabilities
             }
 
             var reloadedNewPage = sectionForPages.Page.First(p => p.name == pageTitle);
-            ona.OneNoteApplication.NavigateTo(reloadedNewPage.ID);
+            return reloadedNewPage;
         }
 
         public void GotoPage(string title)
@@ -66,12 +72,12 @@ namespace OnenoteCapabilities
             ona.OneNoteApplication.NavigateTo(page.ID);
         }
 
-        private Section SectionForPages()
+        public Section SectionForPages()
         {
-            var sectionForPages = ona.GetNotebooks().Notebook.First(n => n.name == pagesNotebook)
-                .PopulatedSections(ona).First(s => s.name == pagesSection);
-            return sectionForPages;
+            var _sectionForPages = ona.GetNotebooks().Notebook.First(n => n.name == pagesNotebook) .PopulatedSections(ona).First(s => s.name == pagesSection);
+            return _sectionForPages;
         }
+
         // 
         // PageParent1  // PageParent1 returns PageParent1 since no children
         // PageParent2

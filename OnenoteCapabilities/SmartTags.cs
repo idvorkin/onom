@@ -29,6 +29,11 @@ namespace OnenoteCapabilities
         {
             return this.FullText.Split(' ').First().Substring(1);
         }
+
+        public string TextAfterTag()
+        {
+            return String.Join(" ", this.FullText.Split(' ').Skip(1));
+        }
     }
     public class SmartTagAugmenter:IPageAugmenter
     {

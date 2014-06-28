@@ -29,8 +29,9 @@ namespace OneNoteMenu
     {
         static readonly OneNoteApp ona = new OneNoteApp();
         static readonly SettingsPeoplePages settingsPeoplePages = new SettingsPeoplePages();
+        static readonly SettingsDailyPages settingsDailyPages = new SettingsDailyPages();
         readonly EraseEmpty erase = new EraseEmpty();
-        readonly DailyPages dailyPages = new DailyPages(ona, new SettingsDailyPages());
+        readonly DailyPages dailyPages = new DailyPages(ona, settingsDailyPages);
         private readonly PeoplePages peoplePages = new PeoplePages(ona, settingsPeoplePages);
         private static string[] _people = new SettingsPeoplePages().People().ToArray();
         private ObservableCollection<string> _observablePeople = new ObservableCollection<string>(_people);
@@ -45,7 +46,7 @@ namespace OneNoteMenu
             DrawDynamicUXElements();
 
             // TBD: Look up a dependency injection mechanism.
-            var smartTagProcessors = new List<ISmartTagProcessor>(){new TwitterSmartTagProcessor(), new PeopleSmartTagProcessor(ona, settingsPeoplePages)};
+            var smartTagProcessors = new List<ISmartTagProcessor>(){new TwitterSmartTagProcessor(), new PeopleSmartTagProcessor(ona, settingsPeoplePages), new TopicSmartTagTopicProcessor(ona,settingsDailyPages)};
             var smartTagAugmentor = new SmartTagAugmenter(ona, new SettingsSmartTags(), smartTagProcessors);
             augmenter = new Augmenter(ona, new List<IPageAugmenter> {smartTagAugmentor});
         }
