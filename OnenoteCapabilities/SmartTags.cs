@@ -127,7 +127,7 @@ namespace OnenoteCapabilities
             return embedLinkToModelPage;
         }
 
-        public void AddLinkToSmartTag(XDocument pageContentInXML, SmartTag smartTag, Section linkSection, string linkPageName)
+        public void AddLinkToSmartTag(SmartTag smartTag, XDocument pageContentInXML, Section linkSection, string linkPageName)
         {
             var smartTagElement =
                 pageContentInXML.DescendantNodes()

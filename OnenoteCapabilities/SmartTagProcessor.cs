@@ -20,9 +20,12 @@ namespace OnenoteCapabilities
         private SettingsPeoplePages settings;
         private Section peopleSection;
 
-        public PeopleSmartTagProcessor(SettingsPeoplePages settings)
+        public PeopleSmartTagProcessor(OneNoteApp ona, SettingsPeoplePages settings)
         {
             this.settings = settings;
+            this.peopleSection = ona.GetNotebooks()
+                .Notebook.First(n => n.name == settings.PeoplePagesNotebook)
+                .PopulatedSections(ona).First(s => s.name == settings.PeoplePagesSection);
         }
 
         public bool ShouldProcess(SmartTag st)
@@ -32,15 +35,9 @@ namespace OnenoteCapabilities
 
         public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter)
         {
-            // TBD move to c'tor - but doesnt' yet get an smartTagAugmetor.
-
-            this.peopleSection = smartTagAugmenter.ona.GetNotebooks()
-                .Notebook.First(n => n.name == settings.PeoplePagesNotebook)
-                .PopulatedSections(smartTagAugmenter.ona).First(s => s.name == settings.PeoplePagesSection);
-
-            smartTagAugmenter.AddLinkToSmartTag(pageContent,smartTag,peopleSection,settings.PersonNextTitle(smartTag.TagName()));
+            var personPageTitle = settings.PersonNextTitle(smartTag.TagName());
+            smartTagAugmenter.AddLinkToSmartTag(smartTag, pageContent, peopleSection, personPageTitle );
         }
-        
     }
 
     public class TwitterSmartTagProcessor: ISmartTagProcessor
@@ -52,8 +49,6 @@ namespace OnenoteCapabilities
 
         public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter)
         {
-
-
             // do nothing.
         }
     }
