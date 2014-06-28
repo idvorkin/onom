@@ -131,20 +131,24 @@ namespace OnenoteCapabilities
             var embedLinkToModelPage = string.Format("onenote:#{0}&base-path={1}", pageName, section.path);
             return embedLinkToModelPage;
         }
-
-        public void AddLinkToSmartTag(SmartTag smartTag, XDocument pageContentInXML, Section linkSection, string linkPageName)
+        public void AddLinkToSmartTag(SmartTag smartTag, XDocument pageContentInXml, Uri link)
         {
             var smartTagElement =
-                pageContentInXML.DescendantNodes()
+                pageContentInXml.DescendantNodes()
                     .OfType<XElement>()
                     .First(r => r.Name.LocalName == "T" && r.Value.Contains(smartTag.ID.ToString()));
 
-            var embedLinkToPersonPage = EmbedLinkToPage(linkPageName, linkSection);
-            var personLink = string.Format(hyperlinkFormatter, embedLinkToPersonPage, smartTag.TagName());
+            var personLink = string.Format(hyperlinkFormatter, link.ToString(), smartTag.TagName());
 
             // TOTAL HACK NEEDS UNIT TESTS -- See AddIdToSmartTag
             smartTagElement.Value = smartTagElement.Value.Replace("#</a>"+smartTag.TagName(),"#</a>"+personLink);
-            ona.OneNoteApplication.UpdatePageContent(pageContentInXML.ToString());
+            ona.OneNoteApplication.UpdatePageContent(pageContentInXml.ToString());
+        }
+
+        public void AddLinkToSmartTag(SmartTag smartTag, XDocument pageContentInXML, Section linkSection, string linkPageName)
+        {
+            var embedLinkToPersonPage = EmbedLinkToPage(linkPageName, linkSection);
+            AddLinkToSmartTag(smartTag,pageContentInXML,new Uri(embedLinkToPersonPage));
         }
 
         private void ProcessSmartTag(SmartTag smartTag, XDocument pageContent)
@@ -167,5 +171,6 @@ namespace OnenoteCapabilities
         private readonly string smartTagRegExPattern = "(#[a-zA-Z0-9]+) ";
         private readonly string fullTextOfSmartTagMatcher = "(#[a-zA-Z0-9\\s]+)";
         private readonly string embedSmartTagIdFormatter = "<a href=\"ObjectId={0}\">.</a>";
+
     }
 }
