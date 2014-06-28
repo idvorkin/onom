@@ -21,6 +21,10 @@ string pageContent;
 ona.OneNoteApplication.GetPageContent(page.ID, out pageContent);
 var pageContentAsXML = XDocument.Parse(pageContent);
 pageContentAsXML.Dump();
+
+// Strip ObjectId's as we're creating new pages.
+pageContentAsXML.DescendantNodes() .OfType<XElement>() .ToList() .ForEach(x => x.Attributes().Where(a => a.Name == "objectID").Remove());
+
 var xml = pageContentAsXML.ToString();
 Console.Write ("var testPageContent = ");
 foreach (var line in xml.Split("\r\n".ToCharArray()).Where(l=>l !=""))

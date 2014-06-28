@@ -51,6 +51,7 @@
     <Compile Include="PeoplePagesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CRUD.cs" />
+    <Compile Include="SmartTagProcessorTests.cs" />
     <Compile Include="TemporaryNoteBookHelper.cs" />
   </ItemGroup>
   <ItemGroup>
