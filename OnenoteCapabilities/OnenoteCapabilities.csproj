@@ -92,6 +92,7 @@
     <Compile Include="Augment.cs" />
     <Compile Include="ContentProcessor.cs" />
     <Compile Include="DailyPages.cs" />
+    <Compile Include="DumbTodo.cs" />
     <Compile Include="EraseEmpty.cs" />
     <Compile Include="PeoplePages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
