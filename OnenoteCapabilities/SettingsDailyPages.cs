@@ -48,5 +48,12 @@ namespace OnenoteCapabilities
             return String.Format("{0}:Next",personName);
         }
     }
+
+    public class SettingsSmartTags : SettingsBase
+    {
+        public string SmartTagTemplateName = "SmartTag";
+        public string SmartTagNotebook = "BlogContentAndResearch";
+        public string SmartTagStorageSection = "SmartTagStorage";
+    }
 }
 

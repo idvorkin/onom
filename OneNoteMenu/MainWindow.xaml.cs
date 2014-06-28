@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using OnenoteCapabilities;
 using OneNoteMenu.Properties;
 using OneNoteObjectModel;
+using List = OneNoteObjectModel.List;
 
 namespace OneNoteMenu
 {
@@ -32,6 +33,7 @@ namespace OneNoteMenu
         readonly PeoplePages peoplePages = new PeoplePages(ona, new SettingsPeoplePages());
         private static string[] _people = new SettingsPeoplePages().People.Split(';');
         private ObservableCollection<string> _observablePeople = new ObservableCollection<string>(_people);
+        private Augmenter augmenter;
 
         // should be done in the XAML, but I'm lazy.
         private double defaultFontSize = 20;
@@ -40,6 +42,11 @@ namespace OneNoteMenu
         {
             InitializeComponent();
             DrawDynamicUXElements();
+
+            // TBD: Look up a dependency injection mechanism.
+            var smartTagProcessors = new List<ISmartTagProcessor>(){new TwitterSmartTagProcessor()};
+            var smartTagAugmentor = new SmartTagAugmenter(ona, new SettingsSmartTags(), smartTagProcessors);
+            augmenter = new Augmenter(ona, new List<IPageAugmenter> {smartTagAugmentor});
         }
         // UX Helpers - These should move to an alternate assembly
         Button CreateButton(string Content, Action OnClick)
@@ -61,6 +68,11 @@ namespace OneNoteMenu
             return this.PeopleList.SelectedValue as string;
         }
 
+        void Augment()
+        {
+            augmenter.AugmentCurrentPage();
+        }
+
         void DrawDynamicUXElements()
         {
             var dailyPagesButtons = new[]
@@ -68,7 +80,7 @@ namespace OneNoteMenu
                 CreateButton("_Today", dailyPages.GotoTodayPage),
                 CreateButton("This _Week", dailyPages.GotoThisWeekPage),
                 CreateButton("_Yesterday", dailyPages.GotoYesterday),
-                CreateButton("Cleanup", erase.DeleteEmptySections),
+                CreateButton("Augment", Augment),
             }.ToList();
 
             dailyPagesButtons.ForEach((b) => this.GridDailyPages.Children.Add(b));
