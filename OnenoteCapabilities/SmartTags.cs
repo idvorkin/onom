@@ -158,6 +158,7 @@ namespace OnenoteCapabilities
                 if (tagProcessor.ShouldProcess(smartTag))
                 {
                     tagProcessor.Process(smartTag,pageContent, this);
+                    break;
                 }
             }
         }
