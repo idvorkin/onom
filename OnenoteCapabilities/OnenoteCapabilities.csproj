@@ -54,6 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingsBase.cs" />
     <Compile Include="SettingsDailyPages.cs" />
+    <Compile Include="SmartTagProcessor.cs" />
     <Compile Include="SmartTags.cs" />
     <Compile Include="TemplatePageCreator.cs" />
   </ItemGroup>
