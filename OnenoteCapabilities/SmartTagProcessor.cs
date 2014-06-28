@@ -132,7 +132,7 @@ namespace OnenoteCapabilities
                 userAccessSecret: "GpPdq1GsYW9S1VPv82pqQvwHU3UPFWnYUKl9nqnrcMUH8"
                 );
 
-            var tweetText = String.Format("OneNoteLabs TweetSmarTag:{0}", text);
+            var tweetText = String.Format("OneNoteLabs Tweet:{0}", text);
             var newTweet = Tweet.CreateTweet(tweetText);
             newTweet.Publish();
             return newTweet.IsTweetPublished;
