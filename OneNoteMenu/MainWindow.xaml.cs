@@ -28,10 +28,11 @@ namespace OneNoteMenu
     public partial class MainWindow : Window
     {
         static readonly OneNoteApp ona = new OneNoteApp();
+        static readonly SettingsPeoplePages settingsPeoplePages = new SettingsPeoplePages();
         readonly EraseEmpty erase = new EraseEmpty();
         readonly DailyPages dailyPages = new DailyPages(ona, new SettingsDailyPages());
-        readonly PeoplePages peoplePages = new PeoplePages(ona, new SettingsPeoplePages());
-        private static string[] _people = new SettingsPeoplePages().People.Split(';');
+        private readonly PeoplePages peoplePages = new PeoplePages(ona, settingsPeoplePages);
+        private static string[] _people = new SettingsPeoplePages().People().ToArray();
         private ObservableCollection<string> _observablePeople = new ObservableCollection<string>(_people);
         private Augmenter augmenter;
 
@@ -44,7 +45,7 @@ namespace OneNoteMenu
             DrawDynamicUXElements();
 
             // TBD: Look up a dependency injection mechanism.
-            var smartTagProcessors = new List<ISmartTagProcessor>(){new TwitterSmartTagProcessor()};
+            var smartTagProcessors = new List<ISmartTagProcessor>(){new TwitterSmartTagProcessor(), new PeopleSmartTagProcessor(settingsPeoplePages)};
             var smartTagAugmentor = new SmartTagAugmenter(ona, new SettingsSmartTags(), smartTagProcessors);
             augmenter = new Augmenter(ona, new List<IPageAugmenter> {smartTagAugmentor});
         }
@@ -80,7 +81,7 @@ namespace OneNoteMenu
                 CreateButton("_Today", dailyPages.GotoTodayPage),
                 CreateButton("This _Week", dailyPages.GotoThisWeekPage),
                 CreateButton("_Yesterday", dailyPages.GotoYesterday),
-                CreateButton("Augment", Augment),
+                CreateButton("_Augment", Augment),
             }.ToList();
 
             dailyPagesButtons.ForEach((b) => this.GridDailyPages.Children.Add(b));
