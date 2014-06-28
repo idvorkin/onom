@@ -49,6 +49,6 @@ var pageContentAsXML = XDocument.Parse(pageContent);
 //pageContentAsXML.Dump();
 //pageContentAsXML.ToString().Dump();
 //pageContentAsXML.DescendantNodes().OfType<XElement>().Where(e=>e.Name.LocalName=="Row").Last().Dump();
-pageContentAsXML.DescendantNodes().OfType<XElement>().Where(e=>e.Name.LocalName=="Row").First().AddBeforeSelf(rowAsXML.Root);
+pageContentAsXML.DescendantNodes().OfType<XElement>().Where(e=>e.Name.LocalName=="Row").First().AddAfterSelf(rowAsXML.Root);
 pageContentAsXML.Dump();
 ona.OneNoteApplication.UpdatePageContent(pageContentAsXML.ToString());

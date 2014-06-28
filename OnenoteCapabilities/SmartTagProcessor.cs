@@ -19,10 +19,12 @@ namespace OnenoteCapabilities
     {
         private SettingsPeoplePages settings;
         private Section peopleSection;
+        private DumbTodo _dumbTodo;
 
         public PeopleSmartTagProcessor(OneNoteApp ona, SettingsPeoplePages settings)
         {
             this.settings = settings;
+            _dumbTodo = new DumbTodo();
             this.peopleSection = ona.GetNotebooks()
                 .Notebook.First(n => n.name == settings.PeoplePagesNotebook)
                 .PopulatedSections(ona).First(s => s.name == settings.PeoplePagesSection);
@@ -30,13 +32,43 @@ namespace OnenoteCapabilities
 
         public bool ShouldProcess(SmartTag st)
         {
-            return settings.People().Contains(st.TagName());
+            if (settings.People().Contains(personFromPersonTag(st))) return true;
+            return false;
         }
 
         public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter)
         {
-            var personPageTitle = settings.PersonNextTitle(smartTag.TagName());
-            smartTagAugmenter.AddLinkToSmartTag(smartTag, pageContent, peopleSection, personPageTitle );
+            // TODO: Create Person Page if not Exists.
+            var personPageTitle = settings.PersonNextTitle(personFromPersonTag(smartTag));
+
+            // get PersonPage 
+            var peoplePage = peopleSection.Page.First(p => p.name == personPageTitle);
+            var newPageContent = "";
+            smartTagAugmenter.ona.OneNoteApplication.GetPageContent(peoplePage.ID,out newPageContent);
+
+            const int toPersonTableCountOnPage = 0;
+            const int fromPersonTableCountOnPage = 1;
+
+            var tableOnPage = IsFromPerson(smartTag) ? fromPersonTableCountOnPage : toPersonTableCountOnPage;
+            _dumbTodo.AddDumbTodoToPage(smartTagAugmenter.ona,XDocument.Parse(newPageContent),smartTag.TextAfterTag(),tableOnPage:tableOnPage);
+            smartTagAugmenter.AddLinkToSmartTag(smartTag, pageContent, peopleSection, personPageTitle);
+        }
+
+        public bool IsFromPerson(SmartTag smartTag)
+        {
+            return smartTag.TagName().StartsWith("from");
+        }
+
+        public string personFromPersonTag (SmartTag smartTag)
+        {
+            if (IsFromPerson(smartTag))
+            {
+                return smartTag.TagName().Substring(4);
+            }
+            else
+            {
+                return smartTag.TagName();
+            }
         }
     }
 
@@ -45,12 +77,14 @@ namespace OnenoteCapabilities
     {
         private OneNoteApp ona;
         private TemplatePageCreator templatePageCreater;
+        private readonly DumbTodo _dumbTodo;
 
         // TODO move from settingDailyPages to SettingTopicPages
         public TopicSmartTagTopicProcessor(OneNoteApp ona, SettingsDailyPages settings)
         {
             this.ona = ona;
             this.templatePageCreater = new TemplatePageCreator(ona, settings.TemplateNotebook, settings.TemplateSection, settings.DailyPagesNotebook, settings.DailyPagesSection);
+            _dumbTodo = new DumbTodo();
         }
         public bool ShouldProcess(SmartTag st)
         {
@@ -65,43 +99,8 @@ namespace OnenoteCapabilities
             var page = templatePageCreater.CreatePageIfNotExists(topicPageName,"Topic",1);
             var newPageContent = "";
             ona.OneNoteApplication.GetPageContent(page.ID,out newPageContent);
-            AddDumbTodoToTopicPage(ona,XDocument.Parse(newPageContent),smartTag.TextAfterTag());
+            _dumbTodo.AddDumbTodoToPage(ona,XDocument.Parse(newPageContent),smartTag.TextAfterTag());
             smartTagAugmenter.AddLinkToSmartTag(smartTag,pageContent,templatePageCreater.SectionForPages(), topicPageName);
-        }
-
-        private void AddDumbTodoToTopicPage(OneNoteApp oneNoteApp, XDocument pageContentAsXml, string todo)
-        {
-            AddDumbTodoToTopicPage(oneNoteApp,pageContentAsXml,todo,DateTime.MinValue);
-        }
-
-        private void AddDumbTodoToTopicPage(OneNoteApp ona, XDocument pageContentAsXML, string todo, DateTime dueDate)
-        {
-            var rowTemplate = "<one:Row lastModifiedTime=\"2014-06-28T06:11:19.000Z\" xmlns:one=\"http://schemas.microsoft.com/office/onenote/2013/onenote\"> " +
-              "<one:Cell lastModifiedTime=\"2014-06-28T06:11:19.000Z\"  lastModifiedByInitials=\"ID\"> " +
-                "<one:OEChildren> " +
-                  "<one:OE authorResolutionID=\"&lt;resolutionId provider=&quot;Windows Live&quot; hash=&quot;XDgdaY/mTnjLm73zUG5SXQ==&quot;&gt;&lt;localId cid=&quot;922579950926bf9e&quot;/&gt;&lt;/resolutionId&gt;\" lastModifiedByResolutionID=\"&lt;resolutionId provider=&quot;Windows Live&quot; hash=&quot;XDgdaY/mTnjLm73zUG5SXQ==&quot;&gt;&lt;localId cid=&quot;922579950926bf9e&quot;/&gt;&lt;/resolutionId&gt;\" creationTime=\"2014-06-28T06:11:19.000Z\" lastModifiedTime=\"2014-06-28T06:11:19.000Z\" alignment=\"left\" quickStyleIndex=\"1\"> " +
-                    "<one:Tag index=\"0\" completed=\"{2}\" disabled=\"false\" creationDate=\"2014-06-28T06:11:25.000Z\" completionDate=\"2014-06-28T06:27:01.000Z\" />"+
-                    "<one:T><![CDATA[{0}]]></one:T> " +
-                  "</one:OE> " +
-                "</one:OEChildren> " +
-              "</one:Cell> " +
-              "<one:Cell lastModifiedTime=\"2014-06-28T06:11:13.000Z\" lastModifiedByInitials=\"ID\"> " +
-                "<one:OEChildren> " +
-                  "<one:OE authorResolutionID=\"&lt;resolutionId provider=&quot;Windows Live&quot; hash=&quot;XDgdaY/mTnjLm73zUG5SXQ==&quot;&gt;&lt;localId cid=&quot;922579950926bf9e&quot;/&gt;&lt;/resolutionId&gt;\" lastModifiedByResolutionID=\"&lt;resolutionId provider=&quot;Windows Live&quot; hash=&quot;XDgdaY/mTnjLm73zUG5SXQ==&quot;&gt;&lt;localId cid=&quot;922579950926bf9e&quot;/&gt;&lt;/resolutionId&gt;\" creationTime=\"2014-06-28T06:11:13.000Z\" lastModifiedTime=\"2014-06-28T06:11:13.000Z\" alignment=\"left\" quickStyleIndex=\"1\"> " +
-                  "<one:T><![CDATA[{1}]]></one:T> " +
-                  "</one:OE> " +
-                "</one:OEChildren> " +
-              "</one:Cell> " +
-            "</one:Row>";
-
-            bool completed=false;
-
-            var row = string.Format(rowTemplate,todo,dueDate == DateTime.MinValue ? "": dueDate.ToShortDateString(),completed.ToString().ToLower());
-            var rowAsXML = XDocument.Parse(row);
-
-            // Add row after the first row (which is assumed to be a header in the first table)
-            pageContentAsXML.DescendantNodes().OfType<XElement>().First(e => e.Name.LocalName=="Row").AddAfterSelf(rowAsXML.Root);
-            ona.OneNoteApplication.UpdatePageContent(pageContentAsXML.ToString());
         }
     }
 
