@@ -44,12 +44,12 @@ namespace OnenoteCapabilities
             this.smartTagProcessors = smartTagProcessors;
             this.settings = settings;
             this.ona = ona;
-            this.smartTagStorageSection = ona.GetNotebooks() .Notebook.First(n => n.name == this.settings.SmartTagNotebook)
-                .PopulatedSections(ona).First(s => s.name == this.settings.SmartTagStorageSection);
-            this.smartTagTemplatePage = ona.GetNotebooks()
-                    .Notebook.First(n => n.name == settings.TemplateNotebook)
-                    .PopulatedSections(ona).First(s => s.name == settings.TemplateSection)
-                    .Page.First(p => p.name == this.settings.SmartTagTemplateName);
+
+            var smartTagNotebook = ona.GetNotebook(settings.SmartTagNotebook);
+            this.smartTagStorageSection = smartTagNotebook.PopulatedSection(ona,settings.SmartTagStorageSection);
+
+            var templateNoteBook = ona.GetNotebook(settings.TemplateNotebook);
+            this.smartTagTemplatePage = templateNoteBook.PopulatedSection(ona, settings.TemplateSection).Page.First(p => p.name == this.settings.SmartTagTemplateName);
         }
         public IEnumerable<SmartTag> GetUnProcessedSmartTags(XDocument pageContent)
         {
@@ -92,7 +92,6 @@ namespace OnenoteCapabilities
 
         public void AddToModel(SmartTag smartTag, XDocument pageContent)
         {
-
             // create a new page to represent the smart tag. 
             var modelPageName = smartTag.TagName() + "|" + DateTime.Now;
             ona.ClonePage(smartTagStorageSection,smartTagTemplatePage , modelPageName );
