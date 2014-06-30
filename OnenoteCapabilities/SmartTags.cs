@@ -210,7 +210,5 @@ namespace OnenoteCapabilities
         private readonly string smartTagRegExPattern = "(#[a-zA-Z0-9]+) ";
         private readonly string fullTextOfSmartTagMatcher = "(#[a-zA-Z0-9\\s]+)";
         private readonly string embedSmartTagIdFormatter = "<a href=\"ObjectId={0}\">.</a>";
-        private readonly string contentFormatter = "<one:OE><one:T><![CDATA[{0}]]></one:T></one:OE>";
-
     }
 }
