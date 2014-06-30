@@ -32,6 +32,18 @@ namespace OneNoteObjectModel
             return XMLDeserialize<Notebooks>(GetHierarchy("", HierarchyScope.hsNotebooks));
         }
 
+        public Notebook GetNotebook(string notebookName)
+        {
+            try
+            {
+                return GetNotebooks().Notebook.First(n => n.name == notebookName);
+            }
+            catch (InvalidOperationException e)
+            {
+                throw new InvalidOperationException(String.Format("Could not find Notebook:{0}",notebookName),e);
+            }
+        }
+
         public IEnumerable<Section> GetSections(Notebook notebook)
         {
             return GetSections(notebook, true);
@@ -117,6 +129,18 @@ namespace OneNoteObjectModel
             return GetPageContent(page.ID);
         }
 
+        public XDocument GetPageContentAsXDocument(Page p)
+        {
+            return  GetPageContentAsXDocument (p.ID);
+        }
+
+        public XDocument GetPageContentAsXDocument(string pageId)
+        {
+            string pageContent;
+            OneNoteApplication.GetPageContent(pageId,out pageContent);
+            return XDocument.Parse(pageContent);
+        }
+
         public Page GetPageContent(string PageId)
         {
             string pageContent;
@@ -128,9 +152,7 @@ namespace OneNoteObjectModel
         public Page ClonePage (Section section,Page pageToClone, string title)
         {
             // copy the source page.
-            string clonedPageContent;
-            OneNoteApplication.GetPageContent(pageToClone.ID,out clonedPageContent,PageInfo.piAll);
-            var pageToCloneAsXDoc = XDocument.Parse(clonedPageContent);
+            var pageToCloneAsXDoc = this.GetPageContentAsXDocument (pageToClone.ID);
 
             // When cloning a page need to remove all object ID's as oneonte neeeds to write them out.
             pageToCloneAsXDoc.DescendantNodes() .OfType<XElement>() .ToList() .ForEach(x => x.Attributes().Where(a => a.Name == "objectID").Remove());
@@ -141,8 +163,6 @@ namespace OneNoteObjectModel
             // Create the new Page and write it to onenote.
             var newPage = CreatePage(section, title);
             var newPageXML = XMLDeserialize<Page>(pageToCloneAsXDoc.ToString());
-
-
 
             // update the XML as it still points to the page to clone.
             newPageXML.ID = newPage.ID;
@@ -161,6 +181,21 @@ namespace OneNoteObjectModel
         public static IEnumerable<Section> PopulatedSections(this Notebook notebook, OneNoteApp ona)
         {
             return ona.GetSections(notebook);
+        }
+
+
+        // PopulatedSections is significantly slower the PopulatedSection because it returns all pages.
+        public static Section PopulatedSection(this Notebook notebook, OneNoteApp ona, string sectionName)
+        {
+            var sections =  ona.GetSections(notebook, true);
+            try
+            {
+                return sections.First(s=>s.name == sectionName);
+            }
+            catch (InvalidOperationException e)
+            {
+                throw new InvalidOperationException(String.Format("Could not find Section:{0} in Notebook:{1}",sectionName, notebook.name),e);
+            }
         }
 
         /// <summary>

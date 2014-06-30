@@ -32,9 +32,7 @@ namespace OnenoteCapabilities
         public void AugmentCurrentPage()
         {
             var currentPageId = ona.OneNoteApplication.Windows.CurrentWindow.CurrentPageId;
-            string pageContent;
-            ona.OneNoteApplication.GetPageContent(currentPageId,out pageContent);
-            var pageContentInXML = XDocument.Parse(pageContent);
+            var pageContentInXML = ona.GetPageContentAsXDocument(currentPageId);
             foreach (var pageAugmentor in pageAugmentors)
             {
                 pageAugmentor.AugmentPage(ona,pageContentInXML);

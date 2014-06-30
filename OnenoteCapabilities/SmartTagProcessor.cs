@@ -24,9 +24,11 @@ namespace OnenoteCapabilities
         private SettingsPeoplePages settings;
         private Section peopleSection;
         private DumbTodo _dumbTodo;
+        private OneNoteApp ona;
 
         public PeopleSmartTagProcessor(OneNoteApp ona, SettingsPeoplePages settings)
         {
+            this.ona = ona;
             this.settings = settings;
             _dumbTodo = new DumbTodo();
             this.peopleSection = ona.GetNotebooks()
@@ -46,9 +48,9 @@ namespace OnenoteCapabilities
             var personPageTitle = settings.PersonNextTitle(personFromPersonTag(smartTag));
 
             // get PersonPage 
+
             var peoplePage = peopleSection.Page.First(p => p.name == personPageTitle);
-            var newPageContent = "";
-            smartTagAugmenter.ona.OneNoteApplication.GetPageContent(peoplePage.ID,out newPageContent);
+            var peoplePageContent = ona.GetPageContentAsXDocument(peoplePage);
 
             const int toPersonTableCountOnPage = 0;
             const int fromPersonTableCountOnPage = 1;
@@ -57,12 +59,12 @@ namespace OnenoteCapabilities
             var parsedDate = HumanizedDateParser.ParseDateAtEndOfSentance(smartTag.TextAfterTag());
             if (parsedDate.Parsed)
             {
-                _dumbTodo.AddDumbTodoToPage(smartTagAugmenter.ona, XDocument.Parse(newPageContent), parsedDate.SentanceWithoutDate, dueDate:parsedDate.date, tableOnPage:tableOnPage);
+                _dumbTodo.AddDumbTodoToPage(smartTagAugmenter.ona, peoplePageContent, parsedDate.SentanceWithoutDate, dueDate:parsedDate.date, tableOnPage:tableOnPage);
             }
             else
             {
 
-                _dumbTodo.AddDumbTodoToPage(smartTagAugmenter.ona, XDocument.Parse(newPageContent), smartTag.TextAfterTag(), tableOnPage: tableOnPage);
+                _dumbTodo.AddDumbTodoToPage(smartTagAugmenter.ona, peoplePageContent, smartTag.TextAfterTag(), tableOnPage: tableOnPage);
             }
 
             smartTagAugmenter.AddLinkToSmartTag(smartTag, pageContent, peopleSection, personPageTitle);
@@ -110,19 +112,18 @@ namespace OnenoteCapabilities
         {
             // Create Topic Page of name 
             var topicPageName = smartTag.TagName();
-            var page = templatePageCreater.CreatePageIfNotExists(topicPageName,"Topic",1);
-            var newPageContent = "";
-            ona.OneNoteApplication.GetPageContent(page.ID,out newPageContent);
+            var topicPage = templatePageCreater.CreatePageIfNotExists(topicPageName,"Topic",1);
+            var topicPageContent = ona.GetPageContentAsXDocument(topicPage);
 
             var parsedDate = HumanizedDateParser.ParseDateAtEndOfSentance(smartTag.TextAfterTag());
 
             if (parsedDate.Parsed)
             {
-                _dumbTodo.AddDumbTodoToPage(ona,XDocument.Parse(newPageContent),parsedDate.SentanceWithoutDate,parsedDate.date);
+                _dumbTodo.AddDumbTodoToPage(ona, topicPageContent, parsedDate.SentanceWithoutDate, parsedDate.date);
             }
             else
             {
-                _dumbTodo.AddDumbTodoToPage(ona,XDocument.Parse(newPageContent),smartTag.TextAfterTag());
+                _dumbTodo.AddDumbTodoToPage(ona, topicPageContent, smartTag.TextAfterTag());
             }
 
 

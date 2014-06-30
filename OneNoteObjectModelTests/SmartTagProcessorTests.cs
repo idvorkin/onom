@@ -34,17 +34,16 @@ namespace OneNoteObjectModelTests
 
             // create smartTag model structure.
             var modelSection  = ona.CreateSection(smartTagNoteBook.Get(), _settingsSmartTags.SmartTagStorageSection);
-            ona.CreatePage(templateSection, _settingsSmartTags.SmartTagTemplateName);
 
             this.defaultSection = ona.CreateSection(smartTagNoteBook.Get(), "default");
             var p = ona.CreatePage(defaultSection, Guid.NewGuid().ToString());
 
             // the copied page has a PageID, replace it with PageID from the newly created page.
             var filledInPage = string.Format(pageWithOneProcessedAndOneUnProcessedSmartTag, p.ID, p.name);
-
             this.pageContent = XDocument.Parse(filledInPage);
-            this.smartTagAugmenter = new SmartTagAugmenter(ona, _settingsSmartTags, null);
             ona.OneNoteApplication.UpdatePageContent(pageContent.ToString());
+
+            this.smartTagAugmenter = new SmartTagAugmenter(ona, _settingsSmartTags, null);
         }
 
         // TODO: Come up with a better template for such tests.
