@@ -94,6 +94,7 @@
     <Compile Include="DailyPages.cs" />
     <Compile Include="DumbTodo.cs" />
     <Compile Include="EraseEmpty.cs" />
+    <Compile Include="HumanizedDateParser.cs" />
     <Compile Include="PeoplePages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingsBase.cs" />

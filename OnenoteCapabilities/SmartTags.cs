@@ -51,7 +51,7 @@ namespace OnenoteCapabilities
                     .PopulatedSections(ona).First(s => s.name == settings.TemplateSection)
                     .Page.First(p => p.name == this.settings.SmartTagTemplateName);
         }
-        public IEnumerable<SmartTag> GetSmartTagsOn(XDocument pageContent)
+        public IEnumerable<SmartTag> GetUnProcessedSmartTags(XDocument pageContent)
         {
             // var pageContentInXML = XML
             var smartTagMatcher = new Regex(smartTagRegExPattern);
@@ -82,7 +82,7 @@ namespace OnenoteCapabilities
 
         public void AugmentPage(OneNoteApp ona, XDocument pageContent)
         {
-            var smartTags = GetSmartTagsOn(pageContent);
+            var smartTags = GetUnProcessedSmartTags(pageContent);
             foreach (var smartTag in smartTags.Where(st=>!st.IsProcessed()))
             {
                 AddToModel(smartTag, pageContent);
@@ -90,7 +90,7 @@ namespace OnenoteCapabilities
             }
         }
 
-        private void AddToModel(SmartTag smartTag, XDocument pageContent)
+        public void AddToModel(SmartTag smartTag, XDocument pageContent)
         {
 
             // create a new page to represent the smart tag. 

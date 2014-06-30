@@ -54,7 +54,17 @@ namespace OnenoteCapabilities
             const int fromPersonTableCountOnPage = 1;
 
             var tableOnPage = IsFromPerson(smartTag) ? fromPersonTableCountOnPage : toPersonTableCountOnPage;
-            _dumbTodo.AddDumbTodoToPage(smartTagAugmenter.ona,XDocument.Parse(newPageContent),smartTag.TextAfterTag(),tableOnPage:tableOnPage);
+            var parsedDate = HumanizedDateParser.ParseDateAtEndOfSentance(smartTag.TextAfterTag());
+            if (parsedDate.Parsed)
+            {
+                _dumbTodo.AddDumbTodoToPage(smartTagAugmenter.ona, XDocument.Parse(newPageContent), parsedDate.SentanceWithoutDate, dueDate:parsedDate.date, tableOnPage:tableOnPage);
+            }
+            else
+            {
+
+                _dumbTodo.AddDumbTodoToPage(smartTagAugmenter.ona, XDocument.Parse(newPageContent), smartTag.TextAfterTag(), tableOnPage: tableOnPage);
+            }
+
             smartTagAugmenter.AddLinkToSmartTag(smartTag, pageContent, peopleSection, personPageTitle);
         }
 
@@ -103,7 +113,19 @@ namespace OnenoteCapabilities
             var page = templatePageCreater.CreatePageIfNotExists(topicPageName,"Topic",1);
             var newPageContent = "";
             ona.OneNoteApplication.GetPageContent(page.ID,out newPageContent);
-            _dumbTodo.AddDumbTodoToPage(ona,XDocument.Parse(newPageContent),smartTag.TextAfterTag());
+
+            var parsedDate = HumanizedDateParser.ParseDateAtEndOfSentance(smartTag.TextAfterTag());
+
+            if (parsedDate.Parsed)
+            {
+                _dumbTodo.AddDumbTodoToPage(ona,XDocument.Parse(newPageContent),parsedDate.SentanceWithoutDate,parsedDate.date);
+            }
+            else
+            {
+                _dumbTodo.AddDumbTodoToPage(ona,XDocument.Parse(newPageContent),smartTag.TextAfterTag());
+            }
+
+
             smartTagAugmenter.AddLinkToSmartTag(smartTag,pageContent,templatePageCreater.SectionForPages(), topicPageName);
         }
     }
@@ -136,7 +158,7 @@ namespace OnenoteCapabilities
                 userAccessSecret: "GpPdq1GsYW9S1VPv82pqQvwHU3UPFWnYUKl9nqnrcMUH8"
                 );
 
-            var tweetText = String.Format("OneNoteLabs TweetSmarTag:{0}", text);
+            var tweetText = String.Format("OneNoteLabs Tweet:{0}", text);
             var newTweet = Tweet.CreateTweet(tweetText);
             newTweet.Publish();
             return newTweet.IsTweetPublished;
