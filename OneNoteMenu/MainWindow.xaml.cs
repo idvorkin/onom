@@ -46,7 +46,7 @@ namespace OneNoteMenu
             DrawDynamicUXElements();
 
             // TBD: Look up a dependency injection mechanism.
-            var smartTagProcessors = new List<ISmartTagProcessor>(){new TwitterSmartTagProcessor(), new PeopleSmartTagProcessor(ona, settingsPeoplePages), new TopicSmartTagTopicProcessor(ona,settingsDailyPages)};
+            var smartTagProcessors = new List<ISmartTagProcessor>(){new TwitterSmartTagProcessor(), new WikipediaSmartTagProcessor(), new PeopleSmartTagProcessor(ona, settingsPeoplePages), new TopicSmartTagTopicProcessor(ona,settingsDailyPages)};
             var smartTagAugmentor = new SmartTagAugmenter(ona, new SettingsSmartTags(), smartTagProcessors);
             augmenter = new Augmenter(ona, new List<IPageAugmenter> {smartTagAugmentor});
         }

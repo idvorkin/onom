@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using System.Xml;
 using System.Xml.Linq;
 using OneNoteObjectModel;
 
@@ -151,6 +153,42 @@ namespace OnenoteCapabilities
             AddLinkToSmartTag(smartTag,pageContentInXML,new Uri(embedLinkToPersonPage));
         }
 
+        public void AddContentAfterSmartTag(SmartTag smartTag, XDocument pageContentInXml, string content)
+        {
+            var smartTagElement =
+                pageContentInXml.DescendantNodes()
+                    .OfType<XElement>()
+                    .First(r => r.Name.LocalName == "T" && r.Value.Contains(smartTag.ID.ToString()));
+            if (smartTagElement == null)
+            {
+                throw new Exception(string.Format("SmartTag not found. SmartTag ID '{0}.", smartTag.ID));
+            }
+
+            // NOTE: THIS ASSUMES ONENOTE XML STRUCTURE.
+            var parentElement = smartTagElement.Parent;
+            if (parentElement == null)
+            {
+                throw new Exception("Unexpected OneNote XML encountered. Expected smart tag to be embedded in an OE element.");
+            }
+
+            // Create a new paragraph to hold the content and insert it immediately after the smart tag.
+            var newOEElement = CreateXElementForOneNote("OE");
+            parentElement.AddAfterSelf(newOEElement);
+            var newTElement = CreateXElementForOneNote("T");
+            newOEElement.Add(newTElement);
+            var newCDataElement = new XCData(content);
+            newTElement.Add(newCDataElement);
+
+            ona.OneNoteApplication.UpdatePageContent(pageContentInXml.ToString());
+        }
+
+        private XElement CreateXElementForOneNote(string localName)
+        {
+            XNamespace one = "http://schemas.microsoft.com/office/onenote/2013/onenote";
+            return new XElement(one + localName,
+                new XAttribute(XNamespace.Xmlns + "one", one));
+        }
+
         private void ProcessSmartTag(SmartTag smartTag, XDocument pageContent)
         {
             foreach (var tagProcessor in smartTagProcessors)
@@ -172,6 +210,7 @@ namespace OnenoteCapabilities
         private readonly string smartTagRegExPattern = "(#[a-zA-Z0-9]+) ";
         private readonly string fullTextOfSmartTagMatcher = "(#[a-zA-Z0-9\\s]+)";
         private readonly string embedSmartTagIdFormatter = "<a href=\"ObjectId={0}\">.</a>";
+        private readonly string contentFormatter = "<one:OE><one:T><![CDATA[{0}]]></one:T></one:OE>";
 
     }
 }
