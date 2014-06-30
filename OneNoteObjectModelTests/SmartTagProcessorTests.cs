@@ -16,7 +16,7 @@ namespace OneNoteObjectModelTests
         private TemporaryNoteBookHelper smartTagNoteBook;
         private OneNoteApp ona;
 
-        [TestFixtureSetUp]
+        [SetUp]
         public void Setup()
         {
             this.ona = new OneNoteApp();
@@ -35,7 +35,7 @@ namespace OneNoteObjectModelTests
             // create smartTag model structure.
             var modelSection  = ona.CreateSection(smartTagNoteBook.Get(), _settingsSmartTags.SmartTagStorageSection);
 
-            this.defaultSection = ona.CreateSection(smartTagNoteBook.Get(), "default");
+            this.defaultSection = ona.CreateSection(smartTagNoteBook.Get(), "section_to_find_content");
             var p = ona.CreatePage(defaultSection, Guid.NewGuid().ToString());
 
             // the copied page has a PageID, replace it with PageID from the newly created page.
@@ -113,7 +113,6 @@ namespace OneNoteObjectModelTests
             return;
         }
         [Test]
-        [Ignore("Only one tag processor will pass tests - needs to be debugged.")]
         public void ProcessSmartTagAndLinkToURI()
         {
             var smartTag = smartTagAugmenter.GetUnProcessedSmartTags(this.pageContent).First();
@@ -130,7 +129,7 @@ namespace OneNoteObjectModelTests
         }
 
 
-        [TestFixtureTearDown]
+        [TearDown]
         public void TearDown()
         {
             smartTagNoteBook.Dispose();
