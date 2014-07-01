@@ -18,7 +18,7 @@ namespace OneNoteObjectModel
     // A wrapper around the COM API's here: http://msdn.microsoft.com/en-us/library/office/gg649853(v=office.14).aspx
     public class OneNoteApp
     {
-        private Application _oneNoteApplication = new Microsoft.Office.Interop.OneNote.Application();
+        private Application _oneNoteApplication = new Application();
 
         public Application OneNoteApplication
         {
@@ -173,6 +173,13 @@ namespace OneNoteObjectModel
 
             // Return the cloned page with content.
             return GetPageContent(newPage);
+        }
+
+        public static bool IsSamePage(XDocument lhs, XDocument rhs)
+        {
+            var lhsID = lhs.DescendantNodes().OfType<XElement>().Where(e => e.Name.LocalName == "Page").Attributes("ID").First();
+            var rhsID = rhs.DescendantNodes().OfType<XElement>().Where(e => e.Name.LocalName == "Page").Attributes("ID").First();
+            return lhsID.Value == rhsID.Value;
         }
     }
     public static class ExtensionMethods

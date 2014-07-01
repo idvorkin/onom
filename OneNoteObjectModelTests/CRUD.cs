@@ -47,6 +47,23 @@ namespace OneNoteObjectModelTests
         }
 
         [Test]
+        public void IsSamePage()
+        {
+
+            var sectionName = Guid.NewGuid().ToString();
+            var newSection = ona.CreateSection(tempNotebook, sectionName);
+            var page1 = ona.GetPageContentAsXDocument(ona.CreatePage(newSection, "Page1"));
+            var page2 = ona.GetPageContentAsXDocument(ona.CreatePage(newSection, "Page2"));
+            Assert.That(OneNoteApp.IsSamePage(page1, page1));
+            Assert.That(!OneNoteApp.IsSamePage(page1, page2));
+
+            var page1Again =
+                ona.GetPageContentAsXDocument(
+                    tempNotebook.PopulatedSection(ona, sectionName).Page.First(p => p.name == "Page1"));
+            Assert.That(OneNoteApp.IsSamePage(page1, page1Again));
+        }
+
+        [Test]
         public void ListNoteBooks()
         {
             var notebooks = ona.GetNotebooks();

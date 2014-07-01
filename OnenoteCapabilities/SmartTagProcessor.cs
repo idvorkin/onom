@@ -19,6 +19,49 @@ namespace OnenoteCapabilities
         void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter);
     }
 
+    public class DailySmartTagProcessor : ISmartTagProcessor
+    {
+        private SettingsDailyPages settings;
+        private OneNoteApp ona;
+        private Section dailySection;
+        private DumbTodo _dumbTodo;
+
+        public DailySmartTagProcessor(OneNoteApp ona, SettingsDailyPages settings)
+        {
+            this.ona = ona;
+            this.settings = settings;
+            this.dailySection = ona.GetNotebooks()
+                .Notebook.First(n => n.name == settings.DailyPagesNotebook)
+                .PopulatedSections(ona).First(s => s.name == settings.DailyPagesSection);
+            _dumbTodo = new DumbTodo();
+
+        }
+        public bool ShouldProcess(SmartTag st)
+        {
+            return (st.TagName() == "today");
+        }
+
+        public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter)
+        {
+            var todayPageTitle = settings.DayPageTitleFromDate(DateTime.UtcNow);
+            var dailyPage = dailySection.Page.First(p => p.name == todayPageTitle);
+            var dailyPageContent = ona.GetPageContentAsXDocument(dailyPage);
+
+            // HACK: Need to find the table of interest with a better method.
+            var hackTableToAddTasksTo = 4;
+
+            _dumbTodo.AddDumbTodoToPage(smartTagAugmenter.ona, dailyPageContent,smartTag.TextAfterTag(),tableOnPage:hackTableToAddTasksTo);
+
+            if (OneNoteApp.IsSamePage (pageContent, dailyPageContent))
+            {
+                // HACK: When the smartTag is on the current dailyPage, we put the TODO on the dailyPage, but then we put the link on pageContent, which doesn't have the changes to PageContent.
+                pageContent = dailyPageContent;
+            }
+
+            smartTagAugmenter.AddLinkToSmartTag(smartTag, pageContent, dailySection, todayPageTitle);
+        }
+    }
+
     public class PeopleSmartTagProcessor : ISmartTagProcessor
     {
         private SettingsPeoplePages settings;
@@ -66,6 +109,13 @@ namespace OnenoteCapabilities
 
                 _dumbTodo.AddDumbTodoToPage(smartTagAugmenter.ona, peoplePageContent, smartTag.TextAfterTag(), tableOnPage: tableOnPage);
             }
+
+            if (OneNoteApp.IsSamePage (pageContent, peoplePageContent))
+            {
+                // HACK: When the smartTag is on the current dailyPage, we put the TODO on the peoplePageContent, but then we put the link on pageContent, which doesn't have the changes to PageContent.
+                pageContent = peoplePageContent;
+            }
+
 
             smartTagAugmenter.AddLinkToSmartTag(smartTag, pageContent, peopleSection, personPageTitle);
         }
