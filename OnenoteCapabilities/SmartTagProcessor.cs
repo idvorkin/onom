@@ -30,9 +30,8 @@ namespace OnenoteCapabilities
         {
             this.ona = ona;
             this.settings = settings;
-            this.dailySection = ona.GetNotebooks()
-                .Notebook.First(n => n.name == settings.DailyPagesNotebook)
-                .PopulatedSections(ona).First(s => s.name == settings.DailyPagesSection);
+            this.dailySection = ona.GetNotebook(settings.DailyPagesNotebook)
+                .PopulatedSection(ona, settings.DailyPagesSection);
             _dumbTodo = new DumbTodo();
 
         }
@@ -74,9 +73,8 @@ namespace OnenoteCapabilities
             this.ona = ona;
             this.settings = settings;
             _dumbTodo = new DumbTodo();
-            this.peopleSection = ona.GetNotebooks()
-                .Notebook.First(n => n.name == settings.PeoplePagesNotebook)
-                .PopulatedSections(ona).First(s => s.name == settings.PeoplePagesSection);
+            this.peopleSection = ona.GetNotebook(settings.PeoplePagesNotebook)
+                .PopulatedSection(ona, settings.PeoplePagesSection);
         }
 
         public bool ShouldProcess(SmartTag st)

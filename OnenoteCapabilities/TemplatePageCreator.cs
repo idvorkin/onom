@@ -30,8 +30,8 @@ namespace OnenoteCapabilities
 
         public Page CreatePageIfNotExists(string pageTitle, string templateName, int indentValue)
         {
-            var templatePage = ona.GetNotebooks().Notebook.First(n => n.name == templateNotebook)
-                .PopulatedSections(ona).First(s => s.name == templateSection)
+            var templatePage = ona.GetNotebook(templateNotebook)
+                .PopulatedSection(ona, templateSection)
                 .Page.First(p => p.name == templateName);
 
             var sectionForPages = SectionForPages();
@@ -65,8 +65,8 @@ namespace OnenoteCapabilities
         public void GotoPage(string title)
         {
 
-            var page = ona.GetNotebooks().Notebook.First(n => n.name == pagesNotebook)
-                .PopulatedSections(ona).First(s => s.name == pagesSection)
+            var page = ona.GetNotebook(pagesNotebook)
+                .PopulatedSection(ona, pagesSection)
                 .Page.First(p => p.name == title);
 
             ona.OneNoteApplication.NavigateTo(page.ID);
@@ -74,7 +74,7 @@ namespace OnenoteCapabilities
 
         public Section SectionForPages()
         {
-            var _sectionForPages = ona.GetNotebooks().Notebook.First(n => n.name == pagesNotebook) .PopulatedSections(ona).First(s => s.name == pagesSection);
+            var _sectionForPages = ona.GetNotebook(pagesNotebook).PopulatedSection(ona, pagesSection);
             return _sectionForPages;
         }
 
