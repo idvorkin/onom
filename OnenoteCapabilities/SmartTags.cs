@@ -20,7 +20,7 @@ namespace OnenoteCapabilities
         public bool IsComplete;
         public Guid ID; // null if not set.
         public string FullText;
-        public XElement SmarTagElementInDocument;
+        public XElement SmartTagElementInDocument;
 
         // When we've processed a smart-tag we set its GUID back to onenote.
         public bool IsProcessed()
@@ -45,7 +45,7 @@ namespace OnenoteCapabilities
             this.settings = settings;
             this.ona = ona;
 
-            var smartTagNotebook = ona.GetNotebook(settings.SmartTagNotebook);
+            var smartTagNotebook = ona.GetNotebook(settings.SmartTagStorageNotebook);
             this.smartTagStorageSection = smartTagNotebook.PopulatedSection(ona,settings.SmartTagStorageSection);
 
             var templateNoteBook = ona.GetNotebook(settings.TemplateNotebook);
@@ -75,7 +75,7 @@ namespace OnenoteCapabilities
                         IsComplete = Regex.IsMatch(x.elementText, isCompleteMatcher),
                         ID = objectIdMatch.Success ? Guid.Parse(objectIdMatch.Groups[1].Value) : Guid.Empty,
                         FullText = fullTextMatch.Groups[1].Value,
-                        SmarTagElementInDocument = x.element
+                        SmartTagElementInDocument = x.element
                     };
                 });
         }

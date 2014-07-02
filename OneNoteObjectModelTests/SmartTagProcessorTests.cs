@@ -25,7 +25,7 @@ namespace OneNoteObjectModelTests
             this._settingsSmartTags = new SettingsSmartTags()
             {
                     TemplateNotebook = _templateNotebook.Get().name,
-                    SmartTagNotebook =  smartTagNoteBook.Get().name
+                    SmartTagStorageNotebook =  smartTagNoteBook.Get().name
             };
 
             // create template structure.
@@ -33,7 +33,7 @@ namespace OneNoteObjectModelTests
             ona.CreatePage(templateSection, _settingsSmartTags.SmartTagTemplateName);
 
             // create smartTag model structure.
-            var modelSection  = ona.CreateSection(smartTagNoteBook.Get(), _settingsSmartTags.SmartTagStorageSection);
+            ona.CreateSection(smartTagNoteBook.Get(), _settingsSmartTags.SmartTagStorageSection);
 
             this.defaultSection = ona.CreateSection(smartTagNoteBook.Get(), "section_to_find_content");
             var p = ona.CreatePage(defaultSection, Guid.NewGuid().ToString());
@@ -99,7 +99,6 @@ namespace OneNoteObjectModelTests
             var smartTags = smartTagAugmenter.GetUnProcessedSmartTags(pageContent);
             Assert.That(smartTags.Count() == 1);
             Assert.That(smartTags.All(st => !st.IsProcessed()));
-            return;
         }
         [Test]
         public void ProcessSmartTagAndLinkToOneNotePage()
@@ -110,7 +109,6 @@ namespace OneNoteObjectModelTests
             Assert.That(smartTag.IsProcessed());
 
             smartTagAugmenter.AddLinkToSmartTag(smartTag, this.pageContent, this.defaultSection,"DeadPage"); 
-            return;
         }
         [Test]
         public void ProcessSmartTagAndLinkToURI()
@@ -122,10 +120,6 @@ namespace OneNoteObjectModelTests
 
             // Set link to URI.
             smartTagAugmenter.AddLinkToSmartTag(smartTag,this.pageContent, new Uri("http://helloworld"));
-
-            // Set link to Section Page.
-            // smartTagAugmenter.AddLinkToSmartTag(smartTags.First(), this.pageContent, this.defaultSection,"DeadPage"); 
-            return;
         }
 
 
@@ -133,6 +127,7 @@ namespace OneNoteObjectModelTests
         public void TearDown()
         {
             smartTagNoteBook.Dispose();
+            _templateNotebook.Dispose();
         }
     }
 }

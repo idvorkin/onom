@@ -102,6 +102,8 @@
     <Compile Include="SmartTagProcessor.cs" />
     <Compile Include="SmartTags.cs" />
     <Compile Include="TemplatePageCreator.cs" />
+    <Compile Include="TwitterSmartTagProcessor.cs" />
+    <Compile Include="WikipediaSmartTagProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OneNoteObjectModel\OneNoteObjectModel.csproj">
