@@ -9,7 +9,6 @@ namespace OneNoteObjectModelTests
 {
     public class DumbTodoTests
     {
-        private TemporaryNoteBookHelper smartTagNoteBook;
         private OneNoteApp ona;
 
         [SetUp]
@@ -167,7 +166,6 @@ namespace OneNoteObjectModelTests
 
         private XDocument pageContent;
         private TemporaryNoteBookHelper _scratchNotebook;
-        private SettingsSmartTags _settingsSmartTags;
         private Section tempSection;
 
         [Test]
