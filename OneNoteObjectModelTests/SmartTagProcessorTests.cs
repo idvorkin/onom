@@ -10,7 +10,42 @@ using OneNoteObjectModel;
 
 namespace OneNoteObjectModelTests
 {
+    // tests cases for our poor man XML parsing. 
     [TestFixture]
+    public class SmartTagXMLProcessingTests
+    {
+        [Test] 
+        public void TestNotTag()
+        {
+            var unprocessedTag = "notATag Tag2";
+            Assert.That(!SmartTagAugmenter.IsSmartTag(unprocessedTag));
+        }
+
+        [Test] 
+        public void TestSimpleTag()
+        {
+            var unprocessedTag = "#unprocessedTag Tag2";
+            Assert.That(SmartTagAugmenter.IsSmartTag(unprocessedTag));
+
+            var st = SmartTagAugmenter.SmartTagFromElement(unprocessedTag,null);
+            Assert.That(st.TextAfterTag(), Is.EqualTo("Tag2"));
+            Assert.That(st.TagName() , Is.EqualTo("unprocessedTag"));
+        }
+
+        [Test] 
+        public void TestPunctuation()
+        {
+            var unprocessedTag = "#unprocessedTag Tag2 - ! , fad|";
+            Assert.That(SmartTagAugmenter.IsSmartTag(unprocessedTag));
+
+            var st = SmartTagAugmenter.SmartTagFromElement(unprocessedTag,null);
+            Assert.That(st.TextAfterTag(), Is.EqualTo("Tag2 - ! , fad|"));
+            Assert.That(st.TagName() , Is.EqualTo("unprocessedTag"));
+        }
+
+    }
+
+[TestFixture]
     public class SmartTagProcessorTests
     {
         private TemporaryNoteBookHelper smartTagNoteBook;

@@ -55,29 +55,36 @@ namespace OnenoteCapabilities
         {
             // var pageContentInXML = XML
             var smartTagMatcher = new Regex(smartTagRegExPattern);
-            var objectIdMatcher = "ObjectId=(.*)\"";
-            var isCompleteMatcher = "text-decoration:line-through";
             
             var possibleSmartTags = pageContent.DescendantNodes().OfType<XElement>()
                 .Where(r => r.Name.LocalName == "T" && !string.IsNullOrWhiteSpace(r.Value))
                 .ToList();
 
             return possibleSmartTags
-                .Select(t => new {element = t, elementText = t.Value, match = smartTagMatcher.Match(t.Value)})
-                .Where(x => x.match.Success)
-                .Select(x =>
-                {
-                    var objectIdMatch = Regex.Match(x.elementText, objectIdMatcher);
-                    var fullTextMatch = Regex.Match(x.elementText, fullTextOfSmartTagMatcher);
+                .Select(t => new {element = t, elementText = t.Value})
+                .Where(x => IsSmartTag(x.elementText))
+                .Select(x=>SmartTagFromElement(x.elementText,x.element));
+       }
 
-                    return new SmartTag()
-                    {
-                        IsComplete = Regex.IsMatch(x.elementText, isCompleteMatcher),
-                        ID = objectIdMatch.Success ? Guid.Parse(objectIdMatch.Groups[1].Value) : Guid.Empty,
-                        FullText = fullTextMatch.Groups[1].Value,
-                        SmartTagElementInDocument = x.element
-                    };
-                });
+        public static SmartTag SmartTagFromElement(string elementText, XElement element)
+        {
+            var objectIdMatcher = "ObjectId=(.*)\"";
+            var isCompleteMatcher = "text-decoration:line-through";
+            var objectIdMatch = Regex.Match(elementText, objectIdMatcher);
+            var fullTextMatch = Regex.Match(elementText, fullTextOfSmartTagMatcher);
+
+            return new SmartTag()
+            {
+                IsComplete = Regex.IsMatch(elementText, isCompleteMatcher),
+                ID = objectIdMatch.Success ? Guid.Parse(objectIdMatch.Groups[1].Value) : Guid.Empty,
+                FullText = fullTextMatch.Groups[1].Value,
+                SmartTagElementInDocument = element
+            };
+
+        }
+        public static bool IsSmartTag(string elementText)
+        {
+            return Regex.IsMatch(elementText, smartTagRegExPattern);
         }
 
         public void AugmentPage(OneNoteApp ona, XDocument pageContent)
@@ -206,8 +213,13 @@ namespace OnenoteCapabilities
         public OneNoteApp ona;
         private Page smartTagTemplatePage;
         private readonly string hyperlinkFormatter = "<a href=\"{0}\">{1}</a>";
-        private readonly string smartTagRegExPattern = "(#[a-zA-Z0-9]+) ";
-        private readonly string fullTextOfSmartTagMatcher = "(#[a-zA-Z0-9\\s]+)";
-        private readonly string embedSmartTagIdFormatter = "<a href=\"ObjectId={0}\">.</a>";
+
+        // a smart tag is # followed by words till space.
+        private readonly static string smartTagRegExPattern = "^(#.+) ";
+        
+        // the full text of the smart tag is harder to do without  a proper parser.
+        // as a hack - we'll go from starting with a # to the end of elementText.
+        private readonly static string fullTextOfSmartTagMatcher = "^(#.+)";
+        private readonly static string embedSmartTagIdFormatter = "<a href=\"ObjectId={0}\">.</a>";
     }
 }
