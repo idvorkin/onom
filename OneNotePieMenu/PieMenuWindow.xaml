@@ -1,0 +1,47 @@
+﻿<Window x:Class="OneNotePieMenu.PieMenuWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:p="clr-namespace:PieInTheSky;assembly=PieInTheSky"
+        Title="PieMenuWindow" Height="600" Width="600" AllowsTransparency="True" WindowStyle="None"
+        MouseLeftButtonDown="MainWindow_OnMouseLeftButtonDown"
+        >
+    <Window.Background>
+        <SolidColorBrush Opacity="0.01" Color="White"/>
+    </Window.Background>
+
+
+    <Canvas>
+
+        <p:PieMenu x:Name="Menu1" 
+                    Background="SteelBlue"
+                    SelectedBackground="LightBlue"
+                   FontSize="20" Radius="140" InnerRadius="0"
+                   RotateText="False"
+                   Height="600" Width="600" Canvas.Top="28"
+                   >
+            <p:PieMenuItem Header="Augment" Background="DarkGreen" Click="Augment_OnClick">
+            </p:PieMenuItem>
+
+            <p:PieMenuItem Header="Topic">
+                <p:PieMenuItem Header="Picker" />
+                <p:PieMenuItem Header="LRU1" />
+                <p:PieMenuItem Header="LRU2" />
+                <p:PieMenuItem Header="LRU3" />
+            </p:PieMenuItem>
+            <p:PieMenuItem Header="Person">
+                <p:PieMenuItem Header="Next Meeting"  Click="PersonNext_OnClick"/>
+                <p:PieMenuItem Header="Today Meeting" Click="PersonToday_OnClick"/>
+                <p:PieMenuItem Header="Prev  Meeting" Click="PersonPrev_OnClick"/>
+            </p:PieMenuItem>
+            <p:PieMenuItem Header="Day">
+                <p:PieMenuItem Header="Today" Click="Today_Click"/>
+                <p:PieMenuItem Header="Yesterday" Click="Yesterday_OnClick"/>
+                <p:PieMenuItem Header="This Week" Click="ThisWeek_OnClick"/>
+                <p:PieMenuItem Header="Time Machine" Click="TimeMachine_OnClick" />
+            </p:PieMenuItem>
+        </p:PieMenu>
+        <DatePicker Name="TimeMachineDatePicker" Canvas.Left="461" Canvas.Top="51" Background="SteelBlue" FontSize="15" Visibility="Hidden"/>
+        <ComboBox Name="PeopleList" Canvas.Left="162" Canvas.Top="281" Width="114" Background="SteelBlue"  FontSize="15"> </ComboBox>
+
+    </Canvas>
+</Window>

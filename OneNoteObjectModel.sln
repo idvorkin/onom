@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneNoteObjectModel", "OneNoteObjectModel\OneNoteObjectModel.csproj", "{19946843-D5DA-4FB7-9B7E-A1799B18F9F1}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneNoteMenu", "OneNoteMenu\OneNoteMenu.csproj", "{273E3B5A-A711-4656-A5A4-3F3BDF2CD14C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnenoteCapabilities", "OnenoteCapabilities\OnenoteCapabilities.csproj", "{299B7B9F-4BD1-4692-A869-643FBCA51647}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneNotePieMenu", "OneNotePieMenu\OneNotePieMenu.csproj", "{CFD65D6E-FB18-4FED-8286-D0A9A9FCC67D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{299B7B9F-4BD1-4692-A869-643FBCA51647}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{299B7B9F-4BD1-4692-A869-643FBCA51647}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{299B7B9F-4BD1-4692-A869-643FBCA51647}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFD65D6E-FB18-4FED-8286-D0A9A9FCC67D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFD65D6E-FB18-4FED-8286-D0A9A9FCC67D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFD65D6E-FB18-4FED-8286-D0A9A9FCC67D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFD65D6E-FB18-4FED-8286-D0A9A9FCC67D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
