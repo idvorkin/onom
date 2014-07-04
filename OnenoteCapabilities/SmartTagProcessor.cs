@@ -50,7 +50,6 @@ namespace OnenoteCapabilities
                 // HACK: When the smartTag is on the current dailyPage, we put the TODO on the dailyPage, but then we put the link on pageContent, which doesn't have the changes to PageContent.
                 pageContent = dailyPageContent;
             }
-
             smartTagAugmenter.AddLinkToSmartTag(smartTag, pageContent, dailySection, todayPageTitle);
         }
     }
@@ -146,8 +145,14 @@ namespace OnenoteCapabilities
             var topicPageContent = ona.GetPageContentAsXDocument(topicPage);
 
             DumbTodo.AddToPageFromDateEnableSmartTag(ona, topicPageContent,smartTag);
+
+            if (OneNoteApp.IsSamePage (pageContent, topicPageContent))
+            {
+                // HACK: When the smartTag is on the current dailyPage, we put the TODO on the peoplePageContent, but then we put the link on pageContent, which doesn't have the changes to PageContent.
+                pageContent = topicPageContent;
+            }
+
             smartTagAugmenter.AddLinkToSmartTag(smartTag,pageContent,templatePageCreater.SectionForPages(), topicPageName);
         }
-
     }
 }
