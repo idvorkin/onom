@@ -27,7 +27,14 @@ pageContentAsXML.DescendantNodes() .OfType<XElement>() .ToList() .ForEach(x => x
 
 var xml = pageContentAsXML.ToString();
 Console.Write ("var testPageContent = ");
-foreach (var line in xml.Split("\r\n".ToCharArray()).Where(l=>l !=""))
+
+// First line needs template replacment for ID={0} and PageNamge={1}
+var firstLine = "<one:Page xmlns:one=\"http://schemas.microsoft.com/office/onenote/2013/onenote\" ID=\"{0}\" name=\"{1}\" dateTime=\"2014-06-28T18:47:43.000Z\" lastModifiedTime=\"2014-07-02T13:10:47.000Z\" pageLevel=\"2\" isCurrentlyViewed=\"true\" lang=\"en-US\">";
+
+var lines = new List<string> () {firstLine};
+lines.AddRange(xml.Split("\r\n".ToCharArray()).Skip(1).Where(l=>l !=""));
+
+foreach (var line in lines)
 {
 	var escapedLine = line.Replace("\"", "\\\"");
 	Console.WriteLine("\""+escapedLine+"\"+");

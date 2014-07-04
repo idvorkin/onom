@@ -53,7 +53,7 @@ namespace OneNoteMenu
                 new PeopleSmartTagProcessor(ona, settingsPeoplePages), 
                 new DailySmartTagProcessor(ona,settingsDailyPages),
                 // Topic smarttag processor needs to go last as it will create a topic page for any un-processed tag.
-                new TopicSmartTagTopicProcessor(ona, settingsDailyPages)
+                new TopicSmartTagTopicProcessor(ona, new SettingsTopicPages())
             };
             var smartTagAugmentor = new SmartTagAugmenter(ona, new SettingsSmartTags(), smartTagProcessors);
             augmenter = new Augmenter(ona, new List<IPageAugmenter> {smartTagAugmentor});

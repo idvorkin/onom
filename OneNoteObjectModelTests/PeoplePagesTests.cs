@@ -77,7 +77,7 @@ namespace OneNoteObjectModelTests
         [Test]
         public void CreateCarl()
         {
-            var pagesNotebook = ona.GetNotebooks().Notebook.First(n => n.name == _peoplePagesNotebook.Get().name);
+            var pagesNotebook = ona.GetNotebook( _peoplePagesNotebook.Get().name);
 
             // Assume Carl doesn't yet exist.
             Assert.That(ona.GetSections(pagesNotebook,true).First().Page.Where(n => n.name == _settingsPeoplePages.PersonNextTitle(Carl)),Is.Empty);
@@ -99,7 +99,7 @@ namespace OneNoteObjectModelTests
         public void GotoAliceDoesNotCreateANewPage()
         {
 
-            var pagesNotebook = ona.GetNotebooks().Notebook.First(n => n.name == _peoplePagesNotebook.Get().name);
+            var pagesNotebook = ona.GetNotebook(_peoplePagesNotebook.Get().name);
 
             // Assume Alice Already Has 1 entry
             Assert.That(ona.GetSections(pagesNotebook,true).First().Page.Count(n => n.name == _settingsPeoplePages.PersonNextTitle(Alice)),Is.EqualTo(1));
@@ -115,7 +115,7 @@ namespace OneNoteObjectModelTests
         public void CreateNewAliceMeetingEnsureCreatedInCorrectLocation()
         {
 
-            var pagesNotebook = ona.GetNotebooks().Notebook.First(n => n.name == _peoplePagesNotebook.Get().name);
+            var pagesNotebook = ona.GetNotebook(_peoplePagesNotebook.Get().name);
 
             // Assume Alice Already Has 1 next entry.
             Assert.That(ona.GetSections(pagesNotebook,true).First().Page.Count(n => n.name == _settingsPeoplePages.PersonNextTitle(Alice)),Is.EqualTo(1));
@@ -143,7 +143,7 @@ namespace OneNoteObjectModelTests
         [Test]
         public void CreateDaphneViaTodayMeeting()
         {
-            var pagesNotebook = ona.GetNotebooks().Notebook.First(n => n.name == _peoplePagesNotebook.Get().name);
+            var pagesNotebook = ona.GetNotebook(_peoplePagesNotebook.Get().name);
 
             // Assume Daphne Does Not Exist
             Assert.That(ona.GetSections(pagesNotebook,true).First().Page.Count(n => n.name == _settingsPeoplePages.PersonNextTitle(Daphne)),Is.EqualTo(0));

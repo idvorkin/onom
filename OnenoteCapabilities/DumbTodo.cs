@@ -11,8 +11,9 @@ namespace OnenoteCapabilities
         {
         }
 
-        public void AddDumbTodoToPage(OneNoteApp ona, XDocument pageContentAsXML, string todo, DateTime? dueDate=null, int tableOnPage=0)
+        public static void AddToPage(OneNoteApp ona, XDocument pageContentAsXML, string todo, DateTime? dueDate=null, int tableOnPage=0)
         {
+            AddTodoTagToPageIfRequired(ona, pageContentAsXML);
             var rowTemplate = "<one:Row lastModifiedTime=\"2014-06-28T06:11:19.000Z\" xmlns:one=\"http://schemas.microsoft.com/office/onenote/2013/onenote\"> " +
                               "<one:Cell lastModifiedTime=\"2014-06-28T06:11:19.000Z\"  lastModifiedByInitials=\"ID\"> " +
                               "<one:OEChildren> " +
@@ -42,6 +43,33 @@ namespace OnenoteCapabilities
             // Add row after the first row (which is assumed to be a header)
             tableElement.DescendantNodes().OfType<XElement>().First(e => e.Name.LocalName=="Row").AddAfterSelf(rowAsXML.Root);
             ona.OneNoteApplication.UpdatePageContent(pageContentAsXML.ToString());
+        }
+
+        // If the page does not contain a todo tag, writing a todo will fail, so we need to add it explicitly if it does not exist.
+        private static void AddTodoTagToPageIfRequired(OneNoteApp ona, XDocument pageContentAsXml)
+        {
+            var tagDefPresent = pageContentAsXml.DescendantNodes().OfType<XElement>().Where(e => e.Name.LocalName == "TagDef").Any();
+            if (tagDefPresent)
+            {
+                return;
+            }
+            var todoTagDef = "  <one:TagDef index=\"0\" type=\"0\" symbol=\"3\" fontColor=\"automatic\" highlightColor=\"none\" name=\"To Do\" xmlns:one=\"http://schemas.microsoft.com/office/onenote/2013/onenote\"/>";
+            var tagDefAsXml = XDocument.Parse(todoTagDef);
+            pageContentAsXml.DescendantNodes().OfType<XElement>().First(e => e.Name.LocalName == "QuickStyleDef").AddBeforeSelf(tagDefAsXml.Root);
+        }
+
+        public static void AddToPageFromDateEnableSmartTag(OneNoteApp ona , XDocument pageContent, SmartTag smartTag, int tableOnPage=0)
+        {
+            var parsedDate = HumanizedDateParser.ParseDateAtEndOfSentance(smartTag.TextAfterTag());
+
+            if (parsedDate.Parsed)
+            {
+                DumbTodo.AddToPage(ona, pageContent, parsedDate.SentanceWithoutDate, parsedDate.date, tableOnPage);
+            }
+            else
+            {
+                DumbTodo.AddToPage(ona, pageContent, smartTag.TextAfterTag(), tableOnPage:tableOnPage);
+            }
         }
     }
 }

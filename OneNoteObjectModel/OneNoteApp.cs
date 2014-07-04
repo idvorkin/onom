@@ -92,6 +92,7 @@ namespace OneNoteObjectModel
 
             // tell onenote about it.
             _oneNoteApplication.UpdateHierarchy(notebookList.ToString());
+            // NOTE: Can't use GetNotebook as that searches by name, not by path. 
             return GetNotebooks().Notebook.First(n => n.path == path);
         }
 

@@ -56,8 +56,8 @@ namespace OneNoteObjectModelTests
         {
             dailyPages.GotoThisWeekPage();
             // verify week page is created.
-            var pagesNotebook = ona.GetNotebooks().Notebook.First(n => n.name == _dailyPagesNotebook.Get().name);
-            var weekPage = ona.GetSections(pagesNotebook,true).First().Page.First(n => n.name == _settingsDailyPages.ThisWeekPageTitle());
+            var pagesNotebook = ona.GetNotebook(_dailyPagesNotebook.Get().name);
+            var weekPage = pagesNotebook.PopulatedSection(ona,_settingsDailyPages.DailyPagesSection).Page.First(n => n.name == _settingsDailyPages.ThisWeekPageTitle());
             Assert.That(weekPage.pageLevel, Is.EqualTo(1.ToString()));
         }
         [Test]
@@ -65,8 +65,8 @@ namespace OneNoteObjectModelTests
         {
             dailyPages.GotoTodayPage();
             // verify week page is created.
-            var pagesNotebook = ona.GetNotebooks().Notebook.First(n => n.name == _dailyPagesNotebook.Get().name);
-            var todayPage = ona.GetSections(pagesNotebook,true).First().Page.First(n => n.name == _settingsDailyPages.TodayPageTitle());
+            var pagesNotebook = ona.GetNotebook(_dailyPagesNotebook.Get().name);
+            var todayPage = pagesNotebook.PopulatedSection(ona,_settingsDailyPages.DailyPagesSection).Page.First(n => n.name == _settingsDailyPages.TodayPageTitle());
             Assert.That(todayPage.pageLevel, Is.EqualTo(2.ToString()));
         }
 
