@@ -89,6 +89,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllOneNoteCapabilities.cs" />
     <Compile Include="Augment.cs" />
     <Compile Include="ContentProcessor.cs" />
     <Compile Include="DailyPages.cs" />

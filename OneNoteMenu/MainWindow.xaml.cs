@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -15,9 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 // A collection of onenote capabilities with a button for each.
-using OnenoteCapabilities;
 using OneNoteMenu.Properties;
-using OneNoteObjectModel;
 using List = OneNoteObjectModel.List;
 
 namespace OneNoteMenu
@@ -27,15 +24,8 @@ namespace OneNoteMenu
     /// </summary>
     public partial class MainWindow : Window
     {
-        static readonly OneNoteApp ona = new OneNoteApp();
-        static readonly SettingsPeoplePages settingsPeoplePages = new SettingsPeoplePages();
-        static readonly SettingsDailyPages settingsDailyPages = new SettingsDailyPages();
-        readonly EraseEmpty erase = new EraseEmpty();
-        readonly DailyPages dailyPages = new DailyPages(ona, settingsDailyPages);
-        private readonly PeoplePages peoplePages = new PeoplePages(ona, settingsPeoplePages);
-        private static string[] _people = new SettingsPeoplePages().People().ToArray();
-        private ObservableCollection<string> _observablePeople = new ObservableCollection<string>(_people);
-        private Augmenter augmenter;
+        public ObservableCollection<string> _observablePeople;
+        public AllOneNoteCapabilities capabilities = null;
 
         // should be done in the XAML, but I'm lazy.
         private double defaultFontSize = 20;
@@ -43,21 +33,11 @@ namespace OneNoteMenu
         public MainWindow()
         {
             InitializeComponent();
+            capabilities = new AllOneNoteCapabilities();
+            _observablePeople = new ObservableCollection<string>(capabilities.ListOfPeople);
             DrawDynamicUXElements();
-
-            // TBD: Look up a dependency injection mechanism.
-            var smartTagProcessors = new List<ISmartTagProcessor>()
-            {
-                new TwitterSmartTagProcessor(), 
-                new WikipediaSmartTagProcessor(), 
-                new PeopleSmartTagProcessor(ona, settingsPeoplePages), 
-                new DailySmartTagProcessor(ona,settingsDailyPages),
-                // Topic smarttag processor needs to go last as it will create a topic page for any un-processed tag.
-                new TopicSmartTagTopicProcessor(ona, new SettingsTopicPages())
-            };
-            var smartTagAugmentor = new SmartTagAugmenter(ona, new SettingsSmartTags(), smartTagProcessors);
-            augmenter = new Augmenter(ona, new List<IPageAugmenter> {smartTagAugmentor});
         }
+
         // UX Helpers - These should move to an alternate assembly
         Button CreateButton(string Content, Action OnClick)
         {
@@ -80,16 +60,16 @@ namespace OneNoteMenu
 
         void Augment()
         {
-            augmenter.AugmentCurrentPage();
+            capabilities.Augmenter.AugmentCurrentPage();
         }
 
         void DrawDynamicUXElements()
         {
             var dailyPagesButtons = new[]
             {
-                CreateButton("_Today", dailyPages.GotoTodayPage),
-                CreateButton("This _Week", dailyPages.GotoThisWeekPage),
-                CreateButton("_Yesterday", dailyPages.GotoYesterday),
+                CreateButton("_Today", capabilities.DailyPages.GotoTodayPage),
+                CreateButton("This _Week", capabilities.DailyPages.GotoThisWeekPage),
+                CreateButton("_Yesterday", capabilities.DailyPages.GotoYesterday),
                 CreateButton("_Augment", Augment),
             }.ToList();
 
@@ -98,9 +78,9 @@ namespace OneNoteMenu
             Action doNothing = ()=> { } ;
 
             var peoplePagesButtons = new[]{
-                CreateButton("Next", ()=> peoplePages.GotoPersonNextPage(selectedPerson())),
-                CreateButton("_Previous", ()=> peoplePages.GotoPersonPreviousMeetingPage(selectedPerson())),
-                CreateButton("_NewDay", ()=> peoplePages.GotoPersonCurrentMeetingPage(selectedPerson())),
+                CreateButton("Next", ()=> capabilities.PeoplePages.GotoPersonNextPage(selectedPerson())),
+                CreateButton("_Previous", ()=> capabilities.PeoplePages.GotoPersonPreviousMeetingPage(selectedPerson())),
+                CreateButton("_NewDay", ()=> capabilities.PeoplePages.GotoPersonCurrentMeetingPage(selectedPerson())),
             }.ToList();
 
             this.PeopleList.FontSize = defaultFontSize;
