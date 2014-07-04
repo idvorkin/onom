@@ -29,7 +29,7 @@ namespace OneNoteObjectModelTests
         public void Setup()
         {
             ona = new OneNoteApp();
-            _tempNoteBookHelperHelper = new TemporaryNoteBookHelper(ona);
+            _tempNoteBookHelperHelper = new TemporaryNoteBookHelper(ona, "CRUD");
             tempNotebook = _tempNoteBookHelperHelper.Get();
         }
 

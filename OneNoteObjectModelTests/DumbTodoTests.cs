@@ -15,7 +15,7 @@ namespace OneNoteObjectModelTests
         public void Setup()
         {
             this.ona = new OneNoteApp();
-            this._scratchNotebook = new TemporaryNoteBookHelper(ona);
+            this._scratchNotebook = new TemporaryNoteBookHelper(ona, "dumbTodoScratch");
 
             // create template structure.
             this.tempSection  = ona.CreateSection(_scratchNotebook.Get(), "dumbTodoTestSection");

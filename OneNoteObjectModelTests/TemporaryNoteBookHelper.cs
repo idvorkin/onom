@@ -12,10 +12,10 @@ namespace OneNoteObjectModelTests
         private string noteBookName;
         private string noteBookDirectory;
 
-        public TemporaryNoteBookHelper(OneNoteApp ona)
+        public TemporaryNoteBookHelper(OneNoteApp ona, string TestName)
         {
             this.ona = ona;
-            noteBookName = "onomTest_" + Guid.NewGuid();
+            noteBookName = string.Format("onomTest_{0}_{1}", TestName, Guid.NewGuid());
             noteBookDirectory =  Path.Combine(Path.GetTempPath(),noteBookName);
             Directory.CreateDirectory(this.noteBookDirectory);
             notebook = ona.CreateNoteBook(noteBookDirectory, noteBookName);

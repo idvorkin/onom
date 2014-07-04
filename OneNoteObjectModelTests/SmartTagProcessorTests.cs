@@ -55,8 +55,8 @@ namespace OneNoteObjectModelTests
         public void Setup()
         {
             this.ona = new OneNoteApp();
-            smartTagNoteBook = new TemporaryNoteBookHelper(ona);
-            this._templateNotebook = new TemporaryNoteBookHelper(ona);
+            smartTagNoteBook = new TemporaryNoteBookHelper(ona, "SmartTag");
+            this._templateNotebook = new TemporaryNoteBookHelper(ona, "SmartTagTemplates");
             this._settingsSmartTags = new SettingsSmartTags()
             {
                     TemplateNotebook = _templateNotebook.Get().name,

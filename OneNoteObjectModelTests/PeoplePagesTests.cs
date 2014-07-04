@@ -41,8 +41,8 @@ namespace OneNoteObjectModelTests
         public void Setup()
         {
             ona = new OneNoteApp();
-            _templateNotebook = new TemporaryNoteBookHelper(ona);
-            _peoplePagesNotebook = new TemporaryNoteBookHelper(ona);
+            _templateNotebook = new TemporaryNoteBookHelper(ona, "peoplePagesTemplate");
+            _peoplePagesNotebook = new TemporaryNoteBookHelper(ona, "peoplePages");
 
             _settingsPeoplePages = new SettingsPeoplePages()
             {
