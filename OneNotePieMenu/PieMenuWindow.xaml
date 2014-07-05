@@ -31,10 +31,10 @@
             </p:PieMenuItem>
             <p:PieMenuItem Header="Person">
                 <p:PieMenuItem Header="Next Meeting"  Click="PersonNext_OnClick"/>
+                <p:PieMenuItem Header="Last Meeting " Click="PersonPrev_OnClick"/>
                 <p:PieMenuItem Header="Today Meeting" Click="PersonToday_OnClick"/>
-                <p:PieMenuItem Header="Prev  Meeting" Click="PersonPrev_OnClick"/>
             </p:PieMenuItem>
-            <p:PieMenuItem Header="Day">
+            <p:PieMenuItem Header="Time">
                 <p:PieMenuItem Header="Today" Click="Today_Click"/>
                 <p:PieMenuItem Header="Yesterday" Click="Yesterday_OnClick"/>
                 <p:PieMenuItem Header="This Week" Click="ThisWeek_OnClick"/>
