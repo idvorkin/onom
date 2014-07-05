@@ -101,10 +101,19 @@ namespace OnenoteCapabilities
         {
             // create a new page to represent the smart tag. 
             var modelPageName = smartTag.TagName() + "|" + DateTime.Now;
-            ona.ClonePage(smartTagStorageSection,smartTagTemplatePage , modelPageName );
+            var modelPage = ona.ClonePage(smartTagStorageSection,smartTagTemplatePage , modelPageName );
             // put a hyper-link to the page on the '#'
             AddIdToSmartTag(pageContent,new List<SmartTag>(){smartTag},modelPageName);
-            // record info on that page.
+
+            // record human readable text on the Model Page.
+            var modelPageContent = ona.GetPageContentAsXDocument(modelPage);
+            
+            // NOTE: This is a big perf hit - figure out how to refactor.
+            var page = OneNoteApp.XMLDeserialize<Page>(pageContent.ToString());
+
+            // TODO: Make this hyper-link.
+            var creationText = String.Format("Instantiated from augmentation of page '{0}'", page.name);
+            DumbTodo.AddToPage(ona,modelPageContent, creationText, DateTime.Now);
         }
 
         public void AddIdToSmartTag(XDocument pageContentInXML, IEnumerable<SmartTag> smartTags, string modelPageName)
