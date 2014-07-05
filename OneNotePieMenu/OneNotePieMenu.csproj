@@ -34,6 +34,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.OneNote, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>..\InterOpAssembly\Microsoft.Office.Interop.OneNote.dll</HintPath>
+    </Reference>
     <Reference Include="PieInTheSky">
       <HintPath>..\ExternalAssemblies\PieInTheSky.dll</HintPath>
     </Reference>
@@ -101,6 +106,10 @@
     <ProjectReference Include="..\OnenoteCapabilities\OnenoteCapabilities.csproj">
       <Project>{299B7B9F-4BD1-4692-A869-643FBCA51647}</Project>
       <Name>OnenoteCapabilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OneNoteObjectModel\OneNoteObjectModel.csproj">
+      <Project>{19946843-d5da-4fb7-9b7e-a1799b18f9f1}</Project>
+      <Name>OneNoteObjectModel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

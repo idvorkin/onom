@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using OneNoteMenu;
+using OneNoteObjectModel;
+using OnenoteCapabilities;
 
 namespace OneNotePieMenu
 {
@@ -34,6 +36,7 @@ namespace OneNotePieMenu
             _observablePeople = new ObservableCollection<string>(capabilities.ListOfPeople);
             this.PeopleList.ItemsSource = _observablePeople;
             this.PeopleList.SelectedIndex = 0;
+            RefreshTopicLruMenu();
         }
 
 
@@ -111,6 +114,51 @@ namespace OneNotePieMenu
         private void PersonPrev_OnClick(object sender, RoutedEventArgs e)
         {
             capabilities.PeoplePages.GotoPersonPreviousMeetingPage(selectedPerson());
+        }
+
+        private void RefreshTopicLruMenu()
+        {
+// HACKY - but will do for the demo.
+            // find the topic menu
+            var topicMenu = this.Menu1.Items.OfType<PieInTheSky.PieMenuItem>().First(mi => (string) mi.Header == "Topic");
+
+            // All menu items that aren't picker and Refresh are LRU entires.
+            var topicLRUs =
+                topicMenu.Items.OfType<PieInTheSky.PieMenuItem>()
+                    .Where(mi => ! "Refresh;Picker".Split(';').Contains((string) mi.Header))
+                    .ToArray();
+
+            // Debug.Assert(topicLRUs.Count() > 0 );
+
+            // Get the latest topic entries from the notebook.
+            var topicSection =
+                capabilities.ona.GetNotebook(capabilities.SettingsTopicPages.TopicNotebook)
+                    .PopulatedSection(capabilities.ona, capabilities.SettingsTopicPages.TopicSection);
+            var topicTitleInLRUOrder = topicSection.Page.OrderByDescending(p => p.lastModifiedTime).Select(p => p.name);
+            var replacementList = topicTitleInLRUOrder.Take(Math.Min(topicTitleInLRUOrder.Count(), topicLRUs.Count())).ToArray();
+            foreach (var i in Enumerable.Range(0, replacementList.Count()))
+            {
+                topicLRUs[i].Header = replacementList[i];
+            }
+        }
+
+        private void GotoTopic_OnClick(object sender, RoutedEventArgs e)
+        {
+            var menuItem = sender as PieInTheSky.PieMenuItem;
+            var pageTitle = menuItem.Header as string;
+
+            var page = capabilities.ona.GetNotebook(capabilities.SettingsTopicPages.TopicNotebook)
+                .PopulatedSection(capabilities.ona, capabilities.SettingsTopicPages.TopicSection)
+                .Page.FirstOrDefault(p => p.name == pageTitle);
+            if (page != null)
+            {
+                capabilities.ona.OneNoteApplication.NavigateTo(page.ID);
+            }
+        }
+
+        private void Topic_OnClick(object sender, RoutedEventArgs e)
+        {
+            RefreshTopicLruMenu();
         }
     }
 }

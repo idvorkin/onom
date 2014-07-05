@@ -22,11 +22,12 @@
             <p:PieMenuItem Header="Augment" Background="DarkCyan" Click="Augment_OnClick">
             </p:PieMenuItem>
 
-            <p:PieMenuItem Header="Topic">
+            <p:PieMenuItem Header="Topic" Click="Topic_OnClick">
                 <p:PieMenuItem Header="Picker" />
-                <p:PieMenuItem Header="LRU1" />
-                <p:PieMenuItem Header="LRU2" />
-                <p:PieMenuItem Header="LRU3" />
+                <p:PieMenuItem Header="LRU1" Click="GotoTopic_OnClick"/>
+                <p:PieMenuItem Header="LRU2"   Click="GotoTopic_OnClick"/>
+                <p:PieMenuItem Header="LRU3"  Click="GotoTopic_OnClick"/>
+                <p:PieMenuItem Header="LRU4"  Click="GotoTopic_OnClick"/>
             </p:PieMenuItem>
             <p:PieMenuItem Header="Person">
                 <p:PieMenuItem Header="Next Meeting"  Click="PersonNext_OnClick"/>
