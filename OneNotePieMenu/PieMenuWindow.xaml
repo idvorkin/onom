@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:p="clr-namespace:PieInTheSky;assembly=PieInTheSky"
         Title="PieMenuWindow" Height="600" Width="600" AllowsTransparency="True" WindowStyle="None"
-        MouseLeftButtonDown="MainWindow_OnMouseLeftButtonDown"
+        MouseLeftButtonDown="MainWindow_OnMouseLeftButtonDown" Icon="dayplanner.ico"
         >
     <Window.Background>
         <SolidColorBrush Opacity="0.01" Color="White"/>
