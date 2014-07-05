@@ -135,7 +135,9 @@ namespace OneNotePieMenu
                 capabilities.ona.GetNotebook(capabilities.SettingsTopicPages.TopicNotebook)
                     .PopulatedSection(capabilities.ona, capabilities.SettingsTopicPages.TopicSection);
             var topicTitleInLRUOrder = topicSection.Page.OrderByDescending(p => p.lastModifiedTime).Select(p => p.name);
-            var replacementList = topicTitleInLRUOrder.Take(Math.Min(topicTitleInLRUOrder.Count(), topicLRUs.Count())).ToArray();
+
+            // UX order of menu-items is backwards, so fill in from back.
+            var replacementList = topicTitleInLRUOrder.Take(Math.Min(topicTitleInLRUOrder.Count(), topicLRUs.Count())).Reverse().ToArray();
             foreach (var i in Enumerable.Range(0, replacementList.Count()))
             {
                 topicLRUs[i].Header = replacementList[i];
