@@ -42,13 +42,14 @@
             </p:PieMenuItem>
         </p:PieMenu>
         <DatePicker Name="TimeMachineDatePicker" Canvas.Left="461" Canvas.Top="51" Background="SteelBlue" FontSize="15" Visibility="Hidden"/>
-        <ComboBox Name="PeopleList" Canvas.Left="164" Canvas.Top="279" Width="114" Background="#FF18456A"  FontSize="15" BorderBrush="#FFD73131">
-        <!--
+        <TextBlock Name="CurrentPerson" Canvas.Left="181" Canvas.Top="279" Width="97" Background="LightBlue"  Text="{Binding SelectedValue, ElementName=PeopleList}" FontSize="19" TextAlignment="Center" MouseLeftButtonUp="CurrentPerson_OnMouseLeftButtonUp" Height="26"></TextBlock>
+        <ComboBox Name="PeopleList" Canvas.Left="164" Canvas.Top="279" Width="114" Background="#FF18456A"  FontSize="19" BorderBrush="#FFD73131" Visibility="Hidden" DropDownClosed="PeopleList_OnDropDownClosed">
+            <!--
             Changing the color of a combo box is hard see the following article: 
             http://social.technet.microsoft.com/wiki/contents/articles/24240.changing-the-background-color-of-a-combobox-in-wpf-on-windows-8.aspxw
             If there's a simpler answer, use that inst
             -->
-            
+
             <ComboBox.Resources>
                 <!-- color of ComboBoxItem -->
                 <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="LightBlue" />

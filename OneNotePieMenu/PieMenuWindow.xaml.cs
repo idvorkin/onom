@@ -162,5 +162,27 @@ namespace OneNotePieMenu
         {
             RefreshTopicLruMenu();
         }
+
+        private void CurrentPerson_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            HideTextBoxAndShowComboBox();
+        }
+        private void PeopleList_OnDropDownClosed(object sender, EventArgs e)
+        {
+            HideComboBoxAndShowTextBox();
+        }
+
+        private void HideTextBoxAndShowComboBox()
+        {
+            this.CurrentPerson.Visibility = Visibility.Hidden;
+            this.PeopleList.Visibility = Visibility.Visible;
+        }
+
+        private void HideComboBoxAndShowTextBox()
+        {
+            this.PeopleList.Visibility = Visibility.Hidden;
+            this.CurrentPerson.Visibility = Visibility.Visible;
+        }
+
     }
 }
