@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 // A collection of onenote capabilities with a button for each.
+using OnenoteCapabilities;
 using OneNoteMenu.Properties;
 using List = OneNoteObjectModel.List;
 
@@ -36,6 +37,7 @@ namespace OneNoteMenu
             capabilities = new AllOneNoteCapabilities();
             _observablePeople = new ObservableCollection<string>(capabilities.ListOfPeople);
             DrawDynamicUXElements();
+            CrashDumpWriter.InstallReportAndCreateCrashDumpUnhandledExceptionHandler();
         }
 
         // UX Helpers - These should move to an alternate assembly

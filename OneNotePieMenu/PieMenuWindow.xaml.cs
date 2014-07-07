@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using OneNoteMenu;
 using OneNoteObjectModel;
 using OnenoteCapabilities;
+using Path = System.IO.Path;
 
 namespace OneNotePieMenu
 {
@@ -37,7 +38,9 @@ namespace OneNotePieMenu
             this.PeopleList.ItemsSource = _observablePeople;
             this.PeopleList.SelectedIndex = 0;
             RefreshTopicLruMenu();
+            CrashDumpWriter.InstallReportAndCreateCrashDumpUnhandledExceptionHandler();
         }
+
 
 
         /// <summary>
@@ -183,6 +186,5 @@ namespace OneNotePieMenu
             this.PeopleList.Visibility = Visibility.Hidden;
             this.CurrentPerson.Visibility = Visibility.Visible;
         }
-
     }
 }
