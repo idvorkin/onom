@@ -19,7 +19,7 @@
                    RotateText="False"
                    Height="560" Width="560" Canvas.Top="28"
                    >
-            <p:PieMenuItem Header="Augment" Background="DarkCyan" Click="Augment_OnClick">
+            <p:PieMenuItem Header="Augment" Background="LightSalmon" Click="Augment_OnClick">
             </p:PieMenuItem>
 
             <p:PieMenuItem Header="Topic" Click="Topic_OnClick">
@@ -29,12 +29,12 @@
                 <p:PieMenuItem Header="LRU3"  Click="GotoTopic_OnClick"/>
                 <p:PieMenuItem Header="LRU4"  Click="GotoTopic_OnClick"/>
             </p:PieMenuItem>
-            <p:PieMenuItem Header="Person">
+            <p:PieMenuItem Header="People">
                 <p:PieMenuItem Header="Next Meeting"  Click="PersonNext_OnClick"/>
                 <p:PieMenuItem Header="Last Meeting " Click="PersonPrev_OnClick"/>
                 <p:PieMenuItem Header="Today Meeting" Click="PersonToday_OnClick"/>
             </p:PieMenuItem>
-            <p:PieMenuItem Header="Time">
+            <p:PieMenuItem Header="Calendar">
                 <p:PieMenuItem Header="Today" Click="Today_Click"/>
                 <p:PieMenuItem Header="Yesterday" Click="Yesterday_OnClick"/>
                 <p:PieMenuItem Header="This Week" Click="ThisWeek_OnClick"/>
