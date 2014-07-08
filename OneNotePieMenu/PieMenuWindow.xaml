@@ -4,6 +4,7 @@
         xmlns:p="clr-namespace:PieInTheSky;assembly=PieInTheSky"
         Title="PieMenuWindow" Height="560" Width="560" AllowsTransparency="True" WindowStyle="None"
         MouseLeftButtonDown="MainWindow_OnMouseLeftButtonDown" Icon="dayplanner.ico"
+        MouseRightButtonDown="PieMenuWindow_OnMouseRightButtonDown"
         >
     <Window.Background>
         <SolidColorBrush Opacity="0.01" Color="White"/>
@@ -59,4 +60,15 @@
         </ComboBox>
 
     </Canvas>
+    <!-- We can't use the default context menu behavior (always pop on right click), because we only want the context menu to pop when we're outside of the pie menu.
+         What we'll do instead is pop this "un-associated" context menu from the RightButton handler when we're not on the pie menu.
+
+        See - http://www.wpf-tutorial.com/common-interface-controls/contextmenu/ for where the idea was originated at .
+    -->
+    <Window.Resources>
+        <ContextMenu x:Key="DefaultContextMenu">
+            <MenuItem Header="Minimize" Click="MinimizeClicked"/>
+            <MenuItem Header="About" Click="AboutClicked"/>
+        </ContextMenu>
+    </Window.Resources>
 </Window>

@@ -52,16 +52,34 @@ namespace OneNotePieMenu
         {
             // The goal is to be able to come up with a way to move the window given it has windowstyle=none (which is required for transparency).
             // DragMove is the way to instantiate a move, but the only time I can get DragMove() to work is from primary mouse button down.
-            // without the if statement on the control key, the window will eat the mouse clicks, and the pie menu clicks will not occur.
-            // Surprisingly, C-Click only works if i'm within the window but not on a pie menu.
             base.OnMouseLeftButtonDown(e);
 
             var point = e.MouseDevice.GetPosition(this.Menu1);
             var isOnMenu = this.Menu1.IsMenuRelativePointOnMenu(point);
-            if (!isOnMenu)
+            if (isOnMenu)
             {
-                this.DragMove();
+                // do nothing if the point is a menu interaction
+                return;
             }
+
+            // left clicked not on menu, initiate the drag.
+            this.DragMove();
+        }
+
+        private void PieMenuWindow_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var point = e.MouseDevice.GetPosition(this.Menu1);
+            var isOnMenu = this.Menu1.IsMenuRelativePointOnMenu(point);
+            if (isOnMenu)
+            {
+                // do nothing if the point is a menu interaction
+                return;
+            }
+
+            // right clicked not on menu, show context menu.
+            var contextMenu = this.FindResource("DefaultContextMenu") as ContextMenu;
+            contextMenu.PlacementTarget = sender as Window;
+            contextMenu.IsOpen = true;
         }
 
         // DailyPages UX - 
@@ -189,5 +207,16 @@ namespace OneNotePieMenu
             this.PeopleList.Visibility = Visibility.Hidden;
             this.CurrentPerson.Visibility = Visibility.Visible;
         }
+
+        private void MinimizeClicked(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void AboutClicked(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Check out https://github.com/idvorkin/onom");
+        }
+
     }
 }
