@@ -59,12 +59,21 @@ namespace OnenoteCapabilities
             currentDomain.UnhandledException += new UnhandledExceptionEventHandler(ReportAndCreateCrashDumpExceptionHandler);
         }
 
-        static void ReportAndCreateCrashDumpExceptionHandler(object sender, UnhandledExceptionEventArgs e)
+        private static void ReportAndCreateCrashDumpExceptionHandler(object sender, UnhandledExceptionEventArgs e)
         {
-            MessageBox.Show(e.ExceptionObject.ToString(), "Unhandled Exception - Will Also produce Crash Dump");
-            var tempFileName = Path.GetTempFileName()+".dmp";
-            CrashDumpWriter.WriteFullDump(tempFileName);
-            MessageBox.Show(tempFileName, "Crash Dump Location");
+            var result = MessageBox.Show(e.ExceptionObject.ToString(), "Unhandled Exception - Write a crash dump?",
+                MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.Yes)
+            {
+                var tempFileName = Path.GetTempFileName() + "_onom.dmp";
+                CrashDumpWriter.WriteFullDump(tempFileName);
+                MessageBox.Show(tempFileName, "Crash Dump Location");
+            }
+            else
+            {
+                MessageBox.Show("Crash dump creation skipped");
+            }
         }
     }
 }
