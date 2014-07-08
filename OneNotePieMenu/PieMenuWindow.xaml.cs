@@ -55,7 +55,10 @@ namespace OneNotePieMenu
             // without the if statement on the control key, the window will eat the mouse clicks, and the pie menu clicks will not occur.
             // Surprisingly, C-Click only works if i'm within the window but not on a pie menu.
             base.OnMouseLeftButtonDown(e);
-            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+
+            var point = e.MouseDevice.GetPosition(this.Menu1);
+            var isOnMenu = this.Menu1.IsMenuRelativePointOnMenu(point);
+            if (!isOnMenu)
             {
                 this.DragMove();
             }
