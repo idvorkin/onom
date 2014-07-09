@@ -175,7 +175,7 @@ namespace OneNotePieMenu
 
             var page = capabilities.ona.GetNotebook(capabilities.SettingsTopicPages.TopicNotebook)
                 .PopulatedSection(capabilities.ona, capabilities.SettingsTopicPages.TopicSection)
-                .Page.FirstOrDefault(p => p.name == pageTitle);
+                .GetPage(capabilities.ona, pageTitle);
             if (page != null)
             {
                 capabilities.ona.OneNoteApplication.NavigateTo(page.ID);
