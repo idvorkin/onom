@@ -64,6 +64,20 @@ namespace OneNoteObjectModelTests
         }
 
         [Test]
+        public void SectionDotGetPageTests()
+        {
+            var sectionName = Guid.NewGuid().ToString() + "GetPageTest";
+            var newSection = ona.CreateSection(tempNotebook, sectionName);
+
+            // should throw because page isn't present.
+            Assert.Throws<InvalidOperationException>(() => newSection.GetPage(ona, "nonExistantPage"));
+
+            var createdPage = ona.CreatePage(newSection, "newPage");
+            var gottenPage = newSection.GetPage(ona, pageName: createdPage.name);
+            Assert.That(createdPage.name, Is.EqualTo(gottenPage.name));
+        }
+
+        [Test]
         public void ListNoteBooks()
         {
             var notebooks = ona.GetNotebooks();
