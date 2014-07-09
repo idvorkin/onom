@@ -218,5 +218,10 @@ namespace OneNotePieMenu
             MessageBox.Show("Check out https://github.com/idvorkin/onom");
         }
 
+        private void ExitClicked(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
     }
 }
