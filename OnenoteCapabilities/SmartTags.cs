@@ -49,7 +49,7 @@ namespace OnenoteCapabilities
             this.smartTagStorageSection = smartTagNotebook.PopulatedSection(ona,settings.SmartTagStorageSection);
 
             var templateNoteBook = ona.GetNotebook(settings.TemplateNotebook);
-            this.smartTagTemplatePage = templateNoteBook.PopulatedSection(ona, settings.TemplateSection).Page.First(p => p.name == this.settings.SmartTagTemplateName);
+            this.smartTagTemplatePage = templateNoteBook.PopulatedSection(ona, settings.TemplateSection).GetPage(ona, this.settings.SmartTagTemplateName);
         }
         public IEnumerable<SmartTag> GetUnProcessedSmartTags(XDocument pageContent)
         {

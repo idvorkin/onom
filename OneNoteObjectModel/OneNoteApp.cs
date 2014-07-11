@@ -206,6 +206,42 @@ namespace OneNoteObjectModel
             }
         }
 
+        // Note - PERF: We are not re-storing the refreshed section, so a non-existant page results in a re-evaluation of the section every time.
+        // When performance optimizing need to cache the hierarchy and re-evalute it as needed.
+
+        public static Page GetPage(this  Section section, OneNoteApp ona, string pageName)
+        {
+            if (section.Page != null)
+            {
+                var page = section.Page.FirstOrDefault(p => p.name == pageName);
+                if (page != default(Page))
+                {
+                    // found the page return it.
+                    return page;
+                }
+            }
+
+            // it's possible our section object is stale because we created pages since we cached the section object.
+            try
+            {
+                var refreshedSection = OneNoteApp.XMLDeserialize<Section>(ona.GetHierarchy(section.ID,HierarchyScope.hsPages));
+                return refreshedSection.Page.First(s=>s.name == pageName);
+            }
+            catch (Exception e)
+            {
+                var noPagesPresent = e is  ArgumentNullException;
+                var pageNotePresent = e is InvalidOperationException;
+                if (noPagesPresent || pageNotePresent)
+                {
+                    throw new InvalidOperationException(
+                        String.Format("Could not find Page:{0} in section:{1}", pageName, section.name), e);
+                }
+
+                // unknown problem - rethrow.
+                throw;
+            }
+        }
+
         /// <summary>
         ///  Test if a section is the default section added by the onenote applications.
         /// <returns></returns>

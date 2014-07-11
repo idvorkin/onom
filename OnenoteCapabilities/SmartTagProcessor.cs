@@ -37,11 +37,12 @@ namespace OnenoteCapabilities
         public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter)
         {
             var todayPageTitle = settings.DayPageTitleFromDate(DateTime.UtcNow);
-            var dailyPage = dailySection.Page.First(p => p.name == todayPageTitle);
+            var dailyPage = dailySection.GetPage(ona, todayPageTitle);
             var dailyPageContent = ona.GetPageContentAsXDocument(dailyPage);
 
             // HACK: Need to find the table of interest with a better method.
-            var hackTableToAddTasksTo = 4;
+            // table 0 is the tasks table which is at the top of the page. If it moves down the table number changes - GROAN.
+            var hackTableToAddTasksTo = 0;
 
             DumbTodo.AddToPageFromDateEnableSmartTag(smartTagAugmenter.ona, dailyPageContent, smartTag, tableOnPage:hackTableToAddTasksTo);
 
@@ -81,7 +82,7 @@ namespace OnenoteCapabilities
 
             // get PersonPage 
 
-            var peoplePage = peopleSection.Page.First(p => p.name == personPageTitle);
+            var peoplePage = peopleSection.GetPage(ona,personPageTitle);
             var peoplePageContent = ona.GetPageContentAsXDocument(peoplePage);
 
             const int toPersonTableCountOnPage = 0;
