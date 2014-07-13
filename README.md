@@ -22,7 +22,7 @@ Onenote pie menu exposes multiple capabilities via a touch friendly UX. The curr
 * Topic Pages - A least recently used
 * Augmentation - Augment data in OneNote. This is primarily used for smartTags. 
 
-![](https://farm4.staticflickr.com/3913/14401347547_899eedb049.jpg)
+![](https://farm4.staticflickr.com/3913/14401347547_899eedb049_c.jpg)
 
 LinqPad Snippets:
 ====
