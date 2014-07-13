@@ -1,1 +1,1 @@
-OneNotePieMenu\bin\Debug\* \bin_drop 
+xcopy OneNotePieMenu\bin\Debug\* \bin_drop 
