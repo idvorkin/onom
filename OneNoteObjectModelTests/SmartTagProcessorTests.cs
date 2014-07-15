@@ -81,8 +81,8 @@ namespace OneNoteObjectModelTests
             var p = ona.CreatePage(defaultSection, Guid.NewGuid().ToString());
 
             // the copied page has a PageID, replace it with PageID from the newly created page.
-            var filledInPage = string.Format(_smartTagTestsPageConent.pageWithOneProcessedAndOneUnProcessedSmartTag, p.ID, p.name);
-            this.pageContent = XDocument.Parse(filledInPage);
+            var filledInPageHeader = string.Format(_smartTagTestsPageConent.pageWithOneProcessedAndOneUnProcessedSmartTagHeader, p.ID, p.name);
+            this.pageContent = XDocument.Parse(filledInPageHeader+ _smartTagTestsPageConent.pageWithOneProcessedAndOneUnProcessedSmartTagBody);
             ona.OneNoteApplication.UpdatePageContent(pageContent.ToString());
 
             this.smartTagAugmenter = new SmartTagAugmenter(ona, _settingsSmartTags, new List<ISmartTagProcessor>());
@@ -101,26 +101,29 @@ namespace OneNoteObjectModelTests
         [Test]
         public void EnumerateSmartTags()
         {
-            var smartTags = smartTagAugmenter.GetUnProcessedSmartTags(pageContent);
-            Assert.That(smartTags.Count() == 1);
-            Assert.That(smartTags.All(st => !st.IsProcessed()));
+            var smartTags = smartTagAugmenter.GetSmartTags(pageContent);
+            Assert.That(smartTags.Count(), Is.EqualTo(2));
+            Assert.That(smartTags.Count(st => st.IsProcessed()), Is.EqualTo(1));
         }
 
         [Test]
         public void TestAugmentPage()
         {
-            var smartTag = smartTagAugmenter.GetUnProcessedSmartTags(this.pageContent).First();
-            Assert.That(!smartTag.IsProcessed());
+            var smartTags = smartTagAugmenter.GetSmartTags(this.pageContent);
+            Assert.That(smartTags.Count(), Is.EqualTo(2));
+            Assert.That(smartTags.Count(st => st.IsProcessed()), Is.EqualTo(1));
+
             this.smartTagAugmenter.AugmentPage(ona,pageContent);
 
-            var smartTags = smartTagAugmenter.GetUnProcessedSmartTags(this.pageContent);
-            Assert.That(!smartTags.Any());
+            var smartTagsPostAugement = smartTagAugmenter.GetSmartTags(this.pageContent);
+            Assert.That(smartTagsPostAugement.Count(), Is.EqualTo(2));
+            Assert.That(smartTagsPostAugement.All(st => st.IsProcessed()));
         }
 
         [Test]
         public void ProcessSmartTagAndLinkToOneNotePage()
         {
-            var smartTag = smartTagAugmenter.GetUnProcessedSmartTags(this.pageContent).First();
+            var smartTag = smartTagAugmenter.GetSmartTags(this.pageContent).First(st=>!st.IsProcessed());
             Assert.That(!smartTag.IsProcessed());
 
             // Brittle test, manually executing augmentation.
@@ -132,7 +135,7 @@ namespace OneNoteObjectModelTests
         [Test]
         public void ProcessSmartTagAndLinkToURI()
         {
-            var smartTag = smartTagAugmenter.GetUnProcessedSmartTags(this.pageContent).First();
+            var smartTag = smartTagAugmenter.GetSmartTags(this.pageContent).First(st=>!st.IsProcessed());
             Assert.That(!smartTag.IsProcessed());
             smartTagAugmenter.AddToModel(smartTag,this.pageContent);
             Assert.That(smartTag.IsProcessed());
