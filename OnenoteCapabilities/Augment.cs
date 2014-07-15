@@ -8,9 +8,16 @@ using OneNoteObjectModel;
 
 namespace OnenoteCapabilities
 {
+    public class OneNotePageCursor
+    {
+        public string PageId;
+        public string SectionId;
+        public string SectionGroupId;
+        public string NotebookId;
+    }
     public interface IPageAugmenter
     {
-        void AugmentPage(OneNoteApp ona, XDocument pageContentInXml);
+        void AugmentPage(OneNoteApp ona, XDocument pageContentInXml, OneNotePageCursor cursor );
     }
 
 
@@ -31,11 +38,20 @@ namespace OnenoteCapabilities
 
         public void AugmentCurrentPage()
         {
-            var currentPageId = ona.OneNoteApplication.Windows.CurrentWindow.CurrentPageId;
-            var pageContentInXML = ona.GetPageContentAsXDocument(currentPageId);
+            var currentWindow = ona.OneNoteApplication.Windows.CurrentWindow;
+            var currentLocation = new OneNotePageCursor()
+            {
+                PageId = currentWindow.CurrentPageId,
+                SectionId = currentWindow.CurrentSectionId,
+                SectionGroupId = currentWindow.CurrentSectionGroupId,
+                NotebookId = currentWindow.CurrentNotebookId,
+            };
+
+            var pageContentInXML = ona.GetPageContentAsXDocument(currentLocation.PageId);
+
             foreach (var pageAugmentor in pageAugmentors)
             {
-                pageAugmentor.AugmentPage(ona,pageContentInXML);
+                pageAugmentor.AugmentPage(ona,pageContentInXML, currentLocation);
             }
         }
     }

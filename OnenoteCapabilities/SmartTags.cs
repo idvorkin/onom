@@ -91,13 +91,13 @@ namespace OnenoteCapabilities
            return isRegularMatch || isAugmentedMatch;
         }
 
-        public void AugmentPage(OneNoteApp ona, XDocument pageContent)
+        public void AugmentPage(OneNoteApp ona, XDocument pageContent, OneNotePageCursor cursor)
         {
             var smartTags = GetSmartTags(pageContent);
             foreach (var smartTag in smartTags.Where(st=>!st.IsProcessed()))
             {
                 AddToModel(smartTag, pageContent);
-                ProcessSmartTag(smartTag, pageContent);
+                ProcessSmartTag(smartTag, pageContent, cursor);
             }
         }
 
@@ -214,13 +214,13 @@ namespace OnenoteCapabilities
                 new XAttribute(XNamespace.Xmlns + "one", one));
         }
 
-        private void ProcessSmartTag(SmartTag smartTag, XDocument pageContent)
+        private void ProcessSmartTag(SmartTag smartTag, XDocument pageContent, OneNotePageCursor cursor)
         {
             foreach (var tagProcessor in smartTagProcessors)
             {
-                if (tagProcessor.ShouldProcess(smartTag))
+                if (tagProcessor.ShouldProcess(smartTag, cursor))
                 {
-                    tagProcessor.Process(smartTag,pageContent, this);
+                    tagProcessor.Process(smartTag,pageContent, this, cursor);
                     break;
                 }
             }

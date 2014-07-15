@@ -17,12 +17,12 @@ namespace OnenoteCapabilities
         private static readonly string SearchUrlFormatter = @"Wikipedia information not found for topic. <br /><a href='http://en.wikipedia.org/wiki/Special:Search?search={0}'>Search Wikipedia for '{0}'.</a>";
         private static readonly string FirstParagraphPattern = @"<p>.+<\/p>";
 
-        public bool ShouldProcess(SmartTag st)
+        public bool ShouldProcess(SmartTag st, OneNotePageCursor cursor)
         {
             return st.TagName().Equals("info", StringComparison.InvariantCultureIgnoreCase);
         }
 
-        public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter)
+        public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter, OneNotePageCursor cursor)
         {
             var search = smartTag.TextAfterTag();
             var info = GetWikipediaExtract(search);

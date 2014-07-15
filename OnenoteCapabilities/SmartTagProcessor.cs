@@ -11,8 +11,8 @@ namespace OnenoteCapabilities
     public interface ISmartTagProcessor
     {
         // TBD:Ensure matching functions don't overlap (easy source of bugs)
-        bool ShouldProcess(SmartTag st);
-        void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter);
+        bool ShouldProcess(SmartTag st, OneNotePageCursor cursor);
+        void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter, OneNotePageCursor cursor);
     }
 
     public class DailySmartTagProcessor : ISmartTagProcessor
@@ -29,12 +29,12 @@ namespace OnenoteCapabilities
                 .PopulatedSection(ona, settings.DailyPagesSection);
 
         }
-        public bool ShouldProcess(SmartTag st)
+        public bool ShouldProcess(SmartTag st, OneNotePageCursor cursor)
         {
             return (st.TagName() == "today");
         }
 
-        public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter)
+        public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter, OneNotePageCursor cursor)
         {
             var todayPageTitle = settings.DayPageTitleFromDate(DateTime.Now);
             var dailyPage = dailySection.GetPage(ona, todayPageTitle);
@@ -55,6 +55,8 @@ namespace OnenoteCapabilities
         }
     }
 
+    // NOTE: I'm hardcoding this today to get something working experimently. I'll hack on it once I make some progress.
+
     public class PeopleSmartTagProcessor : ISmartTagProcessor
     {
         private SettingsPeoplePages settings;
@@ -69,13 +71,13 @@ namespace OnenoteCapabilities
                 .PopulatedSection(ona, settings.PeoplePagesSection);
         }
 
-        public bool ShouldProcess(SmartTag st)
+        public bool ShouldProcess(SmartTag st, OneNotePageCursor cursor)
         {
             if (settings.People().Contains(personFromPersonTag(st))) return true;
             return false;
         }
 
-        public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter)
+        public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter, OneNotePageCursor cursor)
         {
             // TODO: Create Person Page if not Exists.
             var personPageTitle = settings.PersonNextTitle(personFromPersonTag(smartTag));
@@ -132,13 +134,13 @@ namespace OnenoteCapabilities
             this.templatePageCreater = new TemplatePageCreator(ona, settings.TemplateNotebook, settings.TemplateSection, settings.TopicNotebook, settings.TopicSection);
             this.settings = settings;
         }
-        public bool ShouldProcess(SmartTag st)
+        public bool ShouldProcess(SmartTag st, OneNotePageCursor cursor)
         {
             // Topic Processor should be added last because it will always make a smarttag.
             return true;
         }
 
-        public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter)
+        public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter, OneNotePageCursor cursor)
         {
             // Create Topic Page of name 
             var topicPageName = smartTag.TagName();

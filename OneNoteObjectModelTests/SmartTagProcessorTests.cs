@@ -113,7 +113,7 @@ namespace OneNoteObjectModelTests
             Assert.That(smartTags.Count(), Is.EqualTo(2));
             Assert.That(smartTags.Count(st => st.IsProcessed()), Is.EqualTo(1));
 
-            this.smartTagAugmenter.AugmentPage(ona,pageContent);
+            this.smartTagAugmenter.AugmentPage(ona,pageContent, new OneNotePageCursor());
 
             var smartTagsPostAugement = smartTagAugmenter.GetSmartTags(this.pageContent);
             Assert.That(smartTagsPostAugement.Count(), Is.EqualTo(2));

@@ -29,6 +29,7 @@ namespace OneNoteMenu
                 new WikipediaSmartTagProcessor(), 
                 new PeopleSmartTagProcessor(ona, SettingsPeoplePages), 
                 new DailySmartTagProcessor(ona,SettingsDailyPages),
+                new PeopleAgendaSmartTagProcessor(ona,SettingsPeoplePages),
                 // Topic smarttag processor needs to go last as it will create a topic page for any un-processed tag.
                 new TopicSmartTagTopicProcessor(ona, SettingsTopicPages)
             };

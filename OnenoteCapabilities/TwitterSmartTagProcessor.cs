@@ -9,12 +9,12 @@ namespace OnenoteCapabilities
     /// </summary>
     public class TwitterSmartTagProcessor : ISmartTagProcessor
     {
-        public bool ShouldProcess(SmartTag st)
+        public bool ShouldProcess(SmartTag st, OneNotePageCursor cursor)
         {
             return st.TagName().ToLower() == "tweet";
         }
 
-        public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter)
+        public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter, OneNotePageCursor cursor)
         {
             TweetString(smartTag.TextAfterTag());
             smartTagAugmenter.AddLinkToSmartTag(smartTag, pageContent, new Uri("http://twitter.com/onenotehat"));
