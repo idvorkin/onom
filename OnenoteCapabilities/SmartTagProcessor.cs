@@ -36,7 +36,7 @@ namespace OnenoteCapabilities
 
         public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter)
         {
-            var todayPageTitle = settings.DayPageTitleFromDate(DateTime.UtcNow);
+            var todayPageTitle = settings.DayPageTitleFromDate(DateTime.Now);
             var dailyPage = dailySection.GetPage(ona, todayPageTitle);
             var dailyPageContent = ona.GetPageContentAsXDocument(dailyPage);
 
