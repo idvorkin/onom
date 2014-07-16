@@ -107,7 +107,7 @@ namespace OneNoteObjectModelTests
         private TemporaryNoteBookHelper _templateNotebook;
         private SettingsSmartTags _settingsSmartTags;
         private readonly SmartTagTestsPageConent _smartTagTestsPageConent = new SmartTagTestsPageConent();
-    private OneNotePageCursor _cursor;
+        private OneNotePageCursor _cursor;
 
     [Test]
         public void EnumerateSmartTags()

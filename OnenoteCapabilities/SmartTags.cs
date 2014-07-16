@@ -40,6 +40,7 @@ namespace OnenoteCapabilities
             return String.Join(" ", this.FullText.Split(' ').Skip(1));
         }
     }
+
     public class SmartTagAugmenter:IPageAugmenter
     {
         public SmartTagAugmenter(OneNoteApp ona, SettingsSmartTags settings,IEnumerable<ISmartTagProcessor> smartTagProcessors)
@@ -81,7 +82,7 @@ namespace OnenoteCapabilities
                 ModelPageId = extraIdMatch.Success ? extraIdMatch.Groups[1].Value : "",
                 FullText = fullTextMatch.Groups[1].Value,
                 SmartTagElementInDocument = element,
-                CursorLocation = null
+                CursorLocation = cursor,
             };
 
         }
@@ -151,7 +152,7 @@ namespace OnenoteCapabilities
             ona.OneNoteApplication.UpdatePageContent(pageContentInXML.ToString());
         }
 
-        private string OneNoteLinkToPage(string pageName, Section section, string extraId="")
+        public static string OneNoteLinkToPage(string pageName, Section section, string extraId="")
         {
             var embedLinkToModelPage = string.Format("onenote:#{0}&base-path={1}", pageName, section.path);
             if (!String.IsNullOrEmpty(extraId))

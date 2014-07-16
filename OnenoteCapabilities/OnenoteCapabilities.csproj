@@ -105,6 +105,7 @@
     <Compile Include="SettingsDailyPages.cs" />
     <Compile Include="SmartTagProcessor.cs" />
     <Compile Include="SmartTags.cs" />
+    <Compile Include="SmartTodoAugmenter.cs" />
     <Compile Include="TemplatePageCreator.cs" />
     <Compile Include="TwitterSmartTagProcessor.cs" />
     <Compile Include="WikipediaSmartTagProcessor.cs" />

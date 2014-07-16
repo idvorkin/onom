@@ -62,13 +62,16 @@ namespace OnenoteCapabilities
         {
             var parsedDate = HumanizedDateParser.ParseDateAtEndOfSentance(smartTag.TextAfterTag());
 
+            // HACK - TBD Design this.
+            var smartTodoPrefix = SmartTodoAugmenter.CreateSmartTodoLink(ona, smartTag);
+
             if (parsedDate.Parsed)
             {
-                DumbTodo.AddToPage(ona, pageContent, parsedDate.SentanceWithoutDate, parsedDate.date, tableOnPage);
+                DumbTodo.AddToPage(ona, pageContent, smartTodoPrefix+parsedDate.SentanceWithoutDate, parsedDate.date, tableOnPage);
             }
             else
             {
-                DumbTodo.AddToPage(ona, pageContent, smartTag.TextAfterTag(), tableOnPage:tableOnPage);
+                DumbTodo.AddToPage(ona, pageContent, smartTodoPrefix+smartTag.TextAfterTag(), tableOnPage:tableOnPage);
             }
         }
     }

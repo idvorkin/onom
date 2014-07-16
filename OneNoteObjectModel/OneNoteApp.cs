@@ -182,6 +182,16 @@ namespace OneNoteObjectModel
             var rhsID = rhs.DescendantNodes().OfType<XElement>().Where(e => e.Name.LocalName == "Page").Attributes("ID").First();
             return lhsID.Value == rhsID.Value;
         }
+
+        public static string OneNoteLinkToPage(string pageName, Section section, string extraId="")
+        {
+            var embedLinkToModelPage = String.Format("onenote:#{0}&base-path={1}", pageName, section.path);
+            if (!String.IsNullOrEmpty(extraId))
+            {
+                embedLinkToModelPage += "&extraId=" + extraId;
+            }
+            return embedLinkToModelPage;
+        }
     }
     public static class ExtensionMethods
     {
