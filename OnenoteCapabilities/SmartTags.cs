@@ -23,6 +23,7 @@ namespace OnenoteCapabilities
         public string ModelPageId; // null if not set.
         public string FullText;
         public XElement SmartTagElementInDocument;
+        public OneNotePageCursor CursorLocation;
 
         // When we've processed a smart-tag we set its GUID back to onenote.
         public bool IsProcessed()
@@ -55,7 +56,7 @@ namespace OnenoteCapabilities
             var templateNoteBook = ona.GetNotebook(settings.TemplateNotebook);
             this.smartTagTemplatePage = templateNoteBook.PopulatedSection(ona, settings.TemplateSection).GetPage(ona, this.settings.SmartTagTemplateName);
         }
-        public IEnumerable<SmartTag> GetSmartTags(XDocument pageContent)
+        public IEnumerable<SmartTag> GetSmartTags(XDocument pageContent, OneNotePageCursor cursor)
         {
             var possibleSmartTags = pageContent.DescendantNodes().OfType<XElement>()
                 .Where(r => r.Name.LocalName == "T" && !string.IsNullOrWhiteSpace(r.Value))
@@ -64,10 +65,10 @@ namespace OnenoteCapabilities
             return possibleSmartTags
                 .Select(t => new {element = t, elementText = t.Value})
                 .Where(x => IsSmartTag(x.elementText))
-                .Select(x=>SmartTagFromElement(x.elementText,x.element));
+                .Select(x=>SmartTagFromElement(x.elementText,x.element, cursor));
        }
 
-        public static SmartTag SmartTagFromElement(string elementText, XElement element)
+        public static SmartTag SmartTagFromElement(string elementText, XElement element, OneNotePageCursor cursor)
         {
             var isCompleteMatcher = "text-decoration:line-through";
             
@@ -79,7 +80,8 @@ namespace OnenoteCapabilities
                 IsComplete = Regex.IsMatch(elementText, isCompleteMatcher),
                 ModelPageId = extraIdMatch.Success ? extraIdMatch.Groups[1].Value : "",
                 FullText = fullTextMatch.Groups[1].Value,
-                SmartTagElementInDocument = element
+                SmartTagElementInDocument = element,
+                CursorLocation = null
             };
 
         }
@@ -93,7 +95,7 @@ namespace OnenoteCapabilities
 
         public void AugmentPage(OneNoteApp ona, XDocument pageContent, OneNotePageCursor cursor)
         {
-            var smartTags = GetSmartTags(pageContent);
+            var smartTags = GetSmartTags(pageContent, cursor);
             foreach (var smartTag in smartTags.Where(st=>!st.IsProcessed()))
             {
                 AddToModel(smartTag, pageContent);

@@ -15,6 +15,13 @@ namespace OneNoteObjectModelTests
     [TestFixture]
     public class SmartTagXMLProcessingTests
     {
+        public SmartTagXMLProcessingTests()
+        {
+            _cursor = new OneNotePageCursor();
+        }
+
+        private OneNotePageCursor _cursor;
+
         [Test] 
         public void TestNotTag()
         {
@@ -28,7 +35,7 @@ namespace OneNoteObjectModelTests
             var unprocessedTag = "#unprocessedTag Tag2";
             Assert.That(SmartTagAugmenter.IsSmartTag(unprocessedTag));
 
-            var st = SmartTagAugmenter.SmartTagFromElement(unprocessedTag,null);
+            var st = SmartTagAugmenter.SmartTagFromElement(unprocessedTag,null, _cursor);
             Assert.That(st.TextAfterTag(), Is.EqualTo("Tag2"));
             Assert.That(st.TagName() , Is.EqualTo("unprocessedTag"));
         }
@@ -39,7 +46,7 @@ namespace OneNoteObjectModelTests
             var unprocessedTag = "#unprocessedTag Tag2 - ! , fad|";
             Assert.That(SmartTagAugmenter.IsSmartTag(unprocessedTag));
 
-            var st = SmartTagAugmenter.SmartTagFromElement(unprocessedTag,null);
+            var st = SmartTagAugmenter.SmartTagFromElement(unprocessedTag,null, _cursor);
             Assert.That(st.TextAfterTag(), Is.EqualTo("Tag2 - ! , fad|"));
             Assert.That(st.TagName() , Is.EqualTo("unprocessedTag"));
         }
@@ -49,7 +56,9 @@ namespace OneNoteObjectModelTests
 [TestFixture]
     public class SmartTagProcessorTests
     {
-        private TemporaryNoteBookHelper smartTagNoteBook;
+
+
+    private TemporaryNoteBookHelper smartTagNoteBook;
         private OneNoteApp ona;
 
         [SetUp]
@@ -85,6 +94,7 @@ namespace OneNoteObjectModelTests
             this.pageContent = XDocument.Parse(filledInPageHeader+ _smartTagTestsPageConent.pageWithOneProcessedAndOneUnProcessedSmartTagBody);
             ona.OneNoteApplication.UpdatePageContent(pageContent.ToString());
 
+            _cursor = new OneNotePageCursor();
             this.smartTagAugmenter = new SmartTagAugmenter(ona, _settingsSmartTags, new List<ISmartTagProcessor>());
         }
 
@@ -97,11 +107,12 @@ namespace OneNoteObjectModelTests
         private TemporaryNoteBookHelper _templateNotebook;
         private SettingsSmartTags _settingsSmartTags;
         private readonly SmartTagTestsPageConent _smartTagTestsPageConent = new SmartTagTestsPageConent();
+    private OneNotePageCursor _cursor;
 
-        [Test]
+    [Test]
         public void EnumerateSmartTags()
         {
-            var smartTags = smartTagAugmenter.GetSmartTags(pageContent);
+            var smartTags = smartTagAugmenter.GetSmartTags(pageContent, _cursor);
             Assert.That(smartTags.Count(), Is.EqualTo(2));
             Assert.That(smartTags.Count(st => st.IsProcessed()), Is.EqualTo(1));
         }
@@ -109,13 +120,13 @@ namespace OneNoteObjectModelTests
         [Test]
         public void TestAugmentPage()
         {
-            var smartTags = smartTagAugmenter.GetSmartTags(this.pageContent);
+            var smartTags = smartTagAugmenter.GetSmartTags(this.pageContent, _cursor);
             Assert.That(smartTags.Count(), Is.EqualTo(2));
             Assert.That(smartTags.Count(st => st.IsProcessed()), Is.EqualTo(1));
 
             this.smartTagAugmenter.AugmentPage(ona,pageContent, new OneNotePageCursor());
 
-            var smartTagsPostAugement = smartTagAugmenter.GetSmartTags(this.pageContent);
+            var smartTagsPostAugement = smartTagAugmenter.GetSmartTags(this.pageContent, _cursor);
             Assert.That(smartTagsPostAugement.Count(), Is.EqualTo(2));
             Assert.That(smartTagsPostAugement.All(st => st.IsProcessed()));
         }
@@ -123,7 +134,7 @@ namespace OneNoteObjectModelTests
         [Test]
         public void ProcessSmartTagAndLinkToOneNotePage()
         {
-            var smartTag = smartTagAugmenter.GetSmartTags(this.pageContent).First(st=>!st.IsProcessed());
+            var smartTag = smartTagAugmenter.GetSmartTags(this.pageContent, _cursor).First(st=>!st.IsProcessed());
             Assert.That(!smartTag.IsProcessed());
 
             // Brittle test, manually executing augmentation.
@@ -135,7 +146,7 @@ namespace OneNoteObjectModelTests
         [Test]
         public void ProcessSmartTagAndLinkToURI()
         {
-            var smartTag = smartTagAugmenter.GetSmartTags(this.pageContent).First(st=>!st.IsProcessed());
+            var smartTag = smartTagAugmenter.GetSmartTags(this.pageContent, _cursor).First(st=>!st.IsProcessed());
             Assert.That(!smartTag.IsProcessed());
             smartTagAugmenter.AddToModel(smartTag,this.pageContent);
             Assert.That(smartTag.IsProcessed());
