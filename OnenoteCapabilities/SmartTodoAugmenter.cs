@@ -24,11 +24,12 @@ namespace OnenoteCapabilities
             // d["ParentModelId"] = smartTag.ModelPageId;
 
             // TODO Suck out section without doing getheirarchy in the future.
-            var sectionAsXML = ona.GetHierarchy(smartTag.CursorLocation.SectionId, HierarchyScope.hsPages);
+            var sectionAsXML = ona.GetHierarchy(smartTag.CursorLocation.SectionId, HierarchyScope.hsSelf);
             var section = OneNoteApp.XMLDeserialize<Section>(sectionAsXML);
-            var pageName = section.Page.First(p => p.ID == smartTag.CursorLocation.PageId).name;
+            var pageAsXML = ona.GetHierarchy(smartTag.CursorLocation.PageId, HierarchyScope.hsSelf);
+            var page = OneNoteApp.XMLDeserialize<Page>(pageAsXML);
 
-            string linkToParentPage = OneNoteApp.OneNoteLinkToPage(pageName, section);
+            string linkToParentPage = OneNoteApp.OneNoteLinkToPage(page.name, section);
             var smartTodoXML = String.Format(smartTodoTemplate, ToQueryString(d), linkToParentPage);
             return smartTodoXML;
         }

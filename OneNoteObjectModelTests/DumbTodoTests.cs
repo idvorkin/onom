@@ -25,6 +25,12 @@ namespace OneNoteObjectModelTests
             var filledInPage = string.Format(pageWithTwoDumbTodoTables, page.ID, page.name);
             this.pageContent = XDocument.Parse(filledInPage);
             ona.OneNoteApplication.UpdatePageContent(pageContent.ToString());
+            this.pageLocation = new OneNotePageCursor()
+            {
+                NotebookId = _scratchNotebook.Get().ID,
+                SectionId = tempSection.ID,
+                PageId = page.ID
+            };
         }
 
         // TODO: Come up with a better template for such tests.
@@ -167,6 +173,7 @@ namespace OneNoteObjectModelTests
         private XDocument pageContent;
         private TemporaryNoteBookHelper _scratchNotebook;
         private Section tempSection;
+        private OneNotePageCursor pageLocation;
 
         [Test]
         public void TestPageTemplateIsValid()
@@ -198,12 +205,14 @@ namespace OneNoteObjectModelTests
         {
             var smartTag = new SmartTag()
             {
-                FullText = "#hello this is a todo"
+                FullText = "#hello this is a todo",
+                CursorLocation = pageLocation
             };
 
             var smartTagWithDate = new SmartTag()
             {
-                FullText = "#hello this is a todo next week"
+                FullText = "#hello this is a todo next week",
+                CursorLocation = pageLocation
             };
 
 
