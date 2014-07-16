@@ -46,6 +46,9 @@ namespace OnenoteCapabilities
                 return;
             }
 
+            // HACK: refresh section  - need a better answer for this. 
+            this.peopleSection = ona.GetNotebook(settings.PeoplePagesNotebook).PopulatedSection(ona, settings.PeoplePagesSection);
+
             // TOTAL Hack - find my parent page
             var personNextPage = peopleSection.Page.First(p => p.name == personName + ":Next");
 
