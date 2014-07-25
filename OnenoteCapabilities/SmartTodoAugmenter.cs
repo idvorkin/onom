@@ -14,12 +14,20 @@ namespace OnenoteCapabilities
 {
     public class SmartTodoAugmenter:IPageAugmenter
     {
-        struct SmartTodo
+        public struct SmartTodo
         {
             public bool Processed;
             public string ParentPageId;
             public string ParentModelId;
             public bool IsCompleted;
+            public XElement Element;
+            public XDocument PageContent;
+
+
+            public void SetProcessed(OneNoteApp ona)
+            {
+                throw new NotImplementedException();
+            }
         }
         public static string CreateSmartTodoLink(OneNoteApp ona, SmartTag smartTag)
         {
@@ -40,10 +48,10 @@ namespace OnenoteCapabilities
 
         // HACK: Should have two functions, 1 testing for completion, and another parsing the TODO link.
         //      In the MVP these will be merged.
-        private static SmartTodo CreateFromXMLElementText(string s)
+        public static SmartTodo CreateFromXmlElement(XElement e)
         {
             // Hack - this understands how create SmartTodo works - add to helper function.
-            var matches = Regex.Match(s, "http://smarttodo?(.*)\\>.<a/>");
+            var matches = Regex.Match(e.Value, "http://smarttodo?(.*)\\>.<a/>");
             var queryString = matches.Groups[0].Value;
             var smartTodoParams =  HttpUtility.ParseQueryString(queryString);
 
@@ -67,7 +75,7 @@ namespace OnenoteCapabilities
                 .OfType<XElement>()
                 .Where(r => r.Name.LocalName == "T" && r.Value.Contains("http://smartTodo"));
 
-            var smartTodos = smartTodoElements.Select(e=>CreateFromXMLElementText(e.Value));
+            var smartTodos = smartTodoElements.Select(CreateFromXmlElement);
 
             var smartTodosToProcess =  smartTodos.Where(st=>st.Processed == false && st.IsCompleted).ToList();
 
@@ -78,6 +86,7 @@ namespace OnenoteCapabilities
 
             foreach (var smartTodo in smartTodosToProcess)
             {
+                smartTodo.SetProcessed(ona);
                 // TODO: Add TEST for missing page.
                 var sourcePageContent = ona.GetPageContentAsXDocument(smartTodo.ParentPageId);
                 var smartTagsOnSourcePage = SmartTag.Get(sourcePageContent, cursor);
@@ -88,12 +97,7 @@ namespace OnenoteCapabilities
                 {
                     continue;
                 }
-
-                MarkSmartTagAsCompleteInPageContent(smartTag, sourcePageContent);
-                ona.OneNoteApplication.UpdatePageContent(sourcePageContent.ToString());
-
-                //
-                MarkSmartTodoAsProcessedInPageContent(smartTodo, pageContentInXml);
+                smartTag.SetCompleted(ona);
             }
 
             // smartTodo was processed, update the processed flags.
