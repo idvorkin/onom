@@ -121,7 +121,7 @@ namespace OnenoteCapabilities
             var page = OneNoteApp.XMLDeserialize<Page>(pageContent.ToString());
 
             // TODO: Make this hyper-link.
-            var creationText = String.Format("Instantiated from augmentation of page '{0}'", page.name);
+            var creationText = String.Format("Instantiated model from tag '{1}' on page '{0}' with tag text:{2}", page.name, smartTag.TagName(),smartTag.TextAfterTag());
             DumbTodo.AddToPage(ona,modelPageContent, creationText, DateTime.Now);
         }
 
