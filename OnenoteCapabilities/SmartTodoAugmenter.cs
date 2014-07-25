@@ -15,7 +15,6 @@ namespace OnenoteCapabilities
         public static string CreateSmartTodoLink(OneNoteApp ona, SmartTag smartTag)
         {
             // should look like |__| where the first | encodes the important information and __ is a hyper link to the parent.
-            var smartTodoTemplate = "<a href=http://smartTodo?{0}>.</a><a href={1}>&lt;---</a>";
             var d = new Dictionary<string, string>();
             d["Processed"] = Boolean.FalseString;
             d["ParentPageId"] = smartTag.CursorLocation.PageId;
@@ -30,6 +29,7 @@ namespace OnenoteCapabilities
             var page = OneNoteApp.XMLDeserialize<Page>(pageAsXML);
 
             string linkToParentPage = OneNoteApp.OneNoteLinkToPage(page.name, section);
+            var smartTodoTemplate = "<a href={1}>&lt;---</a><a href=http://smartTodo?{0}>.</a> ";
             var smartTodoXML = String.Format(smartTodoTemplate, ToQueryString(d), linkToParentPage);
             return smartTodoXML;
         }
