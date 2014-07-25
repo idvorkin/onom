@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using System.Web;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Microsoft.Office.Interop.OneNote;
@@ -12,27 +14,48 @@ namespace OnenoteCapabilities
 {
     public class SmartTodoAugmenter:IPageAugmenter
     {
+        struct SmartTodo
+        {
+            public bool Processed;
+            public string ParentPageId;
+            public string ParentModelId;
+            public bool IsCompleted;
+        }
         public static string CreateSmartTodoLink(OneNoteApp ona, SmartTag smartTag)
         {
-            // should look like |__| where the first | encodes the important information and __ is a hyper link to the parent.
-            var d = new Dictionary<string, string>();
-            d["Processed"] = Boolean.FalseString;
-            d["ParentPageId"] = smartTag.CursorLocation.PageId;
+            var smartTodoProperties = new Dictionary<string, string>();
+            smartTodoProperties["Processed"] = Boolean.FalseString;
+            smartTodoProperties["ParentPageId"] = smartTag.CursorLocation.PageId;
+            smartTodoProperties["ParentModelId"] = smartTag.ModelPageId;
 
-            // If I put this on the page, it will break smartTag searching -- need to figure that out later.
-            // d["ParentModelId"] = smartTag.ModelPageId;
+            var sectionContaingSmartTag = OneNoteApp.XMLDeserialize<Section>(ona.GetHierarchy(smartTag.CursorLocation.SectionId, HierarchyScope.hsSelf));
+            var pageContainingSmartTag = OneNoteApp.XMLDeserialize<Page>(ona.GetHierarchy(smartTag.CursorLocation.PageId, HierarchyScope.hsSelf));
 
-            // TODO Suck out section without doing getheirarchy in the future.
-            var sectionAsXML = ona.GetHierarchy(smartTag.CursorLocation.SectionId, HierarchyScope.hsSelf);
-            var section = OneNoteApp.XMLDeserialize<Section>(sectionAsXML);
-            var pageAsXML = ona.GetHierarchy(smartTag.CursorLocation.PageId, HierarchyScope.hsSelf);
-            var page = OneNoteApp.XMLDeserialize<Page>(pageAsXML);
-
-            string linkToParentPage = OneNoteApp.OneNoteLinkToPage(page.name, section);
+            // should look like <--. where the . encodes information and <-- is a hyper link to the parent.
+            string linkToParentPage = OneNoteApp.OneNoteLinkToPage(pageContainingSmartTag.name, sectionContaingSmartTag);
             var smartTodoTemplate = "<a href={1}>&lt;---</a><a href=http://smartTodo?{0}>.</a> ";
-            var smartTodoXML = String.Format(smartTodoTemplate, ToQueryString(d), linkToParentPage);
+            var smartTodoXML = String.Format(smartTodoTemplate, ToQueryString(smartTodoProperties), linkToParentPage);
             return smartTodoXML;
         }
+
+        // HACK: Should have two functions, 1 testing for completion, and another parsing the TODO link.
+        //      In the MVP these will be merged.
+        private static SmartTodo CreateFromXMLElementText(string s)
+        {
+            // Hack - this understands how create SmartTodo works - add to helper function.
+            var matches = Regex.Match(s, "http://smarttodo?(.*)\\>.<a/>");
+            var queryString = matches.Groups[0].Value;
+            var smartTodoParams =  HttpUtility.ParseQueryString(queryString);
+
+            return new SmartTodo()
+            {
+                Processed = bool.Parse(smartTodoParams["Processed"]),
+                ParentPageId =  smartTodoParams["ParentPageId"],
+                ParentModelId =  smartTodoParams["ParentModelId"],
+                IsCompleted = true, // TODO: Parse is completed out properly.
+            };
+        }
+
         private static string ToQueryString(Dictionary<string,string> keyValuePairs)
         {
             var nameEqualValues = keyValuePairs.Select(x => x.Key + "=" + x.Value).ToArray();
@@ -40,7 +63,52 @@ namespace OnenoteCapabilities
         }
         public void AugmentPage(OneNoteApp ona, XDocument pageContentInXml, OneNotePageCursor cursor)
         {
+            var smartTodoElements = pageContentInXml.DescendantNodes()
+                .OfType<XElement>()
+                .Where(r => r.Name.LocalName == "T" && r.Value.Contains("http://smartTodo"));
+
+            var smartTodos = smartTodoElements.Select(e=>CreateFromXMLElementText(e.Value));
+
+            var smartTodosToProcess =  smartTodos.Where(st=>st.Processed == false && st.IsCompleted).ToList();
+
+            if (!smartTodosToProcess.Any())
+            {
+                return;
+            }
+
+            foreach (var smartTodo in smartTodosToProcess)
+            {
+                // TODO: Add TEST for missing page.
+                var sourcePageContent = ona.GetPageContentAsXDocument(smartTodo.ParentPageId);
+                var smartTagsOnSourcePage = SmartTagAugmenter.GetSmartTags(sourcePageContent, cursor);
+
+                // TODO: Add Test For missing smartTag
+                var smartTag = smartTagsOnSourcePage.FirstOrDefault(st => st.ModelPageId == smartTodo.ParentModelId);
+                if (smartTag == default(SmartTag))
+                {
+                    continue;
+                }
+
+                MarkSmartTagAsCompleteInPageContent(smartTag, sourcePageContent);
+                ona.OneNoteApplication.UpdatePageContent(sourcePageContent.ToString());
+
+                //
+                MarkSmartTodoAsProcessedInPageContent(smartTodo, pageContentInXml);
+            }
+
+            // smartTodo was processed, update the processed flags.
+            ona.OneNoteApplication.UpdatePageContent(pageContentInXml.ToString());
+        }
+
+        private void MarkSmartTagAsCompleteInPageContent(SmartTag smartTag, XDocument sourcePageContent)
+        {
             throw new NotImplementedException();
         }
+
+        private void MarkSmartTodoAsProcessedInPageContent(SmartTodo smartTodo, XDocument pageContentInXml)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

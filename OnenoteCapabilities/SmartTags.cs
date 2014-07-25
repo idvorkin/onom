@@ -57,7 +57,7 @@ namespace OnenoteCapabilities
             var templateNoteBook = ona.GetNotebook(settings.TemplateNotebook);
             this.smartTagTemplatePage = templateNoteBook.PopulatedSection(ona, settings.TemplateSection).GetPage(ona, this.settings.SmartTagTemplateName);
         }
-        public IEnumerable<SmartTag> GetSmartTags(XDocument pageContent, OneNotePageCursor cursor)
+        public static IEnumerable<SmartTag> GetSmartTags(XDocument pageContent, OneNotePageCursor cursor)
         {
             var possibleSmartTags = pageContent.DescendantNodes().OfType<XElement>()
                 .Where(r => r.Name.LocalName == "T" && !string.IsNullOrWhiteSpace(r.Value))
@@ -133,9 +133,9 @@ namespace OnenoteCapabilities
                     .OfType<XElement>()
                     .Where(r => r.Name.LocalName == "T" && IsSmartTag(r.Value));
 
-            var smartTagElementsThatHaveNotBeenProcessed = allSmartTagElements.Where(st => !st.Value.Contains("ObjectId"));
+            var smartTagElementsThatHaveNotBeenProcessed = allSmartTagElements.Where(st => !st.Value.Contains("extraId"));
 
-            var embedLinkToModelPage = OneNoteLinkToPage(modelPageName, smartTagStorageSection, extraId:modelPageId);
+            var embedLinkToModelPage = OneNoteApp.OneNoteLinkToPage(modelPageName, smartTagStorageSection, extraId:modelPageId);
             foreach (var smartTagElement in smartTagElementsThatHaveNotBeenProcessed)
             {
                 var smartTag = smartTags.FirstOrDefault(s => s.FullText == Regex.Match(smartTagElement.Value, fullTextOfSmartTagMatcher).Groups[1].Value);
@@ -152,21 +152,13 @@ namespace OnenoteCapabilities
             ona.OneNoteApplication.UpdatePageContent(pageContentInXML.ToString());
         }
 
-        public static string OneNoteLinkToPage(string pageName, Section section, string extraId="")
-        {
-            var embedLinkToModelPage = string.Format("onenote:#{0}&base-path={1}", pageName, section.path);
-            if (!String.IsNullOrEmpty(extraId))
-            {
-                embedLinkToModelPage += "&extraId=" + extraId;
-            }
-            return embedLinkToModelPage;
-        }
         public void AddLinkToSmartTag(SmartTag smartTag, XDocument pageContentInXml, Uri link)
         {
+            // HACK - this leaks the encoding in OneNoteLinkToPage. extraId = {ID} is how we find a smartTag on a page.
             var smartTagElement =
                 pageContentInXml.DescendantNodes()
                     .OfType<XElement>()
-                    .First(r => r.Name.LocalName == "T" && r.Value.Contains(smartTag.ModelPageId.ToString()));
+                    .First(r => r.Name.LocalName == "T" && r.Value.Contains("extraId="+smartTag.ModelPageId.ToString()));
 
             var linkAsHTML = string.Format(hyperlinkFormatter, link.ToString(), smartTag.TagName());
 
@@ -177,7 +169,7 @@ namespace OnenoteCapabilities
 
         public void AddLinkToSmartTag(SmartTag smartTag, XDocument pageContentInXML, Section linkSection, string linkPageName)
         {
-            var oneNoteLinkToPage = OneNoteLinkToPage(linkPageName, linkSection );
+            var oneNoteLinkToPage = OneNoteApp.OneNoteLinkToPage(linkPageName, linkSection );
             AddLinkToSmartTag(smartTag,pageContentInXML,new Uri(oneNoteLinkToPage));
         }
 

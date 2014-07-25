@@ -112,7 +112,7 @@ namespace OneNoteObjectModelTests
     [Test]
         public void EnumerateSmartTags()
         {
-            var smartTags = smartTagAugmenter.GetSmartTags(pageContent, _cursor);
+            var smartTags = SmartTagAugmenter.GetSmartTags(pageContent, _cursor);
             Assert.That(smartTags.Count(), Is.EqualTo(2));
             Assert.That(smartTags.Count(st => st.IsProcessed()), Is.EqualTo(1));
         }
@@ -120,13 +120,13 @@ namespace OneNoteObjectModelTests
         [Test]
         public void TestAugmentPage()
         {
-            var smartTags = smartTagAugmenter.GetSmartTags(this.pageContent, _cursor);
+            var smartTags = SmartTagAugmenter.GetSmartTags(this.pageContent, _cursor);
             Assert.That(smartTags.Count(), Is.EqualTo(2));
             Assert.That(smartTags.Count(st => st.IsProcessed()), Is.EqualTo(1));
 
             this.smartTagAugmenter.AugmentPage(ona,pageContent, new OneNotePageCursor());
 
-            var smartTagsPostAugement = smartTagAugmenter.GetSmartTags(this.pageContent, _cursor);
+            var smartTagsPostAugement = SmartTagAugmenter.GetSmartTags(this.pageContent, _cursor);
             Assert.That(smartTagsPostAugement.Count(), Is.EqualTo(2));
             Assert.That(smartTagsPostAugement.All(st => st.IsProcessed()));
         }
@@ -134,7 +134,7 @@ namespace OneNoteObjectModelTests
         [Test]
         public void ProcessSmartTagAndLinkToOneNotePage()
         {
-            var smartTag = smartTagAugmenter.GetSmartTags(this.pageContent, _cursor).First(st=>!st.IsProcessed());
+            var smartTag = SmartTagAugmenter.GetSmartTags(this.pageContent, _cursor).First(st=>!st.IsProcessed());
             Assert.That(!smartTag.IsProcessed());
 
             // Brittle test, manually executing augmentation.
@@ -146,7 +146,7 @@ namespace OneNoteObjectModelTests
         [Test]
         public void ProcessSmartTagAndLinkToURI()
         {
-            var smartTag = smartTagAugmenter.GetSmartTags(this.pageContent, _cursor).First(st=>!st.IsProcessed());
+            var smartTag = SmartTagAugmenter.GetSmartTags(this.pageContent, _cursor).First(st=>!st.IsProcessed());
             Assert.That(!smartTag.IsProcessed());
             smartTagAugmenter.AddToModel(smartTag,this.pageContent);
             Assert.That(smartTag.IsProcessed());
