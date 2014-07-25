@@ -58,7 +58,7 @@ namespace OnenoteCapabilities
     {
         public string SmartTagTemplateName = "SmartTag";
         public string SmartTagStorageNotebook = "BlogContentAndResearch";
-        public string SmartTagStorageSection = "SmartTagStorage";
+        public string SmartTagModelSection = "SmartTagStorage";
     }
 
     public class SettingsTopicPages : SettingsBase

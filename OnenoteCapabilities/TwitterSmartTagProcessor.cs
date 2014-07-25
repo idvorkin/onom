@@ -17,7 +17,7 @@ namespace OnenoteCapabilities
         public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter, OneNotePageCursor cursor)
         {
             TweetString(smartTag.TextAfterTag());
-            smartTagAugmenter.AddLinkToSmartTag(smartTag, pageContent, new Uri("http://twitter.com/onenotehat"));
+            smartTag.SetLink(smartTagAugmenter.ona, new Uri("http://twitter.com/onenotehat"));
         }
 
         public static bool TweetString(string text)

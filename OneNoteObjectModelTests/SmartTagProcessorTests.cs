@@ -26,31 +26,8 @@ namespace OneNoteObjectModelTests
         public void TestNotTag()
         {
             var unprocessedTag = "notATag Tag2";
-            Assert.That(!SmartTagAugmenter.IsSmartTag(unprocessedTag));
+            Assert.That(!SmartTag.IsSmartTag(unprocessedTag));
         }
-
-        [Test] 
-        public void TestSimpleTag()
-        {
-            var unprocessedTag = "#unprocessedTag Tag2";
-            Assert.That(SmartTagAugmenter.IsSmartTag(unprocessedTag));
-
-            var st = SmartTagAugmenter.SmartTagFromElement(unprocessedTag,null, _cursor);
-            Assert.That(st.TextAfterTag(), Is.EqualTo("Tag2"));
-            Assert.That(st.TagName() , Is.EqualTo("unprocessedTag"));
-        }
-
-        [Test] 
-        public void TestPunctuation()
-        {
-            var unprocessedTag = "#unprocessedTag Tag2 - ! , fad|";
-            Assert.That(SmartTagAugmenter.IsSmartTag(unprocessedTag));
-
-            var st = SmartTagAugmenter.SmartTagFromElement(unprocessedTag,null, _cursor);
-            Assert.That(st.TextAfterTag(), Is.EqualTo("Tag2 - ! , fad|"));
-            Assert.That(st.TagName() , Is.EqualTo("unprocessedTag"));
-        }
-
     }
 
 [TestFixture]
@@ -84,7 +61,7 @@ namespace OneNoteObjectModelTests
             ona.OneNoteApplication.UpdatePageContent(filledInTempaltePage);
 
             // create smartTag model structure.
-            ona.CreateSection(smartTagNoteBook.Get(), _settingsSmartTags.SmartTagStorageSection);
+            ona.CreateSection(smartTagNoteBook.Get(), _settingsSmartTags.SmartTagModelSection);
 
             this.defaultSection = ona.CreateSection(smartTagNoteBook.Get(), "section_to_find_content");
             var p = ona.CreatePage(defaultSection, Guid.NewGuid().ToString());
@@ -112,7 +89,7 @@ namespace OneNoteObjectModelTests
     [Test]
         public void EnumerateSmartTags()
         {
-            var smartTags = SmartTagAugmenter.GetSmartTags(pageContent, _cursor);
+            var smartTags = SmartTag.Get(pageContent, _cursor);
             Assert.That(smartTags.Count(), Is.EqualTo(2));
             Assert.That(smartTags.Count(st => st.IsProcessed()), Is.EqualTo(1));
         }
@@ -120,13 +97,13 @@ namespace OneNoteObjectModelTests
         [Test]
         public void TestAugmentPage()
         {
-            var smartTags = SmartTagAugmenter.GetSmartTags(this.pageContent, _cursor);
+            var smartTags = SmartTag.Get(this.pageContent, _cursor);
             Assert.That(smartTags.Count(), Is.EqualTo(2));
             Assert.That(smartTags.Count(st => st.IsProcessed()), Is.EqualTo(1));
 
             this.smartTagAugmenter.AugmentPage(ona,pageContent, new OneNotePageCursor());
 
-            var smartTagsPostAugement = SmartTagAugmenter.GetSmartTags(this.pageContent, _cursor);
+            var smartTagsPostAugement = SmartTag.Get(this.pageContent, _cursor);
             Assert.That(smartTagsPostAugement.Count(), Is.EqualTo(2));
             Assert.That(smartTagsPostAugement.All(st => st.IsProcessed()));
         }
@@ -134,25 +111,25 @@ namespace OneNoteObjectModelTests
         [Test]
         public void ProcessSmartTagAndLinkToOneNotePage()
         {
-            var smartTag = SmartTagAugmenter.GetSmartTags(this.pageContent, _cursor).First(st=>!st.IsProcessed());
+            var smartTag = SmartTag.Get(this.pageContent, _cursor).First(st=>!st.IsProcessed());
             Assert.That(!smartTag.IsProcessed());
 
             // Brittle test, manually executing augmentation.
             smartTagAugmenter.AddToModel(smartTag,this.pageContent);
-            smartTagAugmenter.AddLinkToSmartTag(smartTag, this.pageContent, this.defaultSection,"DeadPage");
+            smartTag.SetLink(ona, this.defaultSection,"DeadPage");
 
             Assert.That(smartTag.IsProcessed());
         }
         [Test]
         public void ProcessSmartTagAndLinkToURI()
         {
-            var smartTag = SmartTagAugmenter.GetSmartTags(this.pageContent, _cursor).First(st=>!st.IsProcessed());
+            var smartTag = SmartTag.Get(this.pageContent, _cursor).First(st=>!st.IsProcessed());
             Assert.That(!smartTag.IsProcessed());
             smartTagAugmenter.AddToModel(smartTag,this.pageContent);
             Assert.That(smartTag.IsProcessed());
 
             // Set link to URI.
-            smartTagAugmenter.AddLinkToSmartTag(smartTag,this.pageContent, new Uri("http://helloworld"));
+            smartTag.SetLink(ona, new Uri("http://helloworld"));
         }
 
 

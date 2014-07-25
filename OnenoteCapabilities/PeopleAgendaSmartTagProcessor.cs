@@ -42,7 +42,7 @@ namespace OnenoteCapabilities
 
             if (personDate != DateTime.Today.ToShortDateString())
             {
-                smartTagAugmenter.AddContentAfterSmartTag(smartTag, pageContent ,String.Format("Augment only supported for a today's meeting page. {0} is not valid for #agenda",currentPage.name));
+                smartTag.AddContentAfter(ona,String.Format("Augment only supported for a today's meeting page. {0} is not valid for #agenda",currentPage.name));
                 return;
             }
 

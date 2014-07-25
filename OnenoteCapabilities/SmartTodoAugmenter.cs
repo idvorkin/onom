@@ -80,7 +80,7 @@ namespace OnenoteCapabilities
             {
                 // TODO: Add TEST for missing page.
                 var sourcePageContent = ona.GetPageContentAsXDocument(smartTodo.ParentPageId);
-                var smartTagsOnSourcePage = SmartTagAugmenter.GetSmartTags(sourcePageContent, cursor);
+                var smartTagsOnSourcePage = SmartTag.Get(sourcePageContent, cursor);
 
                 // TODO: Add Test For missing smartTag
                 var smartTag = smartTagsOnSourcePage.FirstOrDefault(st => st.ModelPageId == smartTodo.ParentModelId);
