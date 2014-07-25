@@ -16,7 +16,7 @@ namespace OnenoteCapabilities
         public OneNotePageCursor CursorLocation;
         public XDocument PageContent { get; set; }
 
-        // When we've processed a smart-tag when the id is set and persisted back to onenote.
+        // When we've processed a smart-tag we set its GUID back to onenote.
         public bool IsProcessed()
         {
             return ModelPageId != "";
@@ -25,10 +25,12 @@ namespace OnenoteCapabilities
         {
             return this.FullText.Split(' ').First().Substring(1);
         }
+
         public string TextAfterTag()
         {
             return String.Join(" ", this.FullText.Split(' ').Skip(1));
         }
+
         public void SetLink(OneNoteApp ona, Uri uri)
         {
             var linkAsHTML = String.Format(hyperlinkFormatter, uri.ToString(), TagName());
@@ -125,5 +127,12 @@ namespace OnenoteCapabilities
         // Hack, assume the extraID is always PageId.Length == 87. 
         // This is brittle code, test it well.
         private readonly static string extraIdMatch = "#.*extraId=(.{87})\"";
+
+        public void SetCompleted(OneNoteApp ona)
+        {
+            var currentText = this.SmartTagElementInDocument.Value;
+            this.SmartTagElementInDocument.Value = String.Format("<span style='text-decoration:line-through'>{0}</span>", currentText);
+            ona.OneNoteApplication.UpdatePageContent(PageContent.ToString());
+        }
     }
 }

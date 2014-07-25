@@ -70,6 +70,8 @@ namespace OneNoteObjectModelTests
             var filledInPageHeader = string.Format(_smartTagTestsPageConent.pageWithOneProcessedAndOneUnProcessedSmartTagHeader, p.ID, p.name);
             this.pageContent = XDocument.Parse(filledInPageHeader+ _smartTagTestsPageConent.pageWithOneProcessedAndOneUnProcessedSmartTagBody);
             ona.OneNoteApplication.UpdatePageContent(pageContent.ToString());
+            // load the page back in as ObjectId's will be set.
+            this.pageContent = ona.GetPageContentAsXDocument(p);
 
             _cursor = new OneNotePageCursor();
             this.smartTagAugmenter = new SmartTagAugmenter(ona, _settingsSmartTags, new List<ISmartTagProcessor>());
@@ -94,7 +96,17 @@ namespace OneNoteObjectModelTests
             Assert.That(smartTags.Count(st => st.IsProcessed()), Is.EqualTo(1));
         }
 
-        [Test]
+    [Test]
+        public void TestCompleting()
+        {
+            var smartTags = SmartTag.Get(pageContent, _cursor);
+            foreach (var st in smartTags)
+            {
+                st.SetCompleted(ona);
+            }
+        }
+
+    [Test]
         public void TestAugmentPage()
         {
             var smartTags = SmartTag.Get(this.pageContent, _cursor);
