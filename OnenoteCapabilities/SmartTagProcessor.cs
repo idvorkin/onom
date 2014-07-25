@@ -38,7 +38,9 @@ namespace OnenoteCapabilities
         {
             var todayPageTitle = settings.DayPageTitleFromDate(DateTime.Now);
             var dailyPage = dailySection.GetPage(ona, todayPageTitle);
-            var dailyPageContent = ona.GetPageContentAsXDocument(dailyPage);
+
+            // IMPORTANT: The smartTag has a cache of the pageContent, so if we're writing the todo on the smartTag page via another pageContent, it will be overwritten.
+            var dailyPageContent = (dailyPage.ID == cursor.PageId) ? pageContent : ona.GetPageContentAsXDocument(dailyPage);
 
             // HACK: Need to find the table of interest with a better method.
             // table 0 is the tasks table which is at the top of the page. If it moves down the table number changes - GROAN.
@@ -46,11 +48,6 @@ namespace OnenoteCapabilities
 
             DumbTodo.AddToPageFromDateEnableSmartTag(smartTagAugmenter.ona, dailyPageContent, smartTag, tableOnPage:hackTableToAddTasksTo);
 
-            if (OneNoteApp.IsSamePage (pageContent, dailyPageContent))
-            {
-                // HACK: When the smartTag is on the current dailyPage, we put the TODO on the dailyPage, but then we put the link on pageContent, which doesn't have the changes to PageContent.
-                pageContent = dailyPageContent;
-            }
             smartTag.SetLink(ona,dailySection,todayPageTitle);
         }
     }
@@ -85,7 +82,8 @@ namespace OnenoteCapabilities
             // get PersonPage 
 
             var peoplePage = peopleSection.GetPage(ona,personPageTitle);
-            var peoplePageContent = ona.GetPageContentAsXDocument(peoplePage);
+            // IMPORTANT: The smartTag has a cache of the pageContent, so if we're writing the todo on the smartTag page via another pageContent, it will be overwritten.
+            var peoplePageContent = (peoplePage.ID == cursor.PageId) ? pageContent : ona.GetPageContentAsXDocument(peoplePage);
 
             const int toPersonTableCountOnPage = 0;
             const int fromPersonTableCountOnPage = 1;
@@ -93,11 +91,6 @@ namespace OnenoteCapabilities
             var tableOnPage = IsFromPerson(smartTag) ? fromPersonTableCountOnPage : toPersonTableCountOnPage;
             DumbTodo.AddToPageFromDateEnableSmartTag(ona, peoplePageContent, smartTag, tableOnPage: tableOnPage);
 
-            if (OneNoteApp.IsSamePage (pageContent, peoplePageContent))
-            {
-                // HACK: When the smartTag is on the current dailyPage, we put the TODO on the peoplePageContent, but then we put the link on pageContent, which doesn't have the changes to PageContent.
-                pageContent = peoplePageContent;
-            }
 
             smartTag.SetLink(ona, peopleSection, personPageTitle);
         }

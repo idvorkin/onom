@@ -16,7 +16,7 @@ namespace OnenoteCapabilities
         public OneNotePageCursor CursorLocation;
         public XDocument PageContent { get; set; }
 
-        // When we've processed a smart-tag we set its GUID back to onenote.
+        // When we've processed a smart-tag when the id is set and persisted back to onenote.
         public bool IsProcessed()
         {
             return ModelPageId != "";
@@ -25,12 +25,10 @@ namespace OnenoteCapabilities
         {
             return this.FullText.Split(' ').First().Substring(1);
         }
-
         public string TextAfterTag()
         {
             return String.Join(" ", this.FullText.Split(' ').Skip(1));
         }
-
         public void SetLink(OneNoteApp ona, Uri uri)
         {
             var linkAsHTML = String.Format(hyperlinkFormatter, uri.ToString(), TagName());
