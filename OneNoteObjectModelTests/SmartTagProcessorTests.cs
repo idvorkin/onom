@@ -91,7 +91,7 @@ namespace OneNoteObjectModelTests
     [Test]
         public void EnumerateSmartTags()
         {
-            var smartTags = SmartTag.Get(pageContent, _cursor);
+            var smartTags = SmartTag.Get(pageContent, _cursor).ToArray();
             Assert.That(smartTags.Count(), Is.EqualTo(2));
             Assert.That(smartTags.Count(st => st.IsProcessed()), Is.EqualTo(1));
         }
