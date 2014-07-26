@@ -30,7 +30,7 @@ namespace OneNoteObjectModelTests
         }
     }
 
-[TestFixture]
+    [TestFixture]
     public class SmartTagProcessorTests
     {
         private TemporaryNoteBookHelper smartTagNoteBook;

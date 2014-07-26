@@ -13,7 +13,8 @@ namespace OnenoteCapabilities
         {
             var smartTodos = SmartTodo.Get(pageContentInXml);
 
-            var smartTodosToProcess =  smartTodos.Where(st=>st.Processed == false && st.IsCompleted).ToList();
+            // Only process the first time they are marked completed.
+            var smartTodosToProcess =  smartTodos.Where(st=>st.IsProcessed == false && st.IsComplete).ToList();
 
             if (!smartTodosToProcess.Any())
             {
@@ -23,9 +24,13 @@ namespace OnenoteCapabilities
             foreach (var smartTodo in smartTodosToProcess)
             {
                 smartTodo.SetProcessed(ona);
+
                 // TODO: Add TEST for missing page.
                 var sourcePageContent = ona.GetPageContentAsXDocument(smartTodo.ParentPageId);
-                var smartTagsOnSourcePage = SmartTag.Get(sourcePageContent, cursor);
+
+                // The cursor on the Get call indicates what location the smartags belong at. We're hacking here.
+                var hackShouldBuildCursorForParentPage = cursor;
+                var smartTagsOnSourcePage = SmartTag.Get(sourcePageContent, hackShouldBuildCursorForParentPage);
 
                 // TODO: Add Test For missing smartTag
                 var smartTag = smartTagsOnSourcePage.FirstOrDefault(st => st.ModelPageId == smartTodo.ParentModelId);
@@ -35,9 +40,6 @@ namespace OnenoteCapabilities
                 }
                 smartTag.SetCompleted(ona);
             }
-
-            // smartTodo was processed, update the processed flags.
-            ona.OneNoteApplication.UpdatePageContent(pageContentInXml.ToString());
         }
     }
 }

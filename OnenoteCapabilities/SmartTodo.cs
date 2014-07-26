@@ -12,17 +12,17 @@ namespace OnenoteCapabilities
 {
     public struct SmartTodo
     {
-        public bool Processed;
+        public bool IsProcessed;
         public string ParentPageId;
         public string ParentModelId;
-        public bool IsCompleted;
+        public bool IsComplete;
         public XElement Element;
         public XDocument PageContent;
 
 
         public void SetProcessed(OneNoteApp ona)
         {
-            this.Element.Value.Replace("Processed=False", "Processed=True");
+            this.Element.Value = this.Element.Value.Replace("IsProcessed=False", "IsProcessed=True");
             ona.OneNoteApplication.UpdatePageContent(PageContent.ToString());
         }
 
@@ -35,7 +35,7 @@ namespace OnenoteCapabilities
         public static string CreateSmartTodoLink(OneNoteApp ona, SmartTag smartTag)
         {
             var smartTodoProperties = new Dictionary<string, string>();
-            smartTodoProperties["Processed"] = Boolean.FalseString;
+            smartTodoProperties["IsProcessed"] = Boolean.FalseString;
             smartTodoProperties["ParentPageId"] = smartTag.CursorLocation.PageId;
             smartTodoProperties["ParentModelId"] = smartTag.ModelPageId;
 
@@ -50,7 +50,11 @@ namespace OnenoteCapabilities
         }
         public static bool IsSmartTodo(XElement smartTodoElement)
         {
-            var matches = Regex.Match(smartTodoElement.Value, "http://smarttodo?(.*)\\>.<a/>");
+            if (smartTodoElement.Name.LocalName != "T")
+            {
+                return false;
+            }
+            var matches = Regex.Match(smartTodoElement.Value,  SmartTodoRegexpParamCapture);
             if (!matches.Success)
             {
                 return false;
@@ -65,14 +69,17 @@ namespace OnenoteCapabilities
 
             return true;
         }
+
+        public static readonly string SmartTodoRegexpParamCapture = "http://smartTodo\\?(.*)>\\.</a>";
             
 
         public static SmartTodo FromXmlElement(XElement smartTodoElement, XDocument pageContent)
         {
             // Hack - this understands how create SmartTodo works - add to helper function.
-            var matches = Regex.Match(smartTodoElement.Value, "http://smarttodo?(.*)\\>.<a/>");
-            var queryString = matches.Groups[0].Value;
-            var smartTodoParams = HttpUtility.ParseQueryString(queryString);
+            var matches = Regex.Match(smartTodoElement.Value, SmartTodoRegexpParamCapture);
+            var queryString = matches.Groups[1].Value;
+            var decodedQueryString = HttpUtility.HtmlDecode(HttpUtility.UrlDecode(queryString));
+            var smartTodoParams = HttpUtility.ParseQueryString(decodedQueryString);
 
             // SmartTags in onenote look like
             // OE
@@ -90,10 +97,10 @@ namespace OnenoteCapabilities
 
             return new SmartTodo()
             {
-                Processed = Boolean.Parse(smartTodoParams["Processed"]),
+                IsProcessed = Boolean.Parse(smartTodoParams["IsProcessed"]),
                 ParentPageId = smartTodoParams["ParentPageId"],
                 ParentModelId = smartTodoParams["ParentModelId"],
-                IsCompleted = isCompleted,
+                IsComplete = isCompleted,
                 Element = smartTodoElement,
                 PageContent = pageContent,
             };
