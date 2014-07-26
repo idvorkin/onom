@@ -63,7 +63,7 @@ namespace OnenoteCapabilities
             var parsedDate = HumanizedDateParser.ParseDateAtEndOfSentance(smartTag.TextAfterTag());
 
             // HACK - TBD Design this.
-            var smartTodoPrefix = SmartTodoAugmenter.CreateSmartTodoLink(ona, smartTag);
+            var smartTodoPrefix = SmartTodo.CreateSmartTodoLink(ona, smartTag);
 
             if (parsedDate.Parsed)
             {

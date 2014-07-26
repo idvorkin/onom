@@ -106,6 +106,7 @@
     <Compile Include="SmartTag.cs" />
     <Compile Include="SmartTagProcessor.cs" />
     <Compile Include="SmartTagAugmenter.cs" />
+    <Compile Include="SmartTodo.cs" />
     <Compile Include="SmartTodoAugmenter.cs" />
     <Compile Include="TemplatePageCreator.cs" />
     <Compile Include="TwitterSmartTagProcessor.cs" />
