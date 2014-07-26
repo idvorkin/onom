@@ -34,7 +34,7 @@ namespace OneNoteMenu
                 new TopicSmartTagTopicProcessor(ona, SettingsTopicPages)
             };
             var smartTagAugmentor = new SmartTagAugmenter(ona, new SettingsSmartTags(), smartTagProcessors);
-            Augmenter = new Augmenter(ona, new List<IPageAugmenter> {smartTagAugmentor});
+            Augmenter = new Augmenter(ona, new List<IPageAugmenter> {smartTagAugmentor, new SmartTodoAugmenter()});
         }
     }
 }

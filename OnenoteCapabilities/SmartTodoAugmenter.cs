@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.InteropServices;
@@ -25,8 +26,17 @@ namespace OnenoteCapabilities
             {
                 smartTodo.SetProcessed(ona);
 
-                // TODO: Add TEST for missing page.
-                var sourcePageContent = ona.GetPageContentAsXDocument(smartTodo.ParentPageId);
+                XDocument sourcePageContent;
+                try
+                {
+                    sourcePageContent = ona.GetPageContentAsXDocument(smartTodo.ParentPageId);
+                }
+                catch (COMException exception )
+                {
+                    // TODO: Add TEST for missing page.
+                    // we throw if page is not found - TBD - test for exact error code.
+                    continue;
+                }
 
                 // The cursor on the Get call indicates what location the smartags belong at. We're hacking here.
                 var hackShouldBuildCursorForParentPage = cursor;
