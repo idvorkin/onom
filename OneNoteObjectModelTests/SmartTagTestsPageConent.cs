@@ -1,7 +1,8 @@
 namespace OneNoteObjectModelTests
 {
-    public class SmartTagTestsPageConent
+    public class SmartTagTestsPageConent:IPageContentAsText
     {
+        // REFACTOR move this elsewhere
         internal readonly string smartTagModelTemplatePageWithDumbTodoTable = "<one:Page xmlns:one=\"http://schemas.microsoft.com/office/onenote/2013/onenote\" ID=\"{0}\" name=\"{1}\" dateTime=\"2014-06-28T18:47:43.000Z\" lastModifiedTime=\"2014-07-02T13:10:47.000Z\" pageLevel=\"2\" isCurrentlyViewed=\"true\" lang=\"en-US\">"+
                                                                      "  <one:QuickStyleDef index=\"0\" name=\"PageTitle\" fontColor=\"automatic\" highlightColor=\"automatic\" font=\"Calibri Light\" fontSize=\"20.0\" spaceBefore=\"0.0\" spaceAfter=\"0.0\" />"+
                                                                      "  <one:QuickStyleDef index=\"1\" name=\"p\" fontColor=\"automatic\" highlightColor=\"automatic\" font=\"Calibri\" fontSize=\"11.0\" spaceBefore=\"0.0\" spaceAfter=\"0.0\" />"+
@@ -136,6 +137,15 @@ namespace OneNoteObjectModelTests
 "  </one:Outline>"+
 "</one:Page>"
 ;
-            
+
+        public string firstLine()
+        {
+            return this.pageWithOneProcessedAndOneUnProcessedSmartTagHeader;
+        }
+
+        public string restOfLines()
+        {
+            return this.pageWithOneProcessedAndOneUnProcessedSmartTagBody;
+        }
     }
 }

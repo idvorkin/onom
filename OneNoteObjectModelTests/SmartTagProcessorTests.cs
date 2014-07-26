@@ -33,9 +33,7 @@ namespace OneNoteObjectModelTests
 [TestFixture]
     public class SmartTagProcessorTests
     {
-
-
-    private TemporaryNoteBookHelper smartTagNoteBook;
+        private TemporaryNoteBookHelper smartTagNoteBook;
         private OneNoteApp ona;
 
         [SetUp]
@@ -46,32 +44,20 @@ namespace OneNoteObjectModelTests
             this._templateNotebook = new TemporaryNoteBookHelper(ona, "SmartTagTemplates");
             this._settingsSmartTags = new SettingsSmartTags()
             {
-                    TemplateNotebook = _templateNotebook.Get().name,
-                    SmartTagStorageNotebook =  smartTagNoteBook.Get().name
+                TemplateNotebook = _templateNotebook.Get().name,
+                SmartTagStorageNotebook = smartTagNoteBook.Get().name
             };
 
             // create template structure.
-            var templateSection  = ona.CreateSection(_templateNotebook.Get(), _settingsSmartTags.TemplateSection);
-            var smartTagTemplatePage = ona.CreatePage(templateSection, _settingsSmartTags.SmartTagTemplateName);
-
-
-            // create smartTagModelTemplate
-            // the copied page has a PageID, replace it with PageID from the newly created page.
-            var filledInTempaltePage = string.Format(_smartTagTestsPageConent.smartTagModelTemplatePageWithDumbTodoTable, smartTagTemplatePage.ID, smartTagTemplatePage.name);
-            ona.OneNoteApplication.UpdatePageContent(filledInTempaltePage);
+            var templateSection = ona.CreateSection(_templateNotebook.Get(), _settingsSmartTags.TemplateSection);
+            // create template page.
+            _templateNotebook.CreatePage(new SmartTagModelTemplateContent(), _settingsSmartTags.SmartTagTemplateName,templateSection);
 
             // create smartTag model structure.
             ona.CreateSection(smartTagNoteBook.Get(), _settingsSmartTags.SmartTagModelSection);
 
-            this.defaultSection = ona.CreateSection(smartTagNoteBook.Get(), "section_to_find_content");
-            var p = ona.CreatePage(defaultSection, Guid.NewGuid().ToString());
-
-            // the copied page has a PageID, replace it with PageID from the newly created page.
-            var filledInPageHeader = string.Format(_smartTagTestsPageConent.pageWithOneProcessedAndOneUnProcessedSmartTagHeader, p.ID, p.name);
-            this.pageContent = XDocument.Parse(filledInPageHeader+ _smartTagTestsPageConent.pageWithOneProcessedAndOneUnProcessedSmartTagBody);
-            ona.OneNoteApplication.UpdatePageContent(pageContent.ToString());
-            // load the page back in as ObjectId's will be set.
-            this.pageContent = ona.GetPageContentAsXDocument(p);
+            // Create a scratch page write on.
+            this.pageContent = smartTagNoteBook.CreatePage(new SmartTagTestsPageConent(), "ContentPage");
 
             _cursor = new OneNotePageCursor();
             this.smartTagAugmenter = new SmartTagAugmenter(ona, _settingsSmartTags, new List<ISmartTagProcessor>());
@@ -82,13 +68,12 @@ namespace OneNoteObjectModelTests
 
         private SmartTagAugmenter smartTagAugmenter;
         private XDocument pageContent;
-        private Section defaultSection;
         private TemporaryNoteBookHelper _templateNotebook;
         private SettingsSmartTags _settingsSmartTags;
         private readonly SmartTagTestsPageConent _smartTagTestsPageConent = new SmartTagTestsPageConent();
         private OneNotePageCursor _cursor;
 
-    [Test]
+        [Test]
         public void EnumerateSmartTags()
         {
             var smartTags = SmartTag.Get(pageContent, _cursor).ToArray();
@@ -96,7 +81,7 @@ namespace OneNoteObjectModelTests
             Assert.That(smartTags.Count(st => st.IsProcessed()), Is.EqualTo(1));
         }
 
-    [Test]
+        [Test]
         public void TestCompleting()
         {
             var smartTags = SmartTag.Get(pageContent, _cursor);
@@ -106,14 +91,14 @@ namespace OneNoteObjectModelTests
             }
         }
 
-    [Test]
+        [Test]
         public void TestAugmentPage()
         {
             var smartTags = SmartTag.Get(this.pageContent, _cursor);
             Assert.That(smartTags.Count(), Is.EqualTo(2));
             Assert.That(smartTags.Count(st => st.IsProcessed()), Is.EqualTo(1));
 
-            this.smartTagAugmenter.AugmentPage(ona,pageContent, new OneNotePageCursor());
+            this.smartTagAugmenter.AugmentPage(ona, pageContent, new OneNotePageCursor());
 
             var smartTagsPostAugement = SmartTag.Get(this.pageContent, _cursor);
             Assert.That(smartTagsPostAugement.Count(), Is.EqualTo(2));
@@ -123,21 +108,21 @@ namespace OneNoteObjectModelTests
         [Test]
         public void ProcessSmartTagAndLinkToOneNotePage()
         {
-            var smartTag = SmartTag.Get(this.pageContent, _cursor).First(st=>!st.IsProcessed());
+            var smartTag = SmartTag.Get(this.pageContent, _cursor).First(st => !st.IsProcessed());
             Assert.That(!smartTag.IsProcessed());
 
             // Brittle test, manually executing augmentation.
-            smartTagAugmenter.AddToModel(smartTag,this.pageContent);
-            smartTag.SetLink(ona, this.defaultSection,"DeadPage");
+            smartTagAugmenter.AddToModel(smartTag, this.pageContent);
+            smartTag.SetLink(ona, this.smartTagNoteBook.DefaultSection, "DeadPage");
 
             Assert.That(smartTag.IsProcessed());
         }
         [Test]
         public void ProcessSmartTagAndLinkToURI()
         {
-            var smartTag = SmartTag.Get(this.pageContent, _cursor).First(st=>!st.IsProcessed());
+            var smartTag = SmartTag.Get(this.pageContent, _cursor).First(st => !st.IsProcessed());
             Assert.That(!smartTag.IsProcessed());
-            smartTagAugmenter.AddToModel(smartTag,this.pageContent);
+            smartTagAugmenter.AddToModel(smartTag, this.pageContent);
             Assert.That(smartTag.IsProcessed());
 
             // Set link to URI.
