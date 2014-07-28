@@ -21,7 +21,7 @@ namespace OneNoteMenu
         {
             DailyPages = new DailyPages(ona, SettingsDailyPages);
             PeoplePages = new PeoplePages(ona, SettingsPeoplePages);
-            ListOfPeople = new SettingsPeoplePages().People().ToArray();
+            ListOfPeople = SettingsPeoplePages.People(ona).ToArray();
             // TBD: Look up a dependency injection mechanism.
             var smartTagProcessors = new List<ISmartTagProcessor>()
             {

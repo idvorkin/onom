@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using OneNoteObjectModel;
 
 namespace OnenoteCapabilities
 {
@@ -36,11 +38,32 @@ namespace OnenoteCapabilities
         public string TemplatePeopleMeetingTitle = "Person:Meeting";
         public string PeoplePagesNotebook = "BlogContentAndResearch";
         public string PeoplePagesSection = "People";
-        public string _People = "EricaL;LiFenWu;SeanSe;IgorD;AlaksS;AmmonL;ToriS;SriRama;MaSudame;LarryS;DrRoebin;ZhiZhan;Devesh;KenMa;JohnDoe;JaneDoe;ScotK;DEscapa;NMyre";
+        public string PeoplePagesSettingsPage = "PeopleSettings";
+        private List<string> _CachedPeople = null;
 
-        public IEnumerable<string> People()
+        public SettingsPeoplePages()
         {
-            return _People.Split(';');
+            
+        }
+
+        public IEnumerable<string> People(OneNoteApp ona)
+        {
+            if (_CachedPeople == null)
+            {
+                var settingsPage = ona.GetNotebook(PeoplePagesNotebook).PopulatedSection(ona, PeoplePagesSection).GetPage(ona, PeoplePagesSettingsPage);
+                var content = ona.GetPageContentAsXDocument(settingsPage);
+
+                var peopleNode = content.DescendantNodes().OfType<XElement>().First(e => e.Value.Trim() == "People:");
+                // format is 
+                // <T> People: </T>
+                // <OE Children> 
+                //      ...
+                //     <T> Person </T> 
+                // </OE Children> 
+                _CachedPeople = (peopleNode.NextNode as XElement).DescendantNodes().OfType<XElement>().Where(e => e.Name.LocalName == "T").Select(e => e.Value.Trim()).ToList();
+            }
+
+            return _CachedPeople;
         }
 
         public string PersonMeetingTitle(string personName, DateTime now)

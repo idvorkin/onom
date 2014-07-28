@@ -70,7 +70,7 @@ namespace OnenoteCapabilities
 
         public bool ShouldProcess(SmartTag st, OneNotePageCursor cursor)
         {
-            if (settings.People().Contains(personFromPersonTag(st))) return true;
+            if (settings.People(ona).Contains(personFromPersonTag(st))) return true;
             return false;
         }
 
