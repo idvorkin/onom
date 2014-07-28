@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
 using OneNoteObjectModel;
 
 namespace OnenoteCapabilities
@@ -45,9 +47,6 @@ namespace OnenoteCapabilities
 
             // Store only the most complex representation, but can use the IsFunctions below to see if there are special case parsers/serializers available.
             public Dictionary<string, List<string>> Properties = new Dictionary<string, List<string>>();
-
-
-
 
             public PropertyBag(PropertyBag first)
             {
@@ -136,19 +135,36 @@ namespace OnenoteCapabilities
             public Table GetTableAfterTitle(string title, IEnumerable<OE> oes)
             {
                 // TODO Add Test if title isn't there.
-                return 
-                // Iterate to the table Title.
-                oes.SkipWhile(i =>
+                var oesAtTitleElement = oes.SkipWhile(i =>
                 {
                     var oe = i.Items[0];
                     if (!(oe is TextRange)) return true;
                     var text = oe as TextRange;
                     return text.Value != title;
-                })
-                // skip the title Table
-                .Skip(1)
-                // get the next element - which is the Table Itself.
-                .First().Items[0] as OneNoteObjectModel.Table;
+                });
+
+                var isHasSecondElement = oesAtTitleElement.First().Items.Count() == 2;
+
+                try
+                {
+                    // figured out via pinning watch in debugger.
+                    var nestedTable = ((OneNoteObjectModel.OE) (oesAtTitleElement.ToArray()[0].OEChildren[0].Items[0])).Items[0] as Table;
+                    if (nestedTable != null)
+                    {
+                        return nestedTable;
+                    }
+                }
+                catch
+                {
+                    // nested table wasn't there.
+                }
+                var nextOEItem = oesAtTitleElement.Skip(1).First().Items[0];
+                if (nextOEItem is Table)
+                {
+                    return nextOEItem as Table;
+                }
+
+                throw new InvalidDataException("Unable to find table in Content for title:"+title);
             }
 
             // Because it's very easy to work with flat lists/tables in onenote, a great way to do categorization is to have a single column table, with bold items being keys.
@@ -220,7 +236,9 @@ namespace OnenoteCapabilities
                 // ASSUME: OEChildren is always a list of OE
                 var children = content.Items.OfType<Outline>().SelectMany(x => x.OEChildren);
                 var oes = children.SelectMany(x => x.Items).Cast<OE>();
-                return PropertyBagFromTwoColumnTable(GetTableAfterTitle(tableTitle,oes)).Properties[rowTitle];
+                var table = GetTableAfterTitle(tableTitle, oes);
+                var propertyBag = PropertyBagFromTwoColumnTable(table);
+                return propertyBag.Properties[rowTitle];
             }
     }
 }

@@ -16,7 +16,8 @@
 SettingsDailyPages settings = new SettingsDailyPages();
 OneNoteApp ona = new OneNoteObjectModel.OneNoteApp();
 ContentProcessor contentProcessor = new ContentProcessor(new OneNoteObjectModel.OneNoteApp(),false);
-var page = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook).PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection).Page.First(p=>p.name == "Scratch");
+var page = ona.GetNotebook(settings.DailyPagesNotebook).PopulatedSection(ona,settings.DailyPagesSection)
+.GetPage(ona,"Scratch");
 string pageContent;
 ona.OneNoteApplication.GetPageContent(page.ID, out pageContent);
 var pageContentAsXML = XDocument.Parse(pageContent);
