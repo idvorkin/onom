@@ -7,6 +7,7 @@ using OneNoteObjectModel;
 
 namespace OnenoteCapabilities
 {
+    [DebuggerDisplay("{FullText}")]
     public class InkTag
     {
         public string FullText;

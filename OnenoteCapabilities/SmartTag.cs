@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
@@ -7,6 +8,7 @@ using OneNoteObjectModel;
 
 namespace OnenoteCapabilities
 {
+    [DebuggerDisplay("{FullText};Complete={IsComplete};Processed={IsProcessed()}")]
     public class SmartTag
     {
         public bool IsComplete;
