@@ -70,7 +70,6 @@ namespace OnenoteCapabilities
 
         public static SmartTag FromElement(XElement element, OneNotePageCursor cursor, XDocument pageContent)
         {
-            var isCompleteMatcher = "text-decoration:line-through";
             var elementText = element.Value;
             
             var extraIdMatch = Regex.Match(elementText, (string) SmartTag.extraIdMatch);
@@ -110,9 +109,13 @@ namespace OnenoteCapabilities
         // the full text of the smart tag is harder to do without  a proper parser.
         // as a hack - we'll go from starting with a # to the end of elementText.
         private readonly static string fullTextOfSmartTagMatcher = "^(#.+)";
-        // Hack, assume the extraID is always PageId.Length == 87. 
+
+        // Hack, assume the extraID as a pageId.
+        //  I've seen pageID's of 86 and 87, so adding so putting buffer on both sides.
+
         // This is brittle code, test it well.
-        private readonly static string extraIdMatch = "#.*extraId=(.{87})\"";
+        private readonly static string extraIdMatch = "#.*extraId=(.{85,90})\"";
+        private static string isCompleteMatcher = "text-decoration:line-through";
 
         public void SetCompleted(OneNoteApp ona)
         {

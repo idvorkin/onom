@@ -40,8 +40,8 @@ namespace OneNoteObjectModelTests
         public void Setup()
         {
             this.ona = new OneNoteApp();
-            smartTagNoteBook = new TemporaryNoteBookHelper(ona, "SmartTag");
             this._templateNotebook = new TemporaryNoteBookHelper(ona, "SmartTagTemplates");
+            smartTagNoteBook = new TemporaryNoteBookHelper(ona, "SmartTag");
             this._settingsSmartTags = new SettingsSmartTags()
             {
                 TemplateNotebook = _templateNotebook.Get().name,
@@ -77,8 +77,8 @@ namespace OneNoteObjectModelTests
         public void EnumerateSmartTags()
         {
             var smartTags = SmartTag.Get(pageContent, _cursor).ToArray();
-            Assert.That(smartTags.Count(), Is.EqualTo(2));
-            Assert.That(smartTags.Count(st => st.IsProcessed()), Is.EqualTo(1));
+            Assert.AreEqual(2, smartTags.Count());
+            Assert.AreEqual(1, smartTags.Count(st => st.IsProcessed()));
         }
 
         [Test]
