@@ -192,6 +192,24 @@ namespace OneNoteObjectModel
             }
             return embedLinkToModelPage;
         }
+
+        public static void AddContentAfter(string content, XElement parentElement)
+        {
+            // Create a new paragraph to hold the content and insert it immediately after the smart tag.
+            var newOeElement = CreateXElementForOneNote("OE");
+            parentElement.AddAfterSelf((object) newOeElement);
+            var newTElement = CreateXElementForOneNote("T");
+            newOeElement.Add(newTElement);
+            var newCDataElement = new XCData(content);
+            newTElement.Add(newCDataElement);
+        }
+
+        public static XElement CreateXElementForOneNote(string localName)
+        {
+            XNamespace one = "http://schemas.microsoft.com/office/onenote/2013/onenote";
+            return new XElement(one + localName,
+                new XAttribute(XNamespace.Xmlns + "one", one));
+        }
     }
     public static class ExtensionMethods
     {

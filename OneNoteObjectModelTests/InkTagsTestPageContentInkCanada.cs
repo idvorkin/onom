@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OneNoteObjectModelTests
 {
-    class InkTagsTestPageContent:IPageContentAsText
+    class InkTagsTestPageContentInkCanada:IPageContentAsText
     {
         public string firstLine()
         {

@@ -98,6 +98,8 @@
     <Compile Include="EraseEmpty.cs" />
     <Compile Include="HumanizedDateParser.cs" />
     <Compile Include="CrashDumpWriter.cs" />
+    <Compile Include="InkTag.cs" />
+    <Compile Include="InkTagAugmenter.cs" />
     <Compile Include="PeopleAgendaSmartTagProcessor.cs" />
     <Compile Include="PeoplePages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

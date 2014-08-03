@@ -31,7 +31,7 @@ namespace OnenoteCapabilities
                 {
                     sourcePageContent = ona.GetPageContentAsXDocument(smartTodo.ParentPageId);
                 }
-                catch (COMException exception )
+                catch (COMException)
                 {
                     // TODO: Add TEST for missing page.
                     // we throw if page is not found - TBD - test for exact error code.

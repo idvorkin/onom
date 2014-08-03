@@ -95,22 +95,8 @@ namespace OnenoteCapabilities
                 throw new Exception("Unexpected OneNote XML encountered. Expected smart tag to be embedded in an OE element.");
             }
 
-            // Create a new paragraph to hold the content and insert it immediately after the smart tag.
-            var newOEElement = CreateXElementForOneNote("OE");
-            parentElement.AddAfterSelf(newOEElement);
-            var newTElement = CreateXElementForOneNote("T");
-            newOEElement.Add(newTElement);
-            var newCDataElement = new XCData(content);
-            newTElement.Add(newCDataElement);
-
+            OneNoteApp.AddContentAfter(content, parentElement);
             ona.OneNoteApplication.UpdatePageContent(PageContent.ToString());
-        }
-
-        private XElement CreateXElementForOneNote(string localName)
-        {
-            XNamespace one = "http://schemas.microsoft.com/office/onenote/2013/onenote";
-            return new XElement(one + localName,
-                new XAttribute(XNamespace.Xmlns + "one", one));
         }
 
         public static bool IsSmartTag(string elementText)

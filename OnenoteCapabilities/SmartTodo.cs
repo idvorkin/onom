@@ -20,7 +20,6 @@ namespace OnenoteCapabilities
         public XElement Element;
         public XDocument PageContent;
 
-
         public void SetProcessed(OneNoteApp ona)
         {
             this.Element.Value = this.Element.Value.Replace("IsProcessed=False", "IsProcessed=True");

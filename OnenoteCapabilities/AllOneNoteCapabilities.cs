@@ -33,8 +33,15 @@ namespace OneNoteMenu
                 // Topic smarttag processor needs to go last as it will create a topic page for any un-processed tag.
                 new TopicSmartTagTopicProcessor(ona, SettingsTopicPages)
             };
+
             var smartTagAugmentor = new SmartTagAugmenter(ona, new SettingsSmartTags(), smartTagProcessors);
-            Augmenter = new Augmenter(ona, new List<IPageAugmenter> {smartTagAugmentor, new SmartTodoAugmenter()});
+            var pageAugmentors = new List<IPageAugmenter>
+            {
+                new InkTagAugmenter(), // inkTags must go first as they are processed by the smartTagAugmentor
+                smartTagAugmentor, 
+                new SmartTodoAugmenter()
+            };
+            Augmenter = new Augmenter(ona, pageAugmentors);
         }
     }
 }
