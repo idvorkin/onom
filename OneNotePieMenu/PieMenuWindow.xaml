@@ -68,6 +68,7 @@
     <Window.Resources>
         <ContextMenu x:Key="DefaultContextMenu">
             <MenuItem Header="Minimize" Click="MinimizeClicked"/>
+            <MenuItem Header="On Top" Click="OnTopClicked"/>
             <MenuItem Header="About" Click="AboutClicked"/>
             <MenuItem Header="Exit" Click="ExitClicked"/>
         </ContextMenu>

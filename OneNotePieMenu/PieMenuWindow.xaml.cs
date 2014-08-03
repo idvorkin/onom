@@ -223,5 +223,14 @@ namespace OneNotePieMenu
             Application.Current.Shutdown();
         }
 
+        private void OnTopClicked(object sender, RoutedEventArgs e)
+        {
+            this.Topmost = true;
+            // Update the Opacity so we can see edges when on top.
+            var backGroundBrush = (this.Background as SolidColorBrush);
+            backGroundBrush.Opacity = 0.1;
+            backGroundBrush.Color = Colors.DarkGray;
+        }
+
     }
 }
