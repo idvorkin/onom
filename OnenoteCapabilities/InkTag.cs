@@ -43,6 +43,9 @@ namespace OnenoteCapabilities
             var recognizedWords = new List<string>() {recognizedWord};
             recognizedWords.AddRange(siblingRecognizedWordElements.Select(RecognizedText));
             var fullText = string.Join(" ", recognizedWords);
+
+            // sometimes fullText ends up with a # tag, replace that.
+            fullText = fullText.Replace("# ", "#");
             return new InkTag()
             {
                 FullText = fullText,
