@@ -48,6 +48,8 @@
     <Compile Include="Class1.cs" />
     <Compile Include="ContentProcessorTests.cs" />
     <Compile Include="DumbTodoTests.cs" />
+    <Compile Include="InkTagsTestPageContent.cs" />
+    <Compile Include="InkTagTests.cs" />
     <Compile Include="PagesTests.cs" />
     <Compile Include="PeoplePagesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
