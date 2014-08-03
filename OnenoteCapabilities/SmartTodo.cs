@@ -45,7 +45,7 @@ namespace OnenoteCapabilities
 
             // should look like <--. where the . encodes information and <-- is a hyper link to the parent.
             string linkToParentPage = OneNoteApp.OneNoteLinkToPage(pageContainingSmartTag.name, sectionContaingSmartTag);
-            var smartTodoTemplate = "<a href={1}>&lt;---</a><a href=http://smartTodo{0}>.</a> ";
+            var smartTodoTemplate = "<a href={1}>&lt;------</a><a href=http://smartTodo{0}>.</a> ";
             var smartTodoXML = String.Format(smartTodoTemplate, ToQueryString(smartTodoProperties), linkToParentPage);
             return smartTodoXML;
         }
