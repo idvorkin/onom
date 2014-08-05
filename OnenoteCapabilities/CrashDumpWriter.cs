@@ -61,6 +61,7 @@ namespace OnenoteCapabilities
 
         private static void ReportAndCreateCrashDumpExceptionHandler(object sender, UnhandledExceptionEventArgs e)
         {
+            System.Diagnostics.Debugger.Break();
             var result = MessageBox.Show(e.ExceptionObject.ToString(), "Unhandled Exception - Write a crash dump?",
                 MessageBoxButtons.YesNo);
 
