@@ -92,6 +92,7 @@
   <ItemGroup>
     <Compile Include="AllOneNoteCapabilities.cs" />
     <Compile Include="Augment.cs" />
+    <Compile Include="ConnectSmartTagProcessor.cs" />
     <Compile Include="ContentProcessor.cs" />
     <Compile Include="DailyPages.cs" />
     <Compile Include="DumbTodo.cs" />
