@@ -75,7 +75,7 @@ namespace OnenoteCapabilities
 
         public string HelpLine()
         {
-            return "<b>#agenda import</b> import the agenda for a meeting";
+            return "<b>#agenda import</b> import the agenda for this meeting";
         }
 
         private bool RowContainsIncompleteTasks(XElement arg)

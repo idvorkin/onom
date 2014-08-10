@@ -59,8 +59,7 @@ namespace OnenoteCapabilities
 
         public string HelpLine()
         {
-            return "<b>#today</b> add a smartTodo for the today page for this line";
-
+            return "<b>#today</b> add a SmartTodo for today from the rest of this line";
         }
     }
 
@@ -109,8 +108,7 @@ namespace OnenoteCapabilities
 
         public string HelpLine()
         {
-            return "<b>#person</b> add a smartTodo to person from the reset of this line";
-
+            return "<b>#person</b> add a SmartTodo for the person from the rest of this line";
         }
 
         public bool IsFromPerson(SmartTag smartTag)
@@ -171,7 +169,7 @@ namespace OnenoteCapabilities
 
         public string HelpLine()
         {
-            return "<b>#topic</b> Create a new topic page with the remaining line as a SmartTodo";
+            return "<b>#topic</b> add a SmartTodo for the topic from the rest of this line";
         }
     }
 }
