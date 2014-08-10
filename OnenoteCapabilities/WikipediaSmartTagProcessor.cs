@@ -34,6 +34,11 @@ namespace OnenoteCapabilities
             smartTag.SetLink(smartTagAugmenter.ona, new Uri(string.Format(ArticleUrlFormatter, WebUtility.UrlEncode(search))));
         }
 
+        public string HelpLine()
+        {
+            return "<b>#info</b> get information for the rest of this line";
+        }
+
         private string GetWikipediaExtract(string search)
         {
             // Attempt to get the topic from the web using the exact search string.

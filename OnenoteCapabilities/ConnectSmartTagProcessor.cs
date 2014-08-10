@@ -19,5 +19,10 @@ namespace OnenoteCapabilities
             var mailLink = String.Format("mailto:{0}", smartTag.TextAfterTag());
             smartTag.SetLink(smartTagAugmenter.ona, new Uri(mailLink));
         }
+
+        public string HelpLine()
+        {
+            return "<b>#connect</b> make a connection to the person";
+        }
     }
 }

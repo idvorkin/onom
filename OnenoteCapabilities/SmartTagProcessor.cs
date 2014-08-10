@@ -10,9 +10,15 @@ namespace OnenoteCapabilities
 {
     public interface ISmartTagProcessor
     {
-        // TBD:Ensure matching functions don't overlap (easy source of bugs)
         bool ShouldProcess(SmartTag st, OneNotePageCursor cursor);
+        ///
         void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter, OneNotePageCursor cursor);
+
+        /// <summary>
+        /// The html help for the SmartTag.
+        /// </summary>
+        string HelpLine();
+
     }
 
     public class DailySmartTagProcessor : ISmartTagProcessor
@@ -49,6 +55,12 @@ namespace OnenoteCapabilities
             DumbTodo.AddToPageFromDateEnableSmartTag(smartTagAugmenter.ona, dailyPageContent, smartTag, tableOnPage:hackTableToAddTasksTo);
 
             smartTag.SetLink(ona,dailySection,todayPageTitle);
+        }
+
+        public string HelpLine()
+        {
+            return "<b>#today</b> add a smartTodo for the today page for this line";
+
         }
     }
 
@@ -93,6 +105,12 @@ namespace OnenoteCapabilities
 
 
             smartTag.SetLink(ona, peopleSection, personPageTitle);
+        }
+
+        public string HelpLine()
+        {
+            return "<b>#person</b> add a smartTodo to person from the reset of this line";
+
         }
 
         public bool IsFromPerson(SmartTag smartTag)
@@ -149,6 +167,11 @@ namespace OnenoteCapabilities
             }
 
             smartTag.SetLink(ona,templatePageCreater.SectionForPages(), topicPageName);
+        }
+
+        public string HelpLine()
+        {
+            return "<b>#topic</b> Create a new topic page with the remaining line as a SmartTodo";
         }
     }
 }

@@ -64,6 +64,15 @@ namespace OnenoteCapabilities
             DumbTodo.AddToPage(ona,modelPageContent, creationText, DateTime.Now);
         }
 
+        /// <summary>
+        /// The 
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<string> GetAllHelpLines()
+        {
+            return smartTagProcessors.Select(p => p.HelpLine());
+        }
+
 
         private void ProcessSmartTag(SmartTag smartTag, XDocument pageContent, OneNotePageCursor cursor)
         {

@@ -25,6 +25,7 @@ namespace OneNoteMenu
             // TBD: Look up a dependency injection mechanism.
             var smartTagProcessors = new List<ISmartTagProcessor>()
             {
+                new HelpSmartTagProcessor(), 
                 new TwitterSmartTagProcessor(), 
                 new WikipediaSmartTagProcessor(), 
                 new ConnectSmartTagProcessor(), 

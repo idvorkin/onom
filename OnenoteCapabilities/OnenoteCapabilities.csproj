@@ -97,6 +97,7 @@
     <Compile Include="DailyPages.cs" />
     <Compile Include="DumbTodo.cs" />
     <Compile Include="EraseEmpty.cs" />
+    <Compile Include="HelpSmartTagProcessor.cs" />
     <Compile Include="HumanizedDateParser.cs" />
     <Compile Include="CrashDumpWriter.cs" />
     <Compile Include="InkTag.cs" />

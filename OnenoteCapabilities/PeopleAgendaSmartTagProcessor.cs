@@ -73,6 +73,11 @@ namespace OnenoteCapabilities
             ona.OneNoteApplication.UpdatePageContent(pageContent.ToString());
         }
 
+        public string HelpLine()
+        {
+            return "<b>#agenda import</b> import the agenda for a meeting";
+        }
+
         private bool RowContainsIncompleteTasks(XElement arg)
         {
             var tag = arg.DescendantNodes().OfType<XElement>().FirstOrDefault(e => e.Name.LocalName == "Tag");

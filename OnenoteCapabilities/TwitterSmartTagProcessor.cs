@@ -20,6 +20,11 @@ namespace OnenoteCapabilities
             smartTag.SetLink(smartTagAugmenter.ona, new Uri("http://twitter.com/onenotehat"));
         }
 
+        public string HelpLine()
+        {
+            return "<b>#tweet</b> tweet the rest of this line";
+        }
+
         public static bool TweetString(string text)
         {
             // These credentials are hard-coded to the onenotehat account - to implement correctly 
