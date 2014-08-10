@@ -26,6 +26,7 @@ namespace OneNotePieMenu
     public partial class PieMenuWindow : Window
     {
 
+        public static RoutedCommand AugmentCommand = new RoutedCommand();
         public ObservableCollection<string> _observablePeople;
         public AllOneNoteCapabilities capabilities = null;
 
@@ -39,6 +40,7 @@ namespace OneNotePieMenu
             this.PeopleList.SelectedIndex = 0;
             RefreshTopicLruMenu();
             CrashDumpWriter.InstallReportAndCreateCrashDumpUnhandledExceptionHandler();
+            AugmentCommand.InputGestures.Add( new KeyGesture( Key.A , ModifierKeys.Control ));
         }
 
 
