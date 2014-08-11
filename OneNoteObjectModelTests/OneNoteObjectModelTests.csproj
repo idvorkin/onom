@@ -57,6 +57,7 @@
     <Compile Include="SmartTagModelTemplateContent.cs" />
     <Compile Include="SmartTagProcessorTests.cs" />
     <Compile Include="SmartTagTestsPageConent.cs" />
+    <Compile Include="SmartTagXmlProcessingTests.cs" />
     <Compile Include="SmartTodoTests.cs" />
     <Compile Include="SmartTodoTestsPageContent.cs" />
     <Compile Include="TemporaryNoteBookHelper.cs" />

@@ -49,6 +49,17 @@ namespace OnenoteCapabilities
                     continue;
                 }
                 smartTag.SetCompleted(ona);
+
+
+                var page = OneNoteApp.XMLDeserialize<Page>(pageContentInXml.ToString());
+                var pageLink = ona.GetHyperLinkToObject(page.ID);
+                var pageName = page.name;
+
+                var creationText = String.Format("Completed smartTag  '{0} {3}' via smartTodo on page <a href='{1}'> {2} </a>", 
+                        smartTag.TagName(), pageLink, pageName, smartTag.TextAfterTag());
+
+                smartTag.AddEntryToModelPage(ona, creationText);
+
             }
         }
     }

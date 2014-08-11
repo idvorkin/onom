@@ -52,7 +52,7 @@ namespace OnenoteCapabilities
             SmartTagElementInDocument.Value = String.Format(hyperlinkFormatter, embedLinkToModelPage, "#") + SmartTagElementInDocument.Value.Substring(1);
             ona.OneNoteApplication.UpdatePageContent(PageContent.ToString());
         }
-        private readonly string hyperlinkFormatter = "<a href=\"{0}\">{1}</a>";
+        private readonly static string hyperlinkFormatter = "<a href=\"{0}\">{1}</a>";
 
         public void SetLinkToPageId(OneNoteApp ona, string hierarchyElementId, string pageContentId = "")
         {
@@ -70,18 +70,33 @@ namespace OnenoteCapabilities
                 .Select<XElement, SmartTag>(e=>FromElement(e, cursor, pageContent));
         }
 
+        public static string FullTextFromElementText(string elementText)
+        {
+            var augmenetedfullTextMatch = augmentedSmartTagMatcher.Match(elementText);
+            var isAugmentedMatch = augmenetedfullTextMatch.Success;
+
+            if (!isAugmentedMatch)
+            {
+                var fullTextMatch = Regex.Match(elementText,  notAugmentedSmartTagFullTextPattern);
+                var fullText = fullTextMatch.Groups[1].Value;
+                return fullText;
+            }
+
+            var augmentedfullText = "#" + augmenetedfullTextMatch.Groups["tagName"].Value + " "+ augmenetedfullTextMatch.Groups["fullText"];
+            return augmentedfullText;
+        }
+
         public static SmartTag FromElement(XElement element, OneNotePageCursor cursor, XDocument pageContent)
         {
             var elementText = element.Value;
-            
-            var extraIdMatch = Regex.Match(elementText, (string) SmartTag.extraIdMatch);
-            var fullTextMatch = Regex.Match(elementText, (string) fullTextOfSmartTagMatcher);
+            var extraIdMatch = augmentedSmartTagMatcher.Match(elementText);
+            var fullText = FullTextFromElementText(elementText);
 
             return new SmartTag()
             {
                 IsComplete = Regex.IsMatch(elementText, isCompleteMatcher),
-                ModelPageId = extraIdMatch.Success ? extraIdMatch.Groups[1].Value : "",
-                FullText = fullTextMatch.Groups[1].Value,
+                ModelPageId = extraIdMatch.Success ? extraIdMatch.Groups["extraId"].Value : "",
+                FullText = fullText,
                 SmartTagElementInDocument = element,
                 CursorLocation = cursor,
                 PageContent = pageContent,
@@ -102,28 +117,40 @@ namespace OnenoteCapabilities
 
         public static bool IsSmartTag(string elementText)
         {
-            const string smartTagRegExPattern = "^(#.+) ";
-            var isRegularMatch = Regex.IsMatch(elementText, smartTagRegExPattern);
-            var isAugmentedMatch = Regex.IsMatch(elementText, (string) extraIdMatch);
+            var isRegularMatch = Regex.IsMatch(elementText, notAugmentedSmartTagPattern);
+            var isAugmentedMatch = augmentedSmartTagMatcher.IsMatch(elementText);
             return isRegularMatch || isAugmentedMatch;
         }
 
         // the full text of the smart tag is harder to do without  a proper parser.
         // as a hack - we'll go from starting with a # to the end of elementText.
-        private readonly static string fullTextOfSmartTagMatcher = "^(#.+)";
+        private static string notAugmentedSmartTagPattern = "^(#.+) ";
+        private static string notAugmentedSmartTagFullTextPattern = "^(#.+)";
 
         // Hack, assume the extraID as a pageId.
         //  I've seen pageID's of 86 and 87, so adding so putting buffer on both sides.
 
-        // This is brittle code, test it well.
-        private readonly static string extraIdMatch = "#.*extraId=(.{85,90})\"";
-        private static string isCompleteMatcher = "text-decoration:line-through";
+        private readonly static string _augmentedSmartTagPattern = "extraId=(?<extraId>.{85,90}}).*>#</a>.*>(?<tagName>.*)</a> (?<fullText>.+)";
+        private readonly static Regex augmentedSmartTagMatcher = new Regex(_augmentedSmartTagPattern, RegexOptions.Singleline);
+
+
+        private readonly static string isCompleteMatcher = "text-decoration:line-through"; 
 
         public void SetCompleted(OneNoteApp ona)
         {
             var currentText = this.SmartTagElementInDocument.Value;
             this.SmartTagElementInDocument.Value = String.Format("<span style='text-decoration:line-through'>{0}</span>", currentText);
             ona.OneNoteApplication.UpdatePageContent(PageContent.ToString());
+        }
+        public void AddEntryToModelPage(OneNoteApp ona, string text)
+        {
+            // TBD: It's possiblet the model page got deleted, handle that gracefully.
+            var modelPageContent = ona.GetPageContentAsXDocument(ModelPageId);
+
+            // NOTE: This is a big perf hit - figure out how to refactor.
+            var page = OneNoteApp.XMLDeserialize<Page>(modelPageContent.ToString());
+
+            DumbTodo.AddToPage(ona,modelPageContent, text, DateTime.Now);
         }
     }
 }

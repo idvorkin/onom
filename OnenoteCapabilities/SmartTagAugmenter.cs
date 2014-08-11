@@ -48,20 +48,18 @@ namespace OnenoteCapabilities
             // create a new page to represent the smart tag. 
             var newModelPageName = string.Format("Model: {0}", Guid.NewGuid());
             var modelPage = ona.ClonePage(smartTagModelSection,smartTagTemplatePage , newModelPageName );
-
             // put a hyper-link to the page on the '#'
             smartTag.SetId(ona,newModelPageName, modelPage.ID, smartTagModelSection);
-                
-            // TODO Refactor to somewhere else.
-            // record human readable text on the Model Page.
-            var modelPageContent = ona.GetPageContentAsXDocument(modelPage);
 
-            // NOTE: This is a big perf hit - figure out how to refactor.
+            // TBD: get page attributes without the slow XMLDeserialize.
             var page = OneNoteApp.XMLDeserialize<Page>(pageContent.ToString());
+            var pageLink = ona.GetHyperLinkToObject(page.ID);
+            var pageName = page.name;
 
-            // TODO: Make this hyper-link.
-            var creationText = String.Format("Instantiated model from tag '{1}' on page '{0}' with tag text:{2}", page.name, smartTag.TagName(),smartTag.TextAfterTag());
-            DumbTodo.AddToPage(ona,modelPageContent, creationText, DateTime.Now);
+            var creationText = String.Format("Instantiated model from tag '{0}' on page <a href='{1}'> {2} </a> with tag text:{3}", 
+                    smartTag.TagName(), pageLink, pageName, smartTag.TextAfterTag());
+
+            smartTag.AddEntryToModelPage(ona, creationText);
         }
 
         /// <summary>
