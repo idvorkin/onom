@@ -42,7 +42,7 @@ namespace OnenoteCapabilities
             DumbTodo.AddToPageFromDateEnableSmartTag(ona, peoplePageContent, smartTag, tableOnPage: tableOnPage);
 
 
-            smartTag.SetLink(ona, peopleSection, personPageTitle);
+            smartTag.SetLinkToPageId(ona, peoplePage.ID);
         }
 
         public string HelpLine()

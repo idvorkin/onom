@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 using NUnit.Framework;
 using OnenoteCapabilities;
 using OneNoteObjectModel;
@@ -58,6 +59,7 @@ namespace OneNoteObjectModelTests
 
             // Create a scratch page write on.
             this.pageContent = smartTagNoteBook.CreatePage(new SmartTagTestsPageConent(), "ContentPage");
+            this.page = OneNoteApp.XMLDeserialize<Page>(pageContent.ToString());
 
             _cursor = new OneNotePageCursor();
             this.smartTagAugmenter = new SmartTagAugmenter(ona, _settingsSmartTags, new List<ISmartTagProcessor>());
@@ -70,8 +72,8 @@ namespace OneNoteObjectModelTests
         private XDocument pageContent;
         private TemporaryNoteBookHelper _templateNotebook;
         private SettingsSmartTags _settingsSmartTags;
-        private readonly SmartTagTestsPageConent _smartTagTestsPageConent = new SmartTagTestsPageConent();
         private OneNotePageCursor _cursor;
+        private Page page;
 
         [Test]
         public void EnumerateSmartTags()
@@ -113,7 +115,9 @@ namespace OneNoteObjectModelTests
 
             // Brittle test, manually executing augmentation.
             smartTagAugmenter.AddToModel(smartTag, this.pageContent);
-            smartTag.SetLink(ona, this.smartTagNoteBook.DefaultSection, "DeadPage");
+
+            // Set link to a random page.
+            smartTag.SetLinkToPageId(ona, page.ID);
 
             Assert.That(smartTag.IsProcessed());
         }

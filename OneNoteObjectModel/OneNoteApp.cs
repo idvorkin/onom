@@ -183,7 +183,7 @@ namespace OneNoteObjectModel
             return lhsID.Value == rhsID.Value;
         }
 
-        public static string OneNoteLinkToPage(string pageName, Section section, string extraId="")
+        public static string OneNoteLinkToPageName(string pageName, Section section, string extraId="")
         {
             var embedLinkToModelPage = String.Format("onenote:#{0}&base-path={1}", pageName, section.path);
             if (!String.IsNullOrEmpty(extraId))
@@ -191,6 +191,23 @@ namespace OneNoteObjectModel
                 embedLinkToModelPage += "&extraId=" + extraId;
             }
             return embedLinkToModelPage;
+        }
+
+        public string GetHyperLinkToObject(string hierarchyElementId, string pageContentId  = "")
+        {
+            var link = "";
+            OneNoteApplication.GetHyperlinkToObject(hierarchyElementId, pageContentId, out link);
+            return link;
+        }
+
+        public string OneNoteLinkToPageIdWithExtra(string pageId, string extraId)
+        {
+            var linkWithExtraLink = GetHyperLinkToObject(pageId);
+            if (!String.IsNullOrEmpty(extraId))
+            {
+                linkWithExtraLink += "&extraId=" + extraId;
+            }
+            return linkWithExtraLink;
         }
 
         public static void AddContentAfter(string content, XElement parentElement)

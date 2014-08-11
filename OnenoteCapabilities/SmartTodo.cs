@@ -40,11 +40,8 @@ namespace OnenoteCapabilities
             smartTodoProperties["ParentModelId"] = smartTag.ModelPageId;
             smartTodoProperties["Trailer"] = "nonce";
 
-            var sectionContaingSmartTag = OneNoteApp.XMLDeserialize<Section>(ona.GetHierarchy(smartTag.CursorLocation.SectionId, HierarchyScope.hsSelf));
-            var pageContainingSmartTag = OneNoteApp.XMLDeserialize<Page>(ona.GetHierarchy(smartTag.CursorLocation.PageId, HierarchyScope.hsSelf));
-
             // should look like <--. where the . encodes information and <-- is a hyper link to the parent.
-            string linkToParentPage = OneNoteApp.OneNoteLinkToPage(pageContainingSmartTag.name, sectionContaingSmartTag);
+            string linkToParentPage = ona.GetHyperLinkToObject(smartTag.CursorLocation.PageId);
             var smartTodoTemplate = "<a href={1}>&lt;------</a><a href=http://smartTodo{0}>.</a> ";
             var smartTodoXML = String.Format(smartTodoTemplate, ToQueryString(smartTodoProperties), linkToParentPage);
             return smartTodoXML;

@@ -27,6 +27,7 @@ namespace OnenoteCapabilities
         {
             var todayPageTitle = settings.DayPageTitleFromDate(DateTime.Now);
             var dailyPage = dailySection.GetPage(ona, todayPageTitle);
+            var todayPage = dailySection.GetPage(ona, todayPageTitle);
 
             // IMPORTANT: The smartTag has a cache of the pageContent, so if we're writing the todo on the smartTag page via another pageContent, it will be overwritten.
             var dailyPageContent = (dailyPage.ID == cursor.PageId) ? pageContent : ona.GetPageContentAsXDocument(dailyPage);
@@ -37,7 +38,7 @@ namespace OnenoteCapabilities
 
             DumbTodo.AddToPageFromDateEnableSmartTag(smartTagAugmenter.ona, dailyPageContent, smartTag, tableOnPage:hackTableToAddTasksTo);
 
-            smartTag.SetLink(ona,dailySection,todayPageTitle);
+            smartTag.SetLinkToPageId(ona,todayPage.ID);
         }
 
         public string HelpLine()

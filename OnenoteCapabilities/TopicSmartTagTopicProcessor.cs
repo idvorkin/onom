@@ -37,7 +37,7 @@ namespace OnenoteCapabilities
                 pageContent = topicPageContent;
             }
 
-            smartTag.SetLink(ona,templatePageCreater.SectionForPages(), topicPageName);
+            smartTag.SetLinkToPageId(ona, topicPage.ID);
         }
 
         public string HelpLine()

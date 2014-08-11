@@ -48,15 +48,15 @@ namespace OnenoteCapabilities
 
             // Make the # a link to the model.
             // Add a '.' on the end to find the object ID. 
-            var embedLinkToModelPage = OneNoteApp.OneNoteLinkToPage(modelPageName, smartTagModelSection, extraId:modelPageId);
+            var embedLinkToModelPage = ona.OneNoteLinkToPageIdWithExtra(modelPageId,extraId:modelPageId);
             SmartTagElementInDocument.Value = String.Format(hyperlinkFormatter, embedLinkToModelPage, "#") + SmartTagElementInDocument.Value.Substring(1);
             ona.OneNoteApplication.UpdatePageContent(PageContent.ToString());
         }
         private readonly string hyperlinkFormatter = "<a href=\"{0}\">{1}</a>";
 
-        public void SetLink(OneNoteApp ona, Section linkSection, string linkPageName)
+        public void SetLinkToPageId(OneNoteApp ona, string hierarchyElementId, string pageContentId = "")
         {
-            SetLink(ona, new Uri(OneNoteApp.OneNoteLinkToPage(linkPageName, linkSection)));
+            SetLink(ona, new Uri(ona.GetHyperLinkToObject(hierarchyElementId, pageContentId)));
         }
 
         public static IEnumerable<SmartTag> Get(XDocument pageContent, OneNotePageCursor cursor)
