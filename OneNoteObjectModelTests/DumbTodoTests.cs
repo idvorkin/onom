@@ -9,22 +9,19 @@ namespace OneNoteObjectModelTests
 {
     public class DumbTodoTests
     {
-        private OneNoteApp ona;
-
         [SetUp]
         public void Setup()
         {
-            this.ona = new OneNoteApp();
-            this._scratchNotebook = new TemporaryNoteBookHelper(ona, "dumbTodoScratch");
+            this._scratchNotebook = new TemporaryNoteBookHelper("dumbTodoScratch");
 
             // create template structure.
-            this.tempSection  = ona.CreateSection(_scratchNotebook.Get(), "dumbTodoTestSection");
-            var page = ona.CreatePage(tempSection, "dumpTodoTestPage");
+            this.tempSection  = OneNoteApplication.Instance.CreateSection(_scratchNotebook.Get(), "dumbTodoTestSection");
+            var page = OneNoteApplication.Instance.CreatePage(tempSection, "dumpTodoTestPage");
 
             // the copied page has a PageID, replace it with PageID from the newly created page.
             var filledInPage = string.Format(pageWithTwoDumbTodoTables, page.ID, page.name);
             this.pageContent = XDocument.Parse(filledInPage);
-            ona.OneNoteApplication.UpdatePageContent(pageContent.ToString());
+            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(pageContent.ToString());
             this.pageLocation = new OneNotePageCursor()
             {
                 NotebookId = _scratchNotebook.Get().ID,
@@ -186,14 +183,14 @@ namespace OneNoteObjectModelTests
         {
 
             // Write to table 0. 
-            DumbTodo.AddToPage(ona, pageContent, "this is a todo", null, 0);
-            DumbTodo.AddToPage(ona, pageContent, "this is a todo", DateTime.Today, 0);
+            DumbTodo.AddToPage(pageContent, "this is a todo", null, 0);
+            DumbTodo.AddToPage(pageContent, "this is a todo", DateTime.Today, 0);
 
 
 
             // write to table 1
-            DumbTodo.AddToPage(ona, pageContent, "this is a todo", null, 1);
-            DumbTodo.AddToPage(ona, pageContent, "this is a todo", DateTime.Today, 1);
+            DumbTodo.AddToPage(pageContent, "this is a todo", null, 1);
+            DumbTodo.AddToPage(pageContent, "this is a todo", DateTime.Today, 1);
 
 
             // TODAY: Assert not crashing 
@@ -218,13 +215,13 @@ namespace OneNoteObjectModelTests
 
 
             // Write smartTag.
-            DumbTodo.AddToPageFromDateEnableSmartTag(ona, pageContent, smartTag, 0);
-            DumbTodo.AddToPageFromDateEnableSmartTag(ona, pageContent, smartTag, 1);
+            DumbTodo.AddToPageFromDateEnableSmartTag(pageContent, smartTag, 0);
+            DumbTodo.AddToPageFromDateEnableSmartTag(pageContent, smartTag, 1);
 
 
             // write smartTag with date.
-            DumbTodo.AddToPageFromDateEnableSmartTag(ona, pageContent, smartTag, 0);
-            DumbTodo.AddToPageFromDateEnableSmartTag(ona, pageContent, smartTag, 1);
+            DumbTodo.AddToPageFromDateEnableSmartTag(pageContent, smartTag, 0);
+            DumbTodo.AddToPageFromDateEnableSmartTag(pageContent, smartTag, 1);
 
 
             // TODAY: Assert not crashing 

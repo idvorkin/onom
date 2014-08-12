@@ -157,9 +157,8 @@ namespace OneNotePieMenu
             // Debug.Assert(topicLRUs.Count() > 0 );
 
             // Get the latest topic entries from the notebook.
-            var topicSection =
-                capabilities.ona.GetNotebook(capabilities.SettingsTopicPages.TopicNotebook)
-                    .PopulatedSection(capabilities.ona, capabilities.SettingsTopicPages.TopicSection);
+            var topicSection = OneNoteApplication.Instance.GetNotebook(capabilities.SettingsTopicPages.TopicNotebook)
+                    .PopulatedSection(capabilities.SettingsTopicPages.TopicSection);
             var topicTitleInLRUOrder = topicSection.Page.OrderByDescending(p => p.lastModifiedTime).Select(p => p.name);
 
             // UX order of menu-items is backwards, so fill in from back.
@@ -175,12 +174,12 @@ namespace OneNotePieMenu
             var menuItem = sender as PieInTheSky.PieMenuItem;
             var pageTitle = menuItem.Header as string;
 
-            var page = capabilities.ona.GetNotebook(capabilities.SettingsTopicPages.TopicNotebook)
-                .PopulatedSection(capabilities.ona, capabilities.SettingsTopicPages.TopicSection)
-                .GetPage(capabilities.ona, pageTitle);
+            var page = OneNoteApplication.Instance.GetNotebook(capabilities.SettingsTopicPages.TopicNotebook)
+                .PopulatedSection(capabilities.SettingsTopicPages.TopicSection)
+                .GetPage(pageTitle);
             if (page != null)
             {
-                capabilities.ona.OneNoteApplication.NavigateTo(page.ID);
+                OneNoteApplication.Instance.InteropApplication.NavigateTo(page.ID);
             }
         }
 

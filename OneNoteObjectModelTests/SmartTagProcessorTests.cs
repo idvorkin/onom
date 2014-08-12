@@ -18,14 +18,11 @@ namespace OneNoteObjectModelTests
     public class SmartTagProcessorTests
     {
         private TemporaryNoteBookHelper smartTagNoteBook;
-        private OneNoteApp ona;
-
         [SetUp]
         public void Setup()
         {
-            this.ona = new OneNoteApp();
-            this._templateNotebook = new TemporaryNoteBookHelper(ona, "SmartTagTemplates");
-            smartTagNoteBook = new TemporaryNoteBookHelper(ona, "SmartTag");
+            this._templateNotebook = new TemporaryNoteBookHelper("SmartTagTemplates");
+            smartTagNoteBook = new TemporaryNoteBookHelper("SmartTag");
             this._settingsSmartTags = new SettingsSmartTags()
             {
                 TemplateNotebook = _templateNotebook.Get().name,
@@ -33,16 +30,16 @@ namespace OneNoteObjectModelTests
             };
 
             // create template structure.
-            var templateSection = ona.CreateSection(_templateNotebook.Get(), _settingsSmartTags.TemplateSection);
+            var templateSection = OneNoteApplication.Instance.CreateSection(_templateNotebook.Get(), _settingsSmartTags.TemplateSection);
             // create template page.
             _templateNotebook.CreatePage(new SmartTagModelTemplateContent(), _settingsSmartTags.SmartTagTemplateName,templateSection);
 
             // create smartTag model structure.
-            ona.CreateSection(smartTagNoteBook.Get(), _settingsSmartTags.SmartTagModelSection);
+            OneNoteApplication.Instance.CreateSection(smartTagNoteBook.Get(), _settingsSmartTags.SmartTagModelSection);
 
             // Create a scratch page write on.
             this.pageContent = smartTagNoteBook.CreatePage(new SmartTagTestsPageConent(), "ContentPage");
-            this.page = OneNoteApp.XMLDeserialize<Page>(pageContent.ToString());
+            this.page = OneNoteApplication.XMLDeserialize<Page>(pageContent.ToString());
 
 
             // reuse the smarttag settings for topic pages.
@@ -56,7 +53,7 @@ namespace OneNoteObjectModelTests
 
             var augmentors = new List<ISmartTagProcessor>
             {
-                new TopicSmartTagTopicProcessor(ona, settings)
+                new TopicSmartTagTopicProcessor(settings)
 
             };
             _cursor = new OneNotePageCursor()
@@ -65,7 +62,7 @@ namespace OneNoteObjectModelTests
                 // hack that I'm not setting up the rest of the cursor.
             };
 
-            this.smartTagAugmenter = new SmartTagAugmenter(ona, _settingsSmartTags, augmentors);
+            this.smartTagAugmenter = new SmartTagAugmenter(_settingsSmartTags, augmentors);
         }
 
 
@@ -92,7 +89,7 @@ namespace OneNoteObjectModelTests
             var smartTags = SmartTag.Get(pageContent, _cursor);
             foreach (var st in smartTags)
             {
-                st.SetCompleted(ona);
+                st.SetCompleted();
             }
         }
 
@@ -103,7 +100,7 @@ namespace OneNoteObjectModelTests
             Assert.AreEqual(2,smartTags.Count());
             Assert.AreEqual(1, smartTags.Count(st => st.IsProcessed()));
 
-            this.smartTagAugmenter.AugmentPage(ona, pageContent, _cursor);
+            this.smartTagAugmenter.AugmentPage(pageContent, _cursor);
 
             var smartTagsPostAugement = SmartTag.Get(this.pageContent, _cursor).ToArray();
             Assert.AreEqual(2, smartTagsPostAugement.Count());
@@ -121,7 +118,7 @@ namespace OneNoteObjectModelTests
             smartTagAugmenter.AddToModel(smartTag, this.pageContent);
 
             // Set link to a random page.
-            smartTag.SetLinkToPageId(ona, page.ID);
+            smartTag.SetLinkToPageId(page.ID);
             Assert.That(smartTag.IsProcessed());
 
             var smartTagsReprocessed = SmartTag.Get(this.pageContent, _cursor);
@@ -140,7 +137,7 @@ namespace OneNoteObjectModelTests
             Assert.That(smartTag.IsProcessed());
 
             // Set link to URI.
-            smartTag.SetLink(ona, new Uri("http://helloworld"));
+            smartTag.SetLink(new Uri("http://helloworld"));
         }
 
 

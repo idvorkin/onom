@@ -10,14 +10,12 @@ namespace OneNoteObjectModelTests
     public class InkTagTests
     {
         private TemporaryNoteBookHelper inkTagNoteBook;
-        private OneNoteApp ona;
         private XDocument pageContent;
 
         [SetUp]
         public void Setup()
         {
-            this.ona = new OneNoteApp();
-            inkTagNoteBook = new TemporaryNoteBookHelper(ona, "InkTag");
+            inkTagNoteBook = new TemporaryNoteBookHelper("InkTag");
             this.pageContent = inkTagNoteBook.CreatePage(new InkTagsTestPageContentInkCanada(), "InkPage");
         }
 

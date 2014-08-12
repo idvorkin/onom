@@ -17,7 +17,7 @@ namespace OnenoteCapabilities
         {
             // TBD: FIgure out what to do if not an email address.
             var mailLink = String.Format("mailto:{0}", smartTag.TextAfterTag());
-            smartTag.SetLink(smartTagAugmenter.ona, new Uri(mailLink));
+            smartTag.SetLink(new Uri(mailLink));
         }
 
         public string HelpLine()

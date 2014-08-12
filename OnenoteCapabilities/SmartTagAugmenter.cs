@@ -18,22 +18,21 @@ namespace OnenoteCapabilities
 {
     public class SmartTagAugmenter:IPageAugmenter
     {
-        public SmartTagAugmenter(OneNoteApp ona, SettingsSmartTags settings,IEnumerable<ISmartTagProcessor> smartTagProcessors)
+        public SmartTagAugmenter(SettingsSmartTags settings,IEnumerable<ISmartTagProcessor> smartTagProcessors)
         {
             Debug.Assert(smartTagProcessors != null);
 
             this.smartTagProcessors = smartTagProcessors;
             this.settings = settings;
-            this.ona = ona;
 
-            var smartTagNotebook = ona.GetNotebook(settings.SmartTagStorageNotebook);
-            this.smartTagModelSection = smartTagNotebook.PopulatedSection(ona,settings.SmartTagModelSection);
+            var smartTagNotebook = OneNoteApplication.Instance.GetNotebook(settings.SmartTagStorageNotebook);
+            this.smartTagModelSection = smartTagNotebook.PopulatedSection(settings.SmartTagModelSection);
 
-            var templateNoteBook = ona.GetNotebook(settings.TemplateNotebook);
-            this.smartTagTemplatePage = templateNoteBook.PopulatedSection(ona, settings.TemplateSection).GetPage(ona, this.settings.SmartTagTemplateName);
+            var templateNoteBook = OneNoteApplication.Instance.GetNotebook(settings.TemplateNotebook);
+            this.smartTagTemplatePage = templateNoteBook.PopulatedSection(settings.TemplateSection).GetPage(this.settings.SmartTagTemplateName);
         }
 
-        public void AugmentPage(OneNoteApp ona, XDocument pageContent, OneNotePageCursor cursor)
+        public void AugmentPage(XDocument pageContent, OneNotePageCursor cursor)
         {
             var smartTags = SmartTag.Get(pageContent, cursor);
             foreach (var smartTag in smartTags.Where(st=>!st.IsProcessed()))
@@ -47,19 +46,19 @@ namespace OnenoteCapabilities
         {
             // create a new page to represent the smart tag. 
             var newModelPageName = string.Format("Model: {0}", Guid.NewGuid());
-            var modelPage = ona.ClonePage(smartTagModelSection,smartTagTemplatePage , newModelPageName );
+            var modelPage = OneNoteApplication.Instance.ClonePage(smartTagModelSection,smartTagTemplatePage , newModelPageName );
             // put a hyper-link to the page on the '#'
-            smartTag.SetId(ona,newModelPageName, modelPage.ID, smartTagModelSection);
+            smartTag.SetId(newModelPageName, modelPage.ID, smartTagModelSection);
 
             // TBD: get page attributes without the slow XMLDeserialize.
-            var page = OneNoteApp.XMLDeserialize<Page>(pageContent.ToString());
-            var pageLink = ona.GetHyperLinkToObject(page.ID);
+            var page = OneNoteApplication.XMLDeserialize<Page>(pageContent.ToString());
+            var pageLink = OneNoteApplication.Instance.GetHyperLinkToObject(page.ID);
             var pageName = page.name;
 
             var creationText = String.Format("Instantiated model from tag '{0}' on page <a href='{1}'> {2} </a> with tag text:{3}", 
                     smartTag.TagName(), pageLink, pageName, smartTag.TextAfterTag());
 
-            smartTag.AddEntryToModelPage(ona, creationText);
+            smartTag.AddEntryToModelPage(creationText);
         }
 
         /// <summary>
@@ -87,8 +86,6 @@ namespace OnenoteCapabilities
         public Section smartTagModelSection;
         public IEnumerable<ISmartTagProcessor> smartTagProcessors;
         private SettingsSmartTags settings;
-        public OneNoteApp ona;
         private Page smartTagTemplatePage;
-
     }
 }

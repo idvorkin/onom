@@ -22,7 +22,7 @@ namespace OnenoteCapabilities
 
             foreach (var helpLine in helpLines)
             {
-                smartTag.AddContentAfter(smartTagAugmenter.ona, helpLine);
+                smartTag.AddContentAfter(helpLine);
             }
 
         }

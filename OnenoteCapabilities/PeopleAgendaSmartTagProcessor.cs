@@ -12,14 +12,12 @@ namespace OnenoteCapabilities
     {
         private SettingsPeoplePages settings;
         private Section peopleSection;
-        private OneNoteApp ona;
 
-        public PeopleAgendaSmartTagProcessor(OneNoteApp ona, SettingsPeoplePages settings)
+        public PeopleAgendaSmartTagProcessor(SettingsPeoplePages settings)
         {
-            this.ona = ona;
             this.settings = settings;
-            this.peopleSection = ona.GetNotebook(settings.PeoplePagesNotebook)
-                .PopulatedSection(ona, settings.PeoplePagesSection);
+            this.peopleSection = OneNoteApplication.Instance.GetNotebook(settings.PeoplePagesNotebook)
+                .PopulatedSection(settings.PeoplePagesSection);
         }
 
         public bool ShouldProcess(SmartTag st, OneNotePageCursor cursor)
@@ -35,24 +33,24 @@ namespace OnenoteCapabilities
 
         public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter, OneNotePageCursor cursor)
         {
-            var currentPage = ona.GetPageContent(cursor.PageId);
+            var currentPage = OneNoteApplication.Instance.GetPageContent(cursor.PageId);
             // 2) Find my parent page
             var personName = currentPage.name.Split(':')[0];
             var personDate = currentPage.name.Split(':')[1];
 
             if (personDate != DateTime.Today.ToShortDateString())
             {
-                smartTag.AddContentAfter(ona,String.Format("Augment only supported for a today's meeting page. {0} is not valid for #agenda",currentPage.name));
+                smartTag.AddContentAfter(String.Format("Augment only supported for a today's meeting page. {0} is not valid for #agenda",currentPage.name));
                 return;
             }
 
             // HACK: refresh section  - need a better answer for this. 
-            this.peopleSection = ona.GetNotebook(settings.PeoplePagesNotebook).PopulatedSection(ona, settings.PeoplePagesSection);
+            this.peopleSection = OneNoteApplication.Instance.GetNotebook(settings.PeoplePagesNotebook).PopulatedSection(settings.PeoplePagesSection);
 
             // TOTAL Hack - find my parent page
             var personNextPage = peopleSection.Page.First(p => p.name == personName + ":Next");
 
-            var personPageNextContent = ona.GetPageContentAsXDocument(personNextPage);
+            var personPageNextContent = OneNoteApplication.Instance.GetPageContentAsXDocument(personNextPage);
             var personPageCurrentContent = pageContent;
 
             // 3) Get data copies from my parent.
@@ -70,7 +68,7 @@ namespace OnenoteCapabilities
             RowsFromTable(currentMyAction).First().AddAfterSelf(RowsFromTable(nextMyAction).Where(RowContainsIncompleteTasks));
             RowsFromTable(currentThierAction).First().AddAfterSelf(RowsFromTable(nextThierAction).Where(RowContainsIncompleteTasks));
 
-            ona.OneNoteApplication.UpdatePageContent(pageContent.ToString());
+            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(pageContent.ToString());
         }
 
         public string HelpLine()

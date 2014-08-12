@@ -76,13 +76,11 @@ namespace OnenoteCapabilities
 
         public class ContentProcessor
         {
-            public ContentProcessor(OneNoteApp ona, bool ignoreUnsupportedElementError=false)
+            public ContentProcessor(bool ignoreUnsupportedElementError=false)
             {
-                this.ona = ona;
                 this.IgnoreUnsupportedElementError = ignoreUnsupportedElementError;
             }
 
-            public readonly OneNoteApp ona;
             public bool IgnoreUnsupportedElementError;
 
             public List<string> OneNoteContentToList(IEnumerable<Object> objects)
@@ -231,7 +229,7 @@ namespace OnenoteCapabilities
 
             public IEnumerable<string> GetTableRowContent(OneNoteObjectModel.Page page, string tableTitle, string rowTitle)
             {
-                var content = ona.GetPageContent(page);
+                var content = OneNoteApplication.Instance.GetPageContent(page);
                 // ASSUME: Outline is the outer box which contains child items.
                 // ASSUME: OEChildren is always a list of OE
                 var children = content.Items.OfType<Outline>().SelectMany(x => x.OEChildren);

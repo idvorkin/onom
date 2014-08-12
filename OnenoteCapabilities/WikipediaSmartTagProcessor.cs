@@ -28,10 +28,10 @@ namespace OnenoteCapabilities
             var info = GetWikipediaExtract(search);
 
             // Insert the content.
-            smartTag.AddContentAfter(smartTagAugmenter.ona, info);
+            smartTag.AddContentAfter(info);
 
             // Make the smart tag a link to the wikipedia article.
-            smartTag.SetLink(smartTagAugmenter.ona, new Uri(string.Format(ArticleUrlFormatter, WebUtility.UrlEncode(search))));
+            smartTag.SetLink(new Uri(string.Format(ArticleUrlFormatter, WebUtility.UrlEncode(search))));
         }
 
         public string HelpLine()

@@ -20,10 +20,10 @@ namespace OnenoteCapabilities
         public XElement Element;
         public XDocument PageContent;
 
-        public void SetProcessed(OneNoteApp ona)
+        public void SetProcessed()
         {
             this.Element.Value = this.Element.Value.Replace("IsProcessed=False", "IsProcessed=True");
-            ona.OneNoteApplication.UpdatePageContent(PageContent.ToString());
+            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(PageContent.ToString());
         }
 
         public static IEnumerable<SmartTodo> Get(XDocument pageContentInXml)
@@ -32,7 +32,7 @@ namespace OnenoteCapabilities
             return smartTodoElements.Select(e=>FromXmlElement(e,pageContentInXml));
         }
 
-        public static string CreateSmartTodoLink(OneNoteApp ona, SmartTag smartTag)
+        public static string CreateSmartTodoLink(SmartTag smartTag)
         {
             var smartTodoProperties = new Dictionary<string, string>();
             smartTodoProperties["IsProcessed"] = Boolean.FalseString;
@@ -41,7 +41,7 @@ namespace OnenoteCapabilities
             smartTodoProperties["Trailer"] = "nonce";
 
             // should look like <--. where the . encodes information and <-- is a hyper link to the parent.
-            string linkToParentPage = ona.GetHyperLinkToObject(smartTag.CursorLocation.PageId);
+            string linkToParentPage = OneNoteApplication.Instance.GetHyperLinkToObject(smartTag.CursorLocation.PageId);
             var smartTodoTemplate = "<a href={1}>&lt;------</a><a href=http://smartTodo{0}>.</a> ";
             var smartTodoXML = String.Format(smartTodoTemplate, ToQueryString(smartTodoProperties), linkToParentPage);
             return smartTodoXML;

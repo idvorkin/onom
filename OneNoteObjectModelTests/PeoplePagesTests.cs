@@ -11,13 +11,6 @@ namespace OneNoteObjectModelTests
 {
     public class PeoplePagesTests
     {
-        public OneNoteApp ona;
-
-        // GRR - I don't understant why I can't open hierarchy, clearly I'm missing something.
-        /*
-        private static readonly string CurrentAssemblyPath = Path.GetDirectoryName(new Uri(Assembly.GetAssembly(typeof (OneNoteApp)).CodeBase).LocalPath);
-        private static readonly string TestNoteBookPath = Path.Combine(CurrentAssemblyPath, @"..\..\..\TestNoteBooks\");
-        */
         private TemporaryNoteBookHelper _templateNotebook;
         private TemporaryNoteBookHelper _peoplePagesNotebook;
         private OnenoteCapabilities.SettingsPeoplePages _settingsPeoplePages;
@@ -40,9 +33,8 @@ namespace OneNoteObjectModelTests
         [SetUp]
         public void Setup()
         {
-            ona = new OneNoteApp();
-            _templateNotebook = new TemporaryNoteBookHelper(ona, "peoplePagesTemplate");
-            _peoplePagesNotebook = new TemporaryNoteBookHelper(ona, "peoplePages");
+            _templateNotebook = new TemporaryNoteBookHelper("peoplePagesTemplate");
+            _peoplePagesNotebook = new TemporaryNoteBookHelper("peoplePages");
 
             _settingsPeoplePages = new SettingsPeoplePages()
             {
@@ -51,33 +43,33 @@ namespace OneNoteObjectModelTests
             };
 
             // create template structure.
-            var templateSection  = ona.CreateSection(_templateNotebook.Get(), _settingsPeoplePages.TemplateSection);
-            ona.CreatePage(templateSection, _settingsPeoplePages.TemplatePeopleNextTitle);
-            ona.CreatePage(templateSection, _settingsPeoplePages.TemplatePeopleMeetingTitle);
+            var templateSection  = OneNoteApplication.Instance.CreateSection(_templateNotebook.Get(), _settingsPeoplePages.TemplateSection);
+            OneNoteApplication.Instance.CreatePage(templateSection, _settingsPeoplePages.TemplatePeopleNextTitle);
+            OneNoteApplication.Instance.CreatePage(templateSection, _settingsPeoplePages.TemplatePeopleMeetingTitle);
 
             // create alice 
-            var peopleSection = ona.CreateSection(_peoplePagesNotebook.Get(), _settingsPeoplePages.PeoplePagesSection);
-            ona.CreatePage(peopleSection, "Parent Week");
+            var peopleSection = OneNoteApplication.Instance.CreateSection(_peoplePagesNotebook.Get(), _settingsPeoplePages.PeoplePagesSection);
+            OneNoteApplication.Instance.CreatePage(peopleSection, "Parent Week");
 
 
             // Create Alice with one meeting a week ago.
-            ona.CreatePage(peopleSection, _settingsPeoplePages.PersonNextTitle(Alice));
+            OneNoteApplication.Instance.CreatePage(peopleSection, _settingsPeoplePages.PersonNextTitle(Alice));
 
-            var aliceMeeting = ona.CreatePage(peopleSection, _settingsPeoplePages.PersonMeetingTitle(Alice,DateTime.Now - TimeSpan.FromDays(7)));
+            var aliceMeeting = OneNoteApplication.Instance.CreatePage(peopleSection, _settingsPeoplePages.PersonMeetingTitle(Alice,DateTime.Now - TimeSpan.FromDays(7)));
             aliceMeeting.pageLevel = 2.ToString();
-            ona.UpdatePage(aliceMeeting);
+            OneNoteApplication.Instance.UpdatePage(aliceMeeting);
 
             // Create Bob  with no meetings.
-            ona.CreatePage(peopleSection, _settingsPeoplePages.PersonNextTitle(Bob));
+            OneNoteApplication.Instance.CreatePage(peopleSection, _settingsPeoplePages.PersonNextTitle(Bob));
 
             // Instantiate peoplePages
-            peoplePages = new PeoplePages(ona, _settingsPeoplePages);
+            peoplePages = new PeoplePages(_settingsPeoplePages);
         }
 
         private Page[] PagesForPeopleSection(Func<Page,bool> filter=null)
         {
             var pagesNotebook = _peoplePagesNotebook.Get();
-            var pages =  pagesNotebook.PopulatedSection(ona, _settingsPeoplePages.PeoplePagesSection).Page;
+            var pages =  pagesNotebook.PopulatedSection(_settingsPeoplePages.PeoplePagesSection).Page;
             if (filter == null)
             {
                 filter = (x) => true;
@@ -111,7 +103,7 @@ namespace OneNoteObjectModelTests
         public void GotoAliceDoesNotCreateANewPage()
         {
 
-            var pagesNotebook = ona.GetNotebook(_peoplePagesNotebook.Get().name);
+            var pagesNotebook = OneNoteApplication.Instance.GetNotebook(_peoplePagesNotebook.Get().name);
 
             // Assume Alice Already Has 1 entry
             Assert.That(PagesForPeopleSection().Count(n => n.name == _settingsPeoplePages.PersonNextTitle(Alice)),Is.EqualTo(1));
@@ -127,7 +119,7 @@ namespace OneNoteObjectModelTests
         public void CreateNewAliceMeetingEnsureCreatedInCorrectLocation()
         {
 
-            var pagesNotebook = ona.GetNotebook(_peoplePagesNotebook.Get().name);
+            var pagesNotebook = OneNoteApplication.Instance.GetNotebook(_peoplePagesNotebook.Get().name);
 
             // Assume Alice Already Has 1 next entry.
             Assert.That(PagesForPeopleSection().Count(n => n.name == _settingsPeoplePages.PersonNextTitle(Alice)),Is.EqualTo(1));

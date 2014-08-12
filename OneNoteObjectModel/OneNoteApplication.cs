@@ -16,13 +16,20 @@ using OneNoteObjectModel;
 namespace OneNoteObjectModel
 {
     // A wrapper around the COM API's here: http://msdn.microsoft.com/en-us/library/office/gg649853(v=office.14).aspx
-    public class OneNoteApp
+    public class OneNoteApplication
     {
-        private Application _oneNoteApplication = new Application();
+        private static Lazy<OneNoteApplication> lazyInstance = new Lazy<OneNoteApplication>();
 
-        public Application OneNoteApplication
+        public static OneNoteApplication Instance
         {
-            get { return _oneNoteApplication; }
+            get { return lazyInstance.Value; }
+        }
+        private Application _interopApplication = new Application();
+
+        public Application InteropApplication
+        {
+
+            get { return _interopApplication; }
         }
 
         public Notebooks GetNotebooks()
@@ -62,7 +69,7 @@ namespace OneNoteObjectModel
         public string GetHierarchy(string root, HierarchyScope hsScope)
         {
             string output;
-            _oneNoteApplication.GetHierarchy(root, hsScope, out output);
+            _interopApplication.GetHierarchy(root, hsScope, out output);
             return output;
         }
 
@@ -91,7 +98,7 @@ namespace OneNoteObjectModel
             notebookList.Root.AddFirst(XDocument.Parse(XMLSerialize(notebook)).Root);
 
             // tell onenote about it.
-            _oneNoteApplication.UpdateHierarchy(notebookList.ToString());
+            _interopApplication.UpdateHierarchy(notebookList.ToString());
             // NOTE: Can't use GetNotebook as that searches by name, not by path. 
             return GetNotebooks().Notebook.First(n => n.path == path);
         }
@@ -100,7 +107,7 @@ namespace OneNoteObjectModel
         {
             var sectionList = XDocument.Parse(GetHierarchy(notebook.ID, HierarchyScope.hsSections));
             sectionList.Root.Add(XDocument.Parse(XMLSerialize(new Section {name = name})).Root);
-            _oneNoteApplication.UpdateHierarchy(sectionList.ToString());
+            _interopApplication.UpdateHierarchy(sectionList.ToString());
             return GetSections(notebook).First(s => s.name == name);
         }
 
@@ -112,14 +119,14 @@ namespace OneNoteObjectModel
         public Page CreatePage(Section section, string title)
         {
             string pageId = String.Empty;
-            OneNoteApplication.CreateNewPage(section.ID, out pageId);
+            InteropApplication.CreateNewPage(section.ID, out pageId);
             var page = GetPageContent(pageId);
             (page.Title.OE.First().Items.First() as TextRange).Value = title;
             return UpdatePage(page);
         }
         public Page UpdatePage(Page page)
         {
-            OneNoteApplication.UpdatePageContent(XMLSerialize(page));
+            InteropApplication.UpdatePageContent(XMLSerialize(page));
             // return what the page is from onenote (with for example ID's filled in)
             return GetPageContent(page);
         }
@@ -138,14 +145,14 @@ namespace OneNoteObjectModel
         public XDocument GetPageContentAsXDocument(string pageId)
         {
             string pageContent;
-            OneNoteApplication.GetPageContent(pageId,out pageContent);
+            InteropApplication.GetPageContent(pageId,out pageContent);
             return XDocument.Parse(pageContent);
         }
 
         public Page GetPageContent(string PageId)
         {
             string pageContent;
-            OneNoteApplication.GetPageContent(PageId,out pageContent);
+            InteropApplication.GetPageContent(PageId,out pageContent);
             return XMLDeserialize<Page>(pageContent);
         }
 
@@ -170,7 +177,7 @@ namespace OneNoteObjectModel
 
             // Update current time to be now
             newPageXML.dateTime = DateTime.Now;
-            OneNoteApplication.UpdatePageContent(XMLSerialize(newPageXML));
+            InteropApplication.UpdatePageContent(XMLSerialize(newPageXML));
 
             // Return the cloned page with content.
             return GetPageContent(newPage);
@@ -196,7 +203,7 @@ namespace OneNoteObjectModel
         public string GetHyperLinkToObject(string hierarchyElementId, string pageContentId  = "")
         {
             var link = "";
-            OneNoteApplication.GetHyperlinkToObject(hierarchyElementId, pageContentId, out link);
+            InteropApplication.GetHyperlinkToObject(hierarchyElementId, pageContentId, out link);
             return link;
         }
 
@@ -230,17 +237,17 @@ namespace OneNoteObjectModel
     }
     public static class ExtensionMethods
     {
-        // These extension methods need a OneNoteApp so that they can be static, without making a singleton app (TODO consider a singleton pattern)
-        public static IEnumerable<Section> PopulatedSections(this Notebook notebook, OneNoteApp ona)
+        // These extension methods need a OneNoteApplication so that they can be static, without making a singleton app (TODO consider a singleton pattern)
+        public static IEnumerable<Section> PopulatedSections(this Notebook notebook)
         {
-            return ona.GetSections(notebook);
+            return OneNoteApplication.Instance.GetSections(notebook);
         }
 
 
         // PopulatedSections is significantly slower the PopulatedSection because it returns all pages.
-        public static Section PopulatedSection(this Notebook notebook, OneNoteApp ona, string sectionName)
+        public static Section PopulatedSection(this Notebook notebook, string sectionName)
         {
-            var sections =  ona.GetSections(notebook, true);
+            var sections =  OneNoteApplication.Instance.GetSections(notebook, true);
             try
             {
                 return sections.First(s=>s.name == sectionName);
@@ -254,7 +261,7 @@ namespace OneNoteObjectModel
         // Note - PERF: We are not re-storing the refreshed section, so a non-existant page results in a re-evaluation of the section every time.
         // When performance optimizing need to cache the hierarchy and re-evalute it as needed.
 
-        public static Page GetPage(this  Section section, OneNoteApp ona, string pageName)
+        public static Page GetPage(this  Section section, string pageName)
         {
             if (section.Page != null)
             {
@@ -269,7 +276,8 @@ namespace OneNoteObjectModel
             // it's possible our section object is stale because we created pages since we cached the section object.
             try
             {
-                var refreshedSection = OneNoteApp.XMLDeserialize<Section>(ona.GetHierarchy(section.ID,HierarchyScope.hsPages));
+                var refreshedSection = OneNoteApplication.XMLDeserialize<Section>(
+                        OneNoteApplication.Instance.GetHierarchy(section.ID,HierarchyScope.hsPages));
                 return refreshedSection.Page.First(s=>s.name == pageName);
             }
             catch (Exception e)
@@ -290,7 +298,7 @@ namespace OneNoteObjectModel
         /// <summary>
         ///  Test if a section is the default section added by the onenote applications.
         /// <returns></returns>
-        public static bool IsDefaultUnmodified(this Section s, OneNoteApp ona)
+        public static bool IsDefaultUnmodified(this Section s)
         {
             // f it doesn't start with default new section starting string it's not empty.
             const string newSectionStartingName = "New Section";
@@ -303,13 +311,13 @@ namespace OneNoteObjectModel
             if (s.Page.Count() != 1) return false;
 
             // If there are no page items or title it's empty
-            return s.Page.First().IsDefaultUnmodified(ona);
+            return s.Page.First().IsDefaultUnmodified();
         }
 
-        public static bool IsDefaultUnmodified(this Page p, OneNoteApp ona)
+        public static bool IsDefaultUnmodified(this Page p)
         {
             // Get page content just to be safe.
-            var page = ona.GetPageContent(p);
+            var page = OneNoteApplication.Instance.GetPageContent(p);
             return page.Items == null && page.Title.OE.First().Items.OfType<TextRange>().All(x => x.Value == "");
         }
     }

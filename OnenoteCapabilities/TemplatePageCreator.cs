@@ -7,15 +7,13 @@ namespace OnenoteCapabilities
     public class TemplatePageCreator
     {
         private const int NO_INDENT_VALUE = -1;
-        private readonly OneNoteApp ona;
         private readonly string templateNotebook;
         private readonly string templateSection;
         private readonly string pagesNotebook;
         private readonly string pagesSection;
 
-        public TemplatePageCreator(OneNoteApp ona, string templateNotebook, string templateSection, string pagesNotebook, string pagesSection)
+        public TemplatePageCreator(string templateNotebook, string templateSection, string pagesNotebook, string pagesSection)
         {
-            this.ona = ona;
             this.templateNotebook = templateNotebook;
             this.templateSection = templateSection;
             this.pagesNotebook = pagesNotebook;
@@ -25,13 +23,13 @@ namespace OnenoteCapabilities
         public void GotoOrCreatePage (string pageTitle, string templateName, int indentValue)
         {
             var reloadedNewPage = CreatePageIfNotExists(pageTitle, templateName, indentValue);
-            ona.OneNoteApplication.NavigateTo(reloadedNewPage.ID);
+            OneNoteApplication.Instance.InteropApplication.NavigateTo(reloadedNewPage.ID);
         }
 
         public Page CreatePageIfNotExists(string pageTitle, string templateName, int indentValue)
         {
-            var templatePage = ona.GetNotebook(templateNotebook)
-                .PopulatedSection(ona, templateSection)
+            var templatePage = OneNoteApplication.Instance.GetNotebook(templateNotebook)
+                .PopulatedSection(templateSection)
                 .Page.First(p => p.name == templateName);
 
             var sectionForPages = SectionForPages();
@@ -41,7 +39,7 @@ namespace OnenoteCapabilities
             if (!isPageExists)
             {
                 // page does not exist.
-                var newPage = ona.ClonePage(sectionForPages, templatePage, pageTitle);
+                var newPage = OneNoteApplication.Instance.ClonePage(sectionForPages, templatePage, pageTitle);
 
                 // Indent page because it will be folded into a weekly template.
                 if (indentValue != NO_INDENT_VALUE)
@@ -52,7 +50,7 @@ namespace OnenoteCapabilities
                 {
                     newPage.pageLevel = 1.ToString();
                 }
-                ona.UpdatePage(newPage);
+                OneNoteApplication.Instance.UpdatePage(newPage);
 
                 // reload section since we modified the tree. 
                 sectionForPages = SectionForPages();
@@ -65,16 +63,16 @@ namespace OnenoteCapabilities
         public void GotoPage(string title)
         {
 
-            var page = ona.GetNotebook(pagesNotebook)
-                .PopulatedSection(ona, pagesSection)
+            var page = OneNoteApplication.Instance.GetNotebook(pagesNotebook)
+                .PopulatedSection(pagesSection)
                 .Page.First(p => p.name == title);
 
-            ona.OneNoteApplication.NavigateTo(page.ID);
+            OneNoteApplication.Instance.InteropApplication.NavigateTo(page.ID);
         }
 
         public Section SectionForPages()
         {
-            var _sectionForPages = ona.GetNotebook(pagesNotebook).PopulatedSection(ona, pagesSection);
+            var _sectionForPages = OneNoteApplication.Instance.GetNotebook(pagesNotebook).PopulatedSection(pagesSection);
             return _sectionForPages;
         }
 
@@ -129,7 +127,7 @@ namespace OnenoteCapabilities
 
             // set pages to everything but the last page.
             sectionForPages.Page = pagesList.Take(pagesList.Count - 1).ToArray();
-            ona.OneNoteApplication.UpdateHierarchy(OneNoteApp.XMLSerialize(sectionForPages));
+            OneNoteApplication.Instance.InteropApplication.UpdateHierarchy(OneNoteApplication.XMLSerialize(sectionForPages));
         }
 
         public void GotoOrCreatePage(string pageTitle, string templateName)

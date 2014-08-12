@@ -50,10 +50,11 @@
     <Compile Include="onenote.cs">
       <DependentUpon>onenote.xsd</DependentUpon>
     </Compile>
-    <Compile Include="OneNoteApp.cs" />
+    <Compile Include="OneNoteApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Onenote.cd" />
     <None Include="onenote.xsd">
       <SubType>Designer</SubType>

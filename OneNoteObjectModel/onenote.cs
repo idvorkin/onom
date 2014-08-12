@@ -22,8 +22,8 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote", IsNullable = false)]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlRoot(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote", IsNullable = false)]
     public partial class Notebooks
     {
 
@@ -34,7 +34,7 @@ namespace OneNoteObjectModel
         private OpenSections openSectionsField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Notebook")]
+        [XmlElement("Notebook")]
         public Notebook[] Notebook
         {
             get
@@ -79,8 +79,8 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote", IsNullable = false)]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlRoot(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote", IsNullable = false)]
     public partial class Notebook
     {
 
@@ -118,7 +118,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Section")]
+        [XmlElement("Section")]
         public Section[] Section
         {
             get
@@ -132,7 +132,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("SectionGroup")]
+        [XmlElement("SectionGroup")]
         public SectionGroup[] SectionGroup
         {
             get
@@ -146,7 +146,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string nickname
         {
             get
@@ -160,7 +160,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("automatic")]
         public string color
         {
@@ -175,7 +175,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public bool isUnread
         {
             get
@@ -189,7 +189,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool isUnreadSpecified
         {
             get
@@ -203,7 +203,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string ID
         {
             get
@@ -217,7 +217,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string name
         {
             get
@@ -231,7 +231,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime lastModifiedTime
         {
             get
@@ -245,7 +245,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool lastModifiedTimeSpecified
         {
             get
@@ -259,7 +259,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool isCurrentlyViewed
         {
@@ -274,7 +274,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool isInRecycleBin
         {
@@ -289,7 +289,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string path
         {
             get
@@ -308,8 +308,8 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote", IsNullable = false)]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlRoot(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote", IsNullable = false)]
     public partial class Section
     {
 
@@ -358,7 +358,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Page")]
+        [XmlElement("Page")]
         public Page[] Page
         {
             get
@@ -372,7 +372,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("automatic")]
         public string color
         {
@@ -387,7 +387,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool encrypted
         {
@@ -402,7 +402,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool locked
         {
@@ -417,7 +417,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public bool isUnread
         {
             get
@@ -431,7 +431,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool isUnreadSpecified
         {
             get
@@ -445,7 +445,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool readOnly
         {
@@ -460,7 +460,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(true)]
         public bool areAllPagesAvailable
         {
@@ -475,7 +475,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool isDeletedPages
         {
@@ -490,7 +490,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string ID
         {
             get
@@ -504,7 +504,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string name
         {
             get
@@ -518,7 +518,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime lastModifiedTime
         {
             get
@@ -532,7 +532,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool lastModifiedTimeSpecified
         {
             get
@@ -546,7 +546,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool isCurrentlyViewed
         {
@@ -561,7 +561,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool isInRecycleBin
         {
@@ -576,7 +576,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string path
         {
             get
@@ -595,8 +595,8 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote", IsNullable = false)]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlRoot(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote", IsNullable = false)]
     public partial class Page
     {
 
@@ -671,7 +671,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("TagDef")]
+        [XmlElement("TagDef")]
         public TagDef[] TagDef
         {
             get
@@ -685,7 +685,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("QuickStyleDef")]
+        [XmlElement("QuickStyleDef")]
         public QuickStyleDef[] QuickStyleDef
         {
             get
@@ -699,7 +699,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("XPSFile")]
+        [XmlElement("XPSFile")]
         public XPSFile[] XPSFile
         {
             get
@@ -713,7 +713,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Meta")]
+        [XmlElement("Meta")]
         public Meta[] Meta
         {
             get
@@ -727,7 +727,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable = false)]
+        [XmlArrayItem(IsNullable = false)]
         public MediaReference[] MediaPlaylist
         {
             get
@@ -780,12 +780,12 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("FutureObject", typeof(FutureObject))]
-        [System.Xml.Serialization.XmlElementAttribute("Image", typeof(Image))]
-        [System.Xml.Serialization.XmlElementAttribute("InkDrawing", typeof(InkDrawing))]
-        [System.Xml.Serialization.XmlElementAttribute("InsertedFile", typeof(InsertedFile))]
-        [System.Xml.Serialization.XmlElementAttribute("MediaFile", typeof(MediaFile))]
-        [System.Xml.Serialization.XmlElementAttribute("Outline", typeof(Outline))]
+        [XmlElement("FutureObject", typeof(FutureObject))]
+        [XmlElement("Image", typeof(Image))]
+        [XmlElement("InkDrawing", typeof(InkDrawing))]
+        [XmlElement("InsertedFile", typeof(InsertedFile))]
+        [XmlElement("MediaFile", typeof(MediaFile))]
+        [XmlElement("Outline", typeof(Outline))]
         public PageObject[] Items
         {
             get
@@ -799,7 +799,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime dateTime
         {
             get
@@ -813,7 +813,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool dateTimeSpecified
         {
             get
@@ -827,7 +827,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("none")]
         public string selected
         {
@@ -842,7 +842,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public bool isSubPage
         {
             get
@@ -856,7 +856,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool isSubPageSpecified
         {
             get
@@ -870,7 +870,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "integer")]
+        [XmlAttribute(DataType = "integer")]
         public string pageLevel
         {
             get
@@ -884,7 +884,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool isCollapsed
         {
@@ -899,7 +899,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public bool isUnread
         {
             get
@@ -913,7 +913,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool isUnreadSpecified
         {
             get
@@ -927,7 +927,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(true)]
         public bool isIndexed
         {
@@ -942,7 +942,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool hasFutureContent
         {
@@ -957,7 +957,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string stationeryName
         {
             get
@@ -971,7 +971,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string ID
         {
             get
@@ -985,7 +985,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string name
         {
             get
@@ -999,7 +999,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime lastModifiedTime
         {
             get
@@ -1013,7 +1013,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool lastModifiedTimeSpecified
         {
             get
@@ -1027,7 +1027,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool isCurrentlyViewed
         {
@@ -1042,7 +1042,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool isInRecycleBin
         {
@@ -1057,7 +1057,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string style
         {
             get
@@ -1071,7 +1071,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string quickStyleIndex
         {
             get
@@ -1085,7 +1085,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lang
         {
             get
@@ -1104,7 +1104,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class TagDef
     {
 
@@ -1127,7 +1127,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string index
         {
             get
@@ -1141,7 +1141,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string name
         {
             get
@@ -1155,7 +1155,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string type
         {
             get
@@ -1169,7 +1169,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string symbol
         {
             get
@@ -1183,7 +1183,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("automatic")]
         public string fontColor
         {
@@ -1198,7 +1198,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("none")]
         public string highlightColor
         {
@@ -1218,15 +1218,15 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class LinkedNoteThumbnail
     {
 
         private object itemField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("CallbackID", typeof(CallbackID))]
-        [System.Xml.Serialization.XmlElementAttribute("Data", typeof(byte[]), DataType = "base64Binary")]
+        [XmlElement("CallbackID", typeof(CallbackID))]
+        [XmlElement("Data", typeof(byte[]), DataType = "base64Binary")]
         public object Item
         {
             get
@@ -1245,14 +1245,14 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class CallbackID
     {
 
         private string callbackIDField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string callbackID
         {
             get
@@ -1271,7 +1271,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class LinkedNote
     {
 
@@ -1353,7 +1353,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "integer")]
+        [XmlAttribute(DataType = "integer")]
         public string state
         {
             get
@@ -1372,7 +1372,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class TextRange
     {
 
@@ -1395,7 +1395,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("none")]
         public string selected
         {
@@ -1410,7 +1410,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(true)]
         public bool preserveWhiteSpace
         {
@@ -1425,7 +1425,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string style
         {
             get
@@ -1439,7 +1439,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string quickStyleIndex
         {
             get
@@ -1453,7 +1453,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lang
         {
             get
@@ -1467,7 +1467,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
+        [XmlText()]
         public string Value
         {
             get
@@ -1486,7 +1486,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class EndOfLine
     {
     }
@@ -1496,7 +1496,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Space
     {
     }
@@ -1506,7 +1506,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class InkWord
     {
 
@@ -1546,11 +1546,11 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("CallbackID", typeof(CallbackID))]
-        [System.Xml.Serialization.XmlElementAttribute("Data", typeof(byte[]), DataType = "base64Binary")]
-        [System.Xml.Serialization.XmlElementAttribute("EndOfLine", typeof(EndOfLine))]
-        [System.Xml.Serialization.XmlElementAttribute("File", typeof(FilePath))]
-        [System.Xml.Serialization.XmlElementAttribute("Space", typeof(Space))]
+        [XmlElement("CallbackID", typeof(CallbackID))]
+        [XmlElement("Data", typeof(byte[]), DataType = "base64Binary")]
+        [XmlElement("EndOfLine", typeof(EndOfLine))]
+        [XmlElement("File", typeof(FilePath))]
+        [XmlElement("Space", typeof(Space))]
         public object Item
         {
             get
@@ -1564,7 +1564,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string recognizedText
         {
             get
@@ -1578,7 +1578,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("none")]
         public string selected
         {
@@ -1593,7 +1593,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double x
         {
             get
@@ -1607,7 +1607,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool xSpecified
         {
             get
@@ -1621,7 +1621,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double y
         {
             get
@@ -1635,7 +1635,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool ySpecified
         {
             get
@@ -1649,7 +1649,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double width
         {
             get
@@ -1663,7 +1663,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool widthSpecified
         {
             get
@@ -1677,7 +1677,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double height
         {
             get
@@ -1691,7 +1691,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool heightSpecified
         {
             get
@@ -1705,7 +1705,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string style
         {
             get
@@ -1719,7 +1719,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(0D)]
         public double inkOriginX
         {
@@ -1734,7 +1734,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(0D)]
         public double inkOriginY
         {
@@ -1754,14 +1754,14 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class FilePath
     {
 
         private string pathField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string path
         {
             get
@@ -1780,7 +1780,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class InkParagraph
     {
 
@@ -1803,7 +1803,7 @@ namespace OneNoteObjectModel
         private bool heightFieldSpecified;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("InkWord")]
+        [XmlElement("InkWord")]
         public InkWord[] InkWord
         {
             get
@@ -1817,7 +1817,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double x
         {
             get
@@ -1831,7 +1831,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool xSpecified
         {
             get
@@ -1845,7 +1845,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double y
         {
             get
@@ -1859,7 +1859,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool ySpecified
         {
             get
@@ -1873,7 +1873,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double width
         {
             get
@@ -1887,7 +1887,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool widthSpecified
         {
             get
@@ -1901,7 +1901,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double height
         {
             get
@@ -1915,7 +1915,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool heightSpecified
         {
             get
@@ -1934,7 +1934,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Cell
     {
 
@@ -1980,7 +1980,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("OEChildren")]
+        [XmlElement("OEChildren")]
         public OEChildren[] OEChildren
         {
             get
@@ -1994,7 +1994,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string objectID
         {
             get
@@ -2008,7 +2008,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("none")]
         public string selected
         {
@@ -2023,7 +2023,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime lastModifiedTime
         {
             get
@@ -2037,7 +2037,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool lastModifiedTimeSpecified
         {
             get
@@ -2051,7 +2051,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string shadingColor
         {
             get
@@ -2065,7 +2065,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string meetingContentType
         {
             get
@@ -2079,7 +2079,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string author
         {
             get
@@ -2093,7 +2093,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string authorInitials
         {
             get
@@ -2107,7 +2107,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string authorResolutionID
         {
             get
@@ -2121,7 +2121,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lastModifiedBy
         {
             get
@@ -2135,7 +2135,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lastModifiedByInitials
         {
             get
@@ -2149,7 +2149,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lastModifiedByResolutionID
         {
             get
@@ -2163,7 +2163,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime creationTime
         {
             get
@@ -2177,7 +2177,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool creationTimeSpecified
         {
             get
@@ -2191,7 +2191,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string style
         {
             get
@@ -2205,7 +2205,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string quickStyleIndex
         {
             get
@@ -2219,7 +2219,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lang
         {
             get
@@ -2238,7 +2238,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class OEChildren
     {
 
@@ -2276,8 +2276,8 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("HTMLBlock", typeof(HtmlContent))]
-        [System.Xml.Serialization.XmlElementAttribute("OE", typeof(OE))]
+        [XmlElement("HTMLBlock", typeof(HtmlContent))]
+        [XmlElement("OE", typeof(OE))]
         public object[] Items
         {
             get
@@ -2291,7 +2291,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "positiveInteger")]
+        [XmlAttribute(DataType = "positiveInteger")]
         [System.ComponentModel.DefaultValueAttribute("1")]
         public string indent
         {
@@ -2306,7 +2306,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("none")]
         public string selected
         {
@@ -2321,7 +2321,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string style
         {
             get
@@ -2335,7 +2335,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string quickStyleIndex
         {
             get
@@ -2349,7 +2349,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lang
         {
             get
@@ -2368,7 +2368,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class ChildOELayout
     {
 
@@ -2393,7 +2393,7 @@ namespace OneNoteObjectModel
         private bool listAlignmentFieldSpecified;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double spaceBefore
         {
             get
@@ -2407,7 +2407,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool spaceBeforeSpecified
         {
             get
@@ -2421,7 +2421,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double spaceBetween
         {
             get
@@ -2435,7 +2435,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool spaceBetweenSpecified
         {
             get
@@ -2449,7 +2449,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double spaceAfter
         {
             get
@@ -2463,7 +2463,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool spaceAfterSpecified
         {
             get
@@ -2477,7 +2477,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double listSpacing
         {
             get
@@ -2491,7 +2491,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool listSpacingSpecified
         {
             get
@@ -2505,7 +2505,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public ChildOELayoutListAlignment listAlignment
         {
             get
@@ -2519,7 +2519,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool listAlignmentSpecified
         {
             get
@@ -2536,7 +2536,7 @@ namespace OneNoteObjectModel
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.33440")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(AnonymousType = true, Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public enum ChildOELayoutListAlignment
     {
 
@@ -2552,7 +2552,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class HtmlContent
     {
 
@@ -2563,8 +2563,8 @@ namespace OneNoteObjectModel
         private bool meetingTrackModificationsFieldSpecified;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Data", typeof(string))]
-        [System.Xml.Serialization.XmlElementAttribute("File", typeof(FilePath))]
+        [XmlElement("Data", typeof(string))]
+        [XmlElement("File", typeof(FilePath))]
         public object Item
         {
             get
@@ -2578,7 +2578,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public bool meetingTrackModifications
         {
             get
@@ -2592,7 +2592,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool meetingTrackModificationsSpecified
         {
             get
@@ -2611,7 +2611,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class OE
     {
 
@@ -2717,7 +2717,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("MediaIndex", Order = 0)]
+        [XmlElement("MediaIndex", Order = 0)]
         public MediaIndex[] MediaIndex
         {
             get
@@ -2731,7 +2731,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Tag", Order = 1)]
+        [XmlElement("Tag", Order = 1)]
         public Tag[] Tag
         {
             get
@@ -2745,7 +2745,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 2)]
+        [XmlElement(Order = 2)]
         public OutlookTask OutlookTask
         {
             get
@@ -2759,7 +2759,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Tag", Order = 3)]
+        [XmlElement("Tag", Order = 3)]
         public Tag[] Tag1
         {
             get
@@ -2773,7 +2773,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Meta", Order = 4)]
+        [XmlElement("Meta", Order = 4)]
         public Meta[] Meta
         {
             get
@@ -2787,7 +2787,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 5)]
+        [XmlElement(Order = 5)]
         public List List
         {
             get
@@ -2801,15 +2801,15 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("FutureObject", typeof(FutureObject), Order = 6)]
-        [System.Xml.Serialization.XmlElementAttribute("Image", typeof(Image), Order = 6)]
-        [System.Xml.Serialization.XmlElementAttribute("InkDrawing", typeof(InkDrawing), Order = 6)]
-        [System.Xml.Serialization.XmlElementAttribute("InkParagraph", typeof(InkParagraph), Order = 6)]
-        [System.Xml.Serialization.XmlElementAttribute("InkWord", typeof(InkWord), Order = 6)]
-        [System.Xml.Serialization.XmlElementAttribute("InsertedFile", typeof(InsertedFile), Order = 6)]
-        [System.Xml.Serialization.XmlElementAttribute("MediaFile", typeof(MediaFile), Order = 6)]
-        [System.Xml.Serialization.XmlElementAttribute("T", typeof(TextRange), Order = 6)]
-        [System.Xml.Serialization.XmlElementAttribute("Table", typeof(Table), Order = 6)]
+        [XmlElement("FutureObject", typeof(FutureObject), Order = 6)]
+        [XmlElement("Image", typeof(Image), Order = 6)]
+        [XmlElement("InkDrawing", typeof(InkDrawing), Order = 6)]
+        [XmlElement("InkParagraph", typeof(InkParagraph), Order = 6)]
+        [XmlElement("InkWord", typeof(InkWord), Order = 6)]
+        [XmlElement("InsertedFile", typeof(InsertedFile), Order = 6)]
+        [XmlElement("MediaFile", typeof(MediaFile), Order = 6)]
+        [XmlElement("T", typeof(TextRange), Order = 6)]
+        [XmlElement("Table", typeof(Table), Order = 6)]
         public object[] Items
         {
             get
@@ -2823,7 +2823,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("OEChildren", Order = 7)]
+        [XmlElement("OEChildren", Order = 7)]
         public OEChildren[] OEChildren
         {
             get
@@ -2837,7 +2837,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 8)]
+        [XmlElement(Order = 8)]
         public LinkedNote LinkedNote
         {
             get
@@ -2851,7 +2851,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public bool RTL
         {
             get
@@ -2865,7 +2865,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool RTLSpecified
         {
             get
@@ -2879,7 +2879,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool bodyText
         {
@@ -2894,7 +2894,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool collapsed
         {
@@ -2909,7 +2909,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool collapsedBodyText
         {
@@ -2924,7 +2924,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("left")]
         public string alignment
         {
@@ -2939,7 +2939,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("none")]
         public string selected
         {
@@ -2954,7 +2954,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string objectID
         {
             get
@@ -2968,7 +2968,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double spaceBefore
         {
             get
@@ -2982,7 +2982,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool spaceBeforeSpecified
         {
             get
@@ -2996,7 +2996,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double spaceBetween
         {
             get
@@ -3010,7 +3010,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool spaceBetweenSpecified
         {
             get
@@ -3024,7 +3024,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double spaceAfter
         {
             get
@@ -3038,7 +3038,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool spaceAfterSpecified
         {
             get
@@ -3052,7 +3052,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string meetingContentType
         {
             get
@@ -3066,7 +3066,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string meetingContentId
         {
             get
@@ -3080,7 +3080,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public bool meetingTrackModifications
         {
             get
@@ -3094,7 +3094,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool meetingTrackModificationsSpecified
         {
             get
@@ -3108,7 +3108,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public bool meetingIsUserEdited
         {
             get
@@ -3122,7 +3122,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool meetingIsUserEditedSpecified
         {
             get
@@ -3136,7 +3136,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string style
         {
             get
@@ -3150,7 +3150,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string quickStyleIndex
         {
             get
@@ -3164,7 +3164,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lang
         {
             get
@@ -3178,7 +3178,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string author
         {
             get
@@ -3192,7 +3192,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string authorInitials
         {
             get
@@ -3206,7 +3206,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string authorResolutionID
         {
             get
@@ -3220,7 +3220,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lastModifiedBy
         {
             get
@@ -3234,7 +3234,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lastModifiedByInitials
         {
             get
@@ -3248,7 +3248,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lastModifiedByResolutionID
         {
             get
@@ -3262,7 +3262,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime creationTime
         {
             get
@@ -3276,7 +3276,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool creationTimeSpecified
         {
             get
@@ -3290,7 +3290,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime lastModifiedTime
         {
             get
@@ -3304,7 +3304,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool lastModifiedTimeSpecified
         {
             get
@@ -3318,7 +3318,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public bool preserveTextContent
         {
             get
@@ -3332,7 +3332,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool preserveTextContentSpecified
         {
             get
@@ -3346,7 +3346,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public bool explicitExpandCollapseEnabled
         {
             get
@@ -3360,7 +3360,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool explicitExpandCollapseEnabledSpecified
         {
             get
@@ -3379,7 +3379,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class MediaIndex
     {
 
@@ -3401,7 +3401,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string timeIndex
         {
             get
@@ -3420,14 +3420,14 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class MediaReference
     {
 
         private string mediaIDField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string mediaID
         {
             get
@@ -3446,7 +3446,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Tag
     {
 
@@ -3471,7 +3471,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string index
         {
             get
@@ -3485,7 +3485,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool completed
         {
@@ -3500,7 +3500,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool disabled
         {
@@ -3515,7 +3515,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime creationDate
         {
             get
@@ -3529,7 +3529,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool creationDateSpecified
         {
             get
@@ -3543,7 +3543,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime completionDate
         {
             get
@@ -3557,7 +3557,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool completionDateSpecified
         {
             get
@@ -3576,7 +3576,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class OutlookTask
     {
 
@@ -3609,7 +3609,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool completed
         {
@@ -3624,7 +3624,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool disabled
         {
@@ -3639,7 +3639,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime creationDate
         {
             get
@@ -3653,7 +3653,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool creationDateSpecified
         {
             get
@@ -3667,7 +3667,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime completionDate
         {
             get
@@ -3681,7 +3681,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool completionDateSpecified
         {
             get
@@ -3695,7 +3695,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime startDate
         {
             get
@@ -3709,7 +3709,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool startDateSpecified
         {
             get
@@ -3723,7 +3723,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime dueDate
         {
             get
@@ -3737,7 +3737,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool dueDateSpecified
         {
             get
@@ -3751,7 +3751,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string guidTask
         {
             get
@@ -3770,7 +3770,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Meta
     {
 
@@ -3779,7 +3779,7 @@ namespace OneNoteObjectModel
         private string contentField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string name
         {
             get
@@ -3793,7 +3793,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string content
         {
             get
@@ -3812,15 +3812,15 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class List
     {
 
         private object itemField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Bullet", typeof(Bullet))]
-        [System.Xml.Serialization.XmlElementAttribute("Number", typeof(Number))]
+        [XmlElement("Bullet", typeof(Bullet))]
+        [XmlElement("Number", typeof(Number))]
         public object Item
         {
             get
@@ -3839,7 +3839,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Bullet
     {
 
@@ -3856,7 +3856,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string bullet
         {
             get
@@ -3870,7 +3870,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(10D)]
         public double fontSize
         {
@@ -3885,7 +3885,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("automatic")]
         public string fontColor
         {
@@ -3905,7 +3905,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Number
     {
 
@@ -3940,7 +3940,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string numberSequence
         {
             get
@@ -3954,7 +3954,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string numberFormat
         {
             get
@@ -3968,7 +3968,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string restartNumberingAt
         {
             get
@@ -3982,7 +3982,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("Verdana")]
         public string font
         {
@@ -3997,7 +3997,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(10D)]
         public double fontSize
         {
@@ -4012,7 +4012,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("automatic")]
         public string fontColor
         {
@@ -4027,7 +4027,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool bold
         {
@@ -4042,7 +4042,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool italic
         {
@@ -4057,7 +4057,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("1033")]
         public string language
         {
@@ -4072,7 +4072,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string text
         {
             get
@@ -4091,22 +4091,22 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class FutureObject : PageObjectTagable
     {
     }
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(FutureObject))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Image))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(InsertedFile))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(MediaFile))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(InkDrawing))]
+    [XmlInclude(typeof(FutureObject))]
+    [XmlInclude(typeof(Image))]
+    [XmlInclude(typeof(InsertedFile))]
+    [XmlInclude(typeof(MediaFile))]
+    [XmlInclude(typeof(InkDrawing))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.33440")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class PageObjectTagable : PageObject
     {
 
@@ -4119,7 +4119,7 @@ namespace OneNoteObjectModel
         private Tag[] tag1Field;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("MediaIndex", Order = 0)]
+        [XmlElement("MediaIndex", Order = 0)]
         public MediaIndex[] MediaIndex
         {
             get
@@ -4133,7 +4133,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Tag", Order = 1)]
+        [XmlElement("Tag", Order = 1)]
         public Tag[] Tag
         {
             get
@@ -4147,7 +4147,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 2)]
+        [XmlElement(Order = 2)]
         public OutlookTask OutlookTask
         {
             get
@@ -4161,7 +4161,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Tag", Order = 3)]
+        [XmlElement("Tag", Order = 3)]
         public Tag[] Tag1
         {
             get
@@ -4176,18 +4176,18 @@ namespace OneNoteObjectModel
     }
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Outline))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(PageObjectTagable))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(FutureObject))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Image))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(InsertedFile))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(MediaFile))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(InkDrawing))]
+    [XmlInclude(typeof(Outline))]
+    [XmlInclude(typeof(PageObjectTagable))]
+    [XmlInclude(typeof(FutureObject))]
+    [XmlInclude(typeof(Image))]
+    [XmlInclude(typeof(InsertedFile))]
+    [XmlInclude(typeof(MediaFile))]
+    [XmlInclude(typeof(InkDrawing))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.33440")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class PageObject
     {
 
@@ -4211,7 +4211,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 0)]
+        [XmlElement(Order = 0)]
         public Position Position
         {
             get
@@ -4225,7 +4225,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 1)]
+        [XmlElement(Order = 1)]
         public Size Size
         {
             get
@@ -4239,7 +4239,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Meta", Order = 2)]
+        [XmlElement("Meta", Order = 2)]
         public Meta[] Meta
         {
             get
@@ -4253,7 +4253,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string objectID
         {
             get
@@ -4267,7 +4267,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("none")]
         public string selected
         {
@@ -4282,7 +4282,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime lastModifiedTime
         {
             get
@@ -4296,7 +4296,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool lastModifiedTimeSpecified
         {
             get
@@ -4315,7 +4315,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Position
     {
 
@@ -4326,7 +4326,7 @@ namespace OneNoteObjectModel
         private string zField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double x
         {
             get
@@ -4340,7 +4340,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double y
         {
             get
@@ -4354,7 +4354,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string z
         {
             get
@@ -4373,7 +4373,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Size
     {
 
@@ -4386,7 +4386,7 @@ namespace OneNoteObjectModel
         private bool isSetByUserFieldSpecified;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double width
         {
             get
@@ -4400,7 +4400,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double height
         {
             get
@@ -4414,7 +4414,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public bool isSetByUser
         {
             get
@@ -4428,7 +4428,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool isSetByUserSpecified
         {
             get
@@ -4447,7 +4447,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Outline : PageObject
     {
 
@@ -4478,8 +4478,8 @@ namespace OneNoteObjectModel
         private bool creationTimeFieldSpecified;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order = 0)]
-        [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable = false)]
+        [XmlArray(Order = 0)]
+        [XmlArrayItem(IsNullable = false)]
         public Indent[] Indents
         {
             get
@@ -4493,7 +4493,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("OEChildren", Order = 1)]
+        [XmlElement("OEChildren", Order = 1)]
         public OEChildren[] OEChildren
         {
             get
@@ -4507,7 +4507,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string style
         {
             get
@@ -4521,7 +4521,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string quickStyleIndex
         {
             get
@@ -4535,7 +4535,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lang
         {
             get
@@ -4549,7 +4549,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string author
         {
             get
@@ -4563,7 +4563,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string authorInitials
         {
             get
@@ -4577,7 +4577,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string authorResolutionID
         {
             get
@@ -4591,7 +4591,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lastModifiedBy
         {
             get
@@ -4605,7 +4605,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lastModifiedByInitials
         {
             get
@@ -4619,7 +4619,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lastModifiedByResolutionID
         {
             get
@@ -4633,7 +4633,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime creationTime
         {
             get
@@ -4647,7 +4647,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool creationTimeSpecified
         {
             get
@@ -4666,7 +4666,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Indent
     {
 
@@ -4675,7 +4675,7 @@ namespace OneNoteObjectModel
         private double indentField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string level
         {
             get
@@ -4689,7 +4689,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double indent
         {
             get
@@ -4708,7 +4708,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Image : PageObjectTagable
     {
 
@@ -4746,9 +4746,9 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("CallbackID", typeof(CallbackID), Order = 0)]
-        [System.Xml.Serialization.XmlElementAttribute("Data", typeof(byte[]), DataType = "base64Binary", Order = 0)]
-        [System.Xml.Serialization.XmlElementAttribute("File", typeof(FilePath), Order = 0)]
+        [XmlElement("CallbackID", typeof(CallbackID), Order = 0)]
+        [XmlElement("Data", typeof(byte[]), DataType = "base64Binary", Order = 0)]
+        [XmlElement("File", typeof(FilePath), Order = 0)]
         public object Item
         {
             get
@@ -4762,7 +4762,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 1)]
+        [XmlElement(Order = 1)]
         public OCRData OCRData
         {
             get
@@ -4776,7 +4776,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 2)]
+        [XmlElement(Order = 2)]
         public Preview Preview
         {
             get
@@ -4790,7 +4790,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("auto")]
         public string format
         {
@@ -4805,7 +4805,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string xpsFileIndex
         {
             get
@@ -4819,7 +4819,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         [System.ComponentModel.DefaultValueAttribute("0")]
         public string originalDocumentNumber
         {
@@ -4834,7 +4834,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         [System.ComponentModel.DefaultValueAttribute("0")]
         public string originalPageNumber
         {
@@ -4849,7 +4849,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool isPrintOut
         {
@@ -4864,7 +4864,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool backgroundImage
         {
@@ -4879,7 +4879,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string hyperlink
         {
             get
@@ -4893,7 +4893,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string alt
         {
             get
@@ -4907,7 +4907,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string sourceDocument
         {
             get
@@ -4926,7 +4926,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class OCRData
     {
 
@@ -4955,7 +4955,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("OCRToken")]
+        [XmlElement("OCRToken")]
         public OCRToken[] OCRToken
         {
             get
@@ -4969,7 +4969,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("EN-US")]
         public string lang
         {
@@ -4989,7 +4989,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class OCRToken
     {
 
@@ -5018,7 +5018,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string startPos
         {
             get
@@ -5032,7 +5032,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         [System.ComponentModel.DefaultValueAttribute("0")]
         public string region
         {
@@ -5047,7 +5047,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         [System.ComponentModel.DefaultValueAttribute("0")]
         public string line
         {
@@ -5062,7 +5062,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(typeof(decimal), "0")]
         public decimal x
         {
@@ -5077,7 +5077,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(typeof(decimal), "0")]
         public decimal y
         {
@@ -5092,7 +5092,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(0D)]
         public double width
         {
@@ -5107,7 +5107,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(0D)]
         public double height
         {
@@ -5127,7 +5127,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Preview
     {
 
@@ -5138,7 +5138,7 @@ namespace OneNoteObjectModel
         private string rangeField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string page
         {
             get
@@ -5152,7 +5152,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string @object
         {
             get
@@ -5166,7 +5166,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string range
         {
             get
@@ -5181,12 +5181,12 @@ namespace OneNoteObjectModel
     }
 
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(MediaFile))]
+    [XmlInclude(typeof(MediaFile))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.33440")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class InsertedFile : PageObjectTagable
     {
 
@@ -5199,8 +5199,8 @@ namespace OneNoteObjectModel
         private string preferredNameField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Previews", typeof(Previews), Order = 0)]
-        [System.Xml.Serialization.XmlElementAttribute("Printout", typeof(Printout), Order = 0)]
+        [XmlElement("Previews", typeof(Previews), Order = 0)]
+        [XmlElement("Printout", typeof(Printout), Order = 0)]
         public object Item
         {
             get
@@ -5214,7 +5214,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string pathSource
         {
             get
@@ -5228,7 +5228,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string pathCache
         {
             get
@@ -5242,7 +5242,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string preferredName
         {
             get
@@ -5261,7 +5261,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Previews
     {
 
@@ -5277,7 +5277,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Preview")]
+        [XmlElement("Preview")]
         public Preview[] Preview
         {
             get
@@ -5291,7 +5291,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string sourceDocument
         {
             get
@@ -5305,7 +5305,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool displayAll
         {
@@ -5325,7 +5325,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Printout
     {
 
@@ -5339,7 +5339,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string xpsFileIndex
         {
             get
@@ -5353,7 +5353,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool outOfDate
         {
@@ -5373,14 +5373,14 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class MediaFile : InsertedFile
     {
 
         private MediaReference mediaReferenceField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 0)]
+        [XmlElement(Order = 0)]
         public MediaReference MediaReference
         {
             get
@@ -5399,7 +5399,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class InkDrawing : PageObjectTagable
     {
 
@@ -5421,7 +5421,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 0)]
+        [XmlElement(Order = 0)]
         public ShapeInfo ShapeInfo
         {
             get
@@ -5435,9 +5435,9 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("CallbackID", typeof(CallbackID), Order = 1)]
-        [System.Xml.Serialization.XmlElementAttribute("Data", typeof(byte[]), DataType = "base64Binary", Order = 1)]
-        [System.Xml.Serialization.XmlElementAttribute("File", typeof(FilePath), Order = 1)]
+        [XmlElement("CallbackID", typeof(CallbackID), Order = 1)]
+        [XmlElement("Data", typeof(byte[]), DataType = "base64Binary", Order = 1)]
+        [XmlElement("File", typeof(FilePath), Order = 1)]
         public object Item
         {
             get
@@ -5451,7 +5451,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool isUnclassified
         {
@@ -5466,7 +5466,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(0D)]
         public double inkOriginX
         {
@@ -5481,7 +5481,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(0D)]
         public double inkOriginY
         {
@@ -5501,7 +5501,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class ShapeInfo
     {
 
@@ -5515,7 +5515,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("AnchorPoint")]
+        [XmlElement("AnchorPoint")]
         public AnchorPoint[] AnchorPoint
         {
             get
@@ -5529,7 +5529,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool isLine
         {
@@ -5549,7 +5549,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class AnchorPoint
     {
 
@@ -5558,7 +5558,7 @@ namespace OneNoteObjectModel
         private double yField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double x
         {
             get
@@ -5572,7 +5572,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double y
         {
             get
@@ -5591,7 +5591,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Table
     {
 
@@ -5643,7 +5643,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable = false)]
+        [XmlArrayItem(IsNullable = false)]
         public Column[] Columns
         {
             get
@@ -5657,7 +5657,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Row")]
+        [XmlElement("Row")]
         public Row[] Row
         {
             get
@@ -5671,7 +5671,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string objectID
         {
             get
@@ -5685,7 +5685,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool bordersVisible
         {
@@ -5700,7 +5700,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool hasHeaderRow
         {
@@ -5715,7 +5715,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("none")]
         public string selected
         {
@@ -5730,7 +5730,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime lastModifiedTime
         {
             get
@@ -5744,7 +5744,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool lastModifiedTimeSpecified
         {
             get
@@ -5758,7 +5758,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string meetingContentType
         {
             get
@@ -5772,7 +5772,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string author
         {
             get
@@ -5786,7 +5786,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string authorInitials
         {
             get
@@ -5800,7 +5800,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string authorResolutionID
         {
             get
@@ -5814,7 +5814,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lastModifiedBy
         {
             get
@@ -5828,7 +5828,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lastModifiedByInitials
         {
             get
@@ -5842,7 +5842,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lastModifiedByResolutionID
         {
             get
@@ -5856,7 +5856,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime creationTime
         {
             get
@@ -5870,7 +5870,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool creationTimeSpecified
         {
             get
@@ -5884,7 +5884,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string style
         {
             get
@@ -5898,7 +5898,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string quickStyleIndex
         {
             get
@@ -5912,7 +5912,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lang
         {
             get
@@ -5931,7 +5931,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Column
     {
 
@@ -5947,7 +5947,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string index
         {
             get
@@ -5961,7 +5961,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double width
         {
             get
@@ -5975,7 +5975,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool isLocked
         {
@@ -5995,7 +5995,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Row
     {
 
@@ -6041,7 +6041,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Cell")]
+        [XmlElement("Cell")]
         public Cell[] Cell
         {
             get
@@ -6055,7 +6055,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string objectID
         {
             get
@@ -6069,7 +6069,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("none")]
         public string selected
         {
@@ -6084,7 +6084,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime lastModifiedTime
         {
             get
@@ -6098,7 +6098,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool lastModifiedTimeSpecified
         {
             get
@@ -6112,7 +6112,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string meetingContentType
         {
             get
@@ -6126,7 +6126,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string meetingContentId
         {
             get
@@ -6140,7 +6140,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string author
         {
             get
@@ -6154,7 +6154,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string authorInitials
         {
             get
@@ -6168,7 +6168,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string authorResolutionID
         {
             get
@@ -6182,7 +6182,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lastModifiedBy
         {
             get
@@ -6196,7 +6196,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lastModifiedByInitials
         {
             get
@@ -6210,7 +6210,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lastModifiedByResolutionID
         {
             get
@@ -6224,7 +6224,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime creationTime
         {
             get
@@ -6238,7 +6238,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool creationTimeSpecified
         {
             get
@@ -6252,7 +6252,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string style
         {
             get
@@ -6266,7 +6266,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string quickStyleIndex
         {
             get
@@ -6280,7 +6280,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lang
         {
             get
@@ -6299,7 +6299,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Title
     {
 
@@ -6325,7 +6325,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("OE")]
+        [XmlElement("OE")]
         public OE[] OE
         {
             get
@@ -6339,7 +6339,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("none")]
         public string selected
         {
@@ -6354,7 +6354,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string style
         {
             get
@@ -6368,7 +6368,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string quickStyleIndex
         {
             get
@@ -6382,7 +6382,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string lang
         {
             get
@@ -6396,7 +6396,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(true)]
         public bool showDate
         {
@@ -6411,7 +6411,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(true)]
         public bool showTime
         {
@@ -6431,7 +6431,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class RuleMarginSettings
     {
 
@@ -6443,7 +6443,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("automatic")]
         public string color
         {
@@ -6463,7 +6463,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class RuleLineSettings
     {
 
@@ -6478,7 +6478,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("automatic")]
         public string color
         {
@@ -6493,7 +6493,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(23.76D)]
         public double spacing
         {
@@ -6513,7 +6513,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class RuleLines
     {
 
@@ -6524,11 +6524,11 @@ namespace OneNoteObjectModel
         private bool visibleField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Automatic", typeof(Automatic))]
-        [System.Xml.Serialization.XmlElementAttribute("Horizontal", typeof(RuleLineSettings))]
-        [System.Xml.Serialization.XmlElementAttribute("Margin", typeof(RuleMarginSettings))]
-        [System.Xml.Serialization.XmlElementAttribute("Vertical", typeof(RuleLineSettings))]
-        [System.Xml.Serialization.XmlChoiceIdentifierAttribute("ItemsElementName")]
+        [XmlElement("Automatic", typeof(Automatic))]
+        [XmlElement("Horizontal", typeof(RuleLineSettings))]
+        [XmlElement("Margin", typeof(RuleMarginSettings))]
+        [XmlElement("Vertical", typeof(RuleLineSettings))]
+        [XmlChoiceIdentifier("ItemsElementName")]
         public object[] Items
         {
             get
@@ -6542,8 +6542,8 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("ItemsElementName")]
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlElement("ItemsElementName")]
+        [XmlIgnore()]
         public ItemsChoiceType[] ItemsElementName
         {
             get
@@ -6557,7 +6557,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public bool visible
         {
             get
@@ -6576,7 +6576,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class Automatic
     {
     }
@@ -6584,7 +6584,7 @@ namespace OneNoteObjectModel
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.33440")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote", IncludeInSchema = false)]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote", IncludeInSchema = false)]
     public enum ItemsChoiceType
     {
 
@@ -6606,7 +6606,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class PageMargins
     {
 
@@ -6627,7 +6627,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(36D)]
         public double top
         {
@@ -6642,7 +6642,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(36D)]
         public double bottom
         {
@@ -6657,7 +6657,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(72D)]
         public double left
         {
@@ -6672,7 +6672,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(72D)]
         public double right
         {
@@ -6692,7 +6692,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class PageDimensions
     {
 
@@ -6707,7 +6707,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(792D)]
         public double height
         {
@@ -6722,7 +6722,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(612D)]
         public double width
         {
@@ -6742,7 +6742,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class PageOrientation
     {
 
@@ -6754,7 +6754,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool landscape
         {
@@ -6774,17 +6774,17 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class PageSize
     {
 
         private object[] itemsField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Automatic", typeof(Automatic))]
-        [System.Xml.Serialization.XmlElementAttribute("Dimensions", typeof(PageDimensions))]
-        [System.Xml.Serialization.XmlElementAttribute("Margins", typeof(PageMargins))]
-        [System.Xml.Serialization.XmlElementAttribute("Orientation", typeof(PageOrientation))]
+        [XmlElement("Automatic", typeof(Automatic))]
+        [XmlElement("Dimensions", typeof(PageDimensions))]
+        [XmlElement("Margins", typeof(PageMargins))]
+        [XmlElement("Orientation", typeof(PageOrientation))]
         public object[] Items
         {
             get
@@ -6803,7 +6803,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class PageSettings
     {
 
@@ -6848,7 +6848,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool RTL
         {
@@ -6863,7 +6863,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("automatic")]
         public string color
         {
@@ -6883,7 +6883,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class MeetingInfo
     {
 
@@ -6916,7 +6916,7 @@ namespace OneNoteObjectModel
         private bool outlookSharedNotesFieldSpecified;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string broadcastUrl
         {
             get
@@ -6930,7 +6930,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public bool broadcastActive
         {
             get
@@ -6944,7 +6944,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool broadcastActiveSpecified
         {
             get
@@ -6958,7 +6958,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string IMConversationId
         {
             get
@@ -6972,7 +6972,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string IMConversationUpdater
         {
             get
@@ -6986,7 +6986,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string IMConversationType
         {
             get
@@ -7000,7 +7000,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string meetingGlobalAppointmentId
         {
             get
@@ -7014,7 +7014,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime meetingStartTime
         {
             get
@@ -7028,7 +7028,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool meetingStartTimeSpecified
         {
             get
@@ -7042,7 +7042,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime meetingEndTime
         {
             get
@@ -7056,7 +7056,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool meetingEndTimeSpecified
         {
             get
@@ -7070,7 +7070,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string meetingRecurrenceType
         {
             get
@@ -7084,7 +7084,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public bool outlookSharedNotes
         {
             get
@@ -7098,7 +7098,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool outlookSharedNotesSpecified
         {
             get
@@ -7117,7 +7117,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class XPSFile
     {
 
@@ -7128,9 +7128,9 @@ namespace OneNoteObjectModel
         private string idDocumentField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("CallbackID", typeof(CallbackID))]
-        [System.Xml.Serialization.XmlElementAttribute("Data", typeof(byte[]), DataType = "base64Binary")]
-        [System.Xml.Serialization.XmlElementAttribute("File", typeof(FilePath))]
+        [XmlElement("CallbackID", typeof(CallbackID))]
+        [XmlElement("Data", typeof(byte[]), DataType = "base64Binary")]
+        [XmlElement("File", typeof(FilePath))]
         public object Item
         {
             get
@@ -7144,7 +7144,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string xpsFileIndex
         {
             get
@@ -7158,7 +7158,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string idDocument
         {
             get
@@ -7177,7 +7177,7 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
     public partial class QuickStyleDef
     {
 
@@ -7224,7 +7224,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType = "nonNegativeInteger")]
+        [XmlAttribute(DataType = "nonNegativeInteger")]
         public string index
         {
             get
@@ -7238,7 +7238,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string name
         {
             get
@@ -7252,7 +7252,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("automatic")]
         public string fontColor
         {
@@ -7267,7 +7267,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute("automatic")]
         public string highlightColor
         {
@@ -7282,7 +7282,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string font
         {
             get
@@ -7296,7 +7296,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public double fontSize
         {
             get
@@ -7310,7 +7310,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool bold
         {
@@ -7325,7 +7325,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool italic
         {
@@ -7340,7 +7340,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool underline
         {
@@ -7355,7 +7355,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool strikethrough
         {
@@ -7370,7 +7370,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool superscript
         {
@@ -7385,7 +7385,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool subscript
         {
@@ -7400,7 +7400,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(typeof(float), "0")]
         public float spaceBefore
         {
@@ -7415,7 +7415,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(typeof(float), "0")]
         public float spaceAfter
         {
@@ -7435,8 +7435,8 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote", IsNullable = false)]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlRoot(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote", IsNullable = false)]
     public partial class SectionGroup
     {
 
@@ -7472,7 +7472,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Section")]
+        [XmlElement("Section")]
         public Section[] Section
         {
             get
@@ -7486,7 +7486,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("SectionGroup")]
+        [XmlElement("SectionGroup")]
         public SectionGroup[] SectionGroup1
         {
             get
@@ -7500,7 +7500,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public bool isUnread
         {
             get
@@ -7514,7 +7514,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool isUnreadSpecified
         {
             get
@@ -7528,7 +7528,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool isRecycleBin
         {
@@ -7543,7 +7543,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string ID
         {
             get
@@ -7557,7 +7557,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string name
         {
             get
@@ -7571,7 +7571,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public System.DateTime lastModifiedTime
         {
             get
@@ -7585,7 +7585,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool lastModifiedTimeSpecified
         {
             get
@@ -7599,7 +7599,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool isCurrentlyViewed
         {
@@ -7614,7 +7614,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool isInRecycleBin
         {
@@ -7629,7 +7629,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string path
         {
             get
@@ -7648,8 +7648,8 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote", IsNullable = false)]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlRoot(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote", IsNullable = false)]
     public partial class UnfiledNotes
     {
 
@@ -7678,7 +7678,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool isCurrentlyViewed
         {
@@ -7693,7 +7693,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string ID
         {
             get
@@ -7712,8 +7712,8 @@ namespace OneNoteObjectModel
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote", IsNullable = false)]
+    [XmlType(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote")]
+    [XmlRoot(Namespace = "http://schemas.microsoft.com/office/onenote/2013/onenote", IsNullable = false)]
     public partial class OpenSections
     {
 
@@ -7729,7 +7729,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Section")]
+        [XmlElement("Section")]
         public Section[] Section
         {
             get
@@ -7743,7 +7743,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
         public bool isCurrentlyViewed
         {
@@ -7758,7 +7758,7 @@ namespace OneNoteObjectModel
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public string ID
         {
             get

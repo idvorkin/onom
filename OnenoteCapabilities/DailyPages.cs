@@ -11,10 +11,10 @@ namespace OnenoteCapabilities
     {
         private SettingsDailyPages _settingsDailyPages;
 
-        public DailyPages(OneNoteApp ona, SettingsDailyPages settingsDailyPages)
+        public DailyPages(SettingsDailyPages settingsDailyPages)
         {
             this._settingsDailyPages = settingsDailyPages;
-            _templatePageCreator = new TemplatePageCreator(ona,
+            _templatePageCreator = new TemplatePageCreator(
                     templateNotebook:settingsDailyPages.TemplateNotebook, 
                     templateSection:settingsDailyPages.TemplateSection, 
                     pagesNotebook:settingsDailyPages.DailyPagesNotebook, 

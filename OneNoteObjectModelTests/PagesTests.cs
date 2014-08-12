@@ -12,13 +12,6 @@ namespace OneNoteObjectModelTests
     [TestFixture]
     public class DailyPageTests
     {
-        public OneNoteApp ona;
-
-        // GRR - I don't understant why I can't open hierarchy, clearly I'm missing something.
-        /*
-        private static readonly string CurrentAssemblyPath = Path.GetDirectoryName(new Uri(Assembly.GetAssembly(typeof (OneNoteApp)).CodeBase).LocalPath);
-        private static readonly string TestNoteBookPath = Path.Combine(CurrentAssemblyPath, @"..\..\..\TestNoteBooks\");
-        */
         private TemporaryNoteBookHelper _templateNotebook;
         private TemporaryNoteBookHelper _dailyPagesNotebook;
         private OnenoteCapabilities.SettingsDailyPages _settingsDailyPages;
@@ -28,9 +21,8 @@ namespace OneNoteObjectModelTests
         [TestFixtureSetUp]
         public void Setup()
         {
-            ona = new OneNoteApp();
-            _templateNotebook = new TemporaryNoteBookHelper(ona, "DailyPagesTemplate");
-            _dailyPagesNotebook = new TemporaryNoteBookHelper(ona, "DailyPages");
+            _templateNotebook = new TemporaryNoteBookHelper("DailyPagesTemplate");
+            _dailyPagesNotebook = new TemporaryNoteBookHelper("DailyPages");
 
             _settingsDailyPages = new SettingsDailyPages()
             {
@@ -39,16 +31,16 @@ namespace OneNoteObjectModelTests
             };
 
             // create template structure.
-            var templateSection  = ona.CreateSection(_templateNotebook.Get(), _settingsDailyPages.TemplateSection);
-            ona.CreatePage(templateSection, _settingsDailyPages.TemplateDailyPageTitle);
-            ona.CreatePage(templateSection, _settingsDailyPages.TemplateWeeklyPageTitle);
+            var templateSection  = OneNoteApplication.Instance.CreateSection(_templateNotebook.Get(), _settingsDailyPages.TemplateSection);
+            OneNoteApplication.Instance.CreatePage(templateSection, _settingsDailyPages.TemplateDailyPageTitle);
+            OneNoteApplication.Instance.CreatePage(templateSection, _settingsDailyPages.TemplateWeeklyPageTitle);
 
             // create DailyPages Section
-            var dailySection = ona.CreateSection(_dailyPagesNotebook.Get(), _settingsDailyPages.DailyPagesSection);
-            ona.CreatePage(dailySection, "Parent Week");
+            var dailySection = OneNoteApplication.Instance.CreateSection(_dailyPagesNotebook.Get(), _settingsDailyPages.DailyPagesSection);
+            OneNoteApplication.Instance.CreatePage(dailySection, "Parent Week");
 
             // Instantiate dailyPages
-            dailyPages = new DailyPages(ona, _settingsDailyPages);
+            dailyPages = new DailyPages(_settingsDailyPages);
         }
 
         [Test]
@@ -56,8 +48,8 @@ namespace OneNoteObjectModelTests
         {
             dailyPages.GotoThisWeekPage();
             // verify week page is created.
-            var pagesNotebook = ona.GetNotebook(_dailyPagesNotebook.Get().name);
-            var weekPage = pagesNotebook.PopulatedSection(ona,_settingsDailyPages.DailyPagesSection).Page.First(n => n.name == _settingsDailyPages.ThisWeekPageTitle());
+            var pagesNotebook = OneNoteApplication.Instance.GetNotebook(_dailyPagesNotebook.Get().name);
+            var weekPage = pagesNotebook.PopulatedSection(_settingsDailyPages.DailyPagesSection).Page.First(n => n.name == _settingsDailyPages.ThisWeekPageTitle());
             Assert.That(weekPage.pageLevel, Is.EqualTo(1.ToString()));
         }
         [Test]
@@ -65,8 +57,8 @@ namespace OneNoteObjectModelTests
         {
             dailyPages.GotoTodayPage();
             // verify week page is created.
-            var pagesNotebook = ona.GetNotebook(_dailyPagesNotebook.Get().name);
-            var todayPage = pagesNotebook.PopulatedSection(ona,_settingsDailyPages.DailyPagesSection).Page.First(n => n.name == _settingsDailyPages.TodayPageTitle());
+            var pagesNotebook = OneNoteApplication.Instance.GetNotebook(_dailyPagesNotebook.Get().name);
+            var todayPage = pagesNotebook.PopulatedSection(_settingsDailyPages.DailyPagesSection).Page.First(n => n.name == _settingsDailyPages.TodayPageTitle());
             Assert.That(todayPage.pageLevel, Is.EqualTo(2.ToString()));
         }
 

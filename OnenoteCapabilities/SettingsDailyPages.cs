@@ -46,12 +46,12 @@ namespace OnenoteCapabilities
             
         }
 
-        public IEnumerable<string> People(OneNoteApp ona)
+        public IEnumerable<string> People()
         {
             if (_CachedPeople == null)
             {
-                var settingsPage = ona.GetNotebook(PeoplePagesNotebook).PopulatedSection(ona, PeoplePagesSection).GetPage(ona, PeoplePagesSettingsPage);
-                var content = ona.GetPageContentAsXDocument(settingsPage);
+                var settingsPage = OneNoteApplication.Instance.GetNotebook(PeoplePagesNotebook).PopulatedSection(PeoplePagesSection).GetPage(PeoplePagesSettingsPage);
+                var content = OneNoteApplication.Instance.GetPageContentAsXDocument(settingsPage);
 
                 var peopleNode = content.DescendantNodes().OfType<XElement>().First(e => e.Value.Trim() == "People:");
                 // format is 

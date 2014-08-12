@@ -5,15 +5,13 @@ namespace OnenoteCapabilities
 {
     public class TopicSmartTagTopicProcessor: ISmartTagProcessor
     {
-        private OneNoteApp ona;
         private TemplatePageCreator templatePageCreater;
         private SettingsTopicPages settings;
 
         // TODO move from settingDailyPages to SettingTopicPages
-        public TopicSmartTagTopicProcessor(OneNoteApp ona, SettingsTopicPages settings)
+        public TopicSmartTagTopicProcessor(SettingsTopicPages settings)
         {
-            this.ona = ona;
-            this.templatePageCreater = new TemplatePageCreator(ona, settings.TemplateNotebook, settings.TemplateSection, settings.TopicNotebook, settings.TopicSection);
+            this.templatePageCreater = new TemplatePageCreator(settings.TemplateNotebook, settings.TemplateSection, settings.TopicNotebook, settings.TopicSection);
             this.settings = settings;
         }
         public bool ShouldProcess(SmartTag st, OneNotePageCursor cursor)
@@ -27,17 +25,17 @@ namespace OnenoteCapabilities
             // Create Topic Page of name 
             var topicPageName = smartTag.TagName();
             var topicPage = templatePageCreater.CreatePageIfNotExists(topicPageName,settings.TopicTemplateName,1);
-            var topicPageContent = ona.GetPageContentAsXDocument(topicPage);
+            var topicPageContent = OneNoteApplication.Instance.GetPageContentAsXDocument(topicPage);
 
-            DumbTodo.AddToPageFromDateEnableSmartTag(ona, topicPageContent,smartTag);
+            DumbTodo.AddToPageFromDateEnableSmartTag(topicPageContent,smartTag);
 
-            if (OneNoteApp.IsSamePage (pageContent, topicPageContent))
+            if (OneNoteApplication.IsSamePage (pageContent, topicPageContent))
             {
                 // HACK: When the smartTag is on the current dailyPage, we put the TODO on the peoplePageContent, but then we put the link on pageContent, which doesn't have the changes to PageContent.
                 pageContent = topicPageContent;
             }
 
-            smartTag.SetLinkToPageId(ona, topicPage.ID);
+            smartTag.SetLinkToPageId(topicPage.ID);
         }
 
         public string HelpLine()

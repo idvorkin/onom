@@ -15,7 +15,7 @@ namespace ListNoteBooks
     {
         static void Main(string[] args)
         {
-            var app = new OneNoteApp();
+            var app = new OneNoteApplication();
             app.GetNotebooks().Notebook.Select(notebook=>notebook.name).ToList().ForEach(Console.WriteLine);
         }
     }

@@ -33,30 +33,30 @@ namespace OnenoteCapabilities
             return String.Join(" ", this.FullText.Split(' ').Skip(1));
         }
 
-        public void SetLink(OneNoteApp ona, Uri uri)
+        public void SetLink(Uri uri)
         {
             var linkAsHTML = String.Format(hyperlinkFormatter, uri.ToString(), TagName());
 
             // TOTAL HACK NEEDS UNIT TESTS -- See SetId
             SmartTagElementInDocument.Value = SmartTagElementInDocument.Value.Replace("#</a>"+TagName(),"#</a>"+linkAsHTML);
-            ona.OneNoteApplication.UpdatePageContent(PageContent.ToString());
+            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(PageContent.ToString());
         }
-        public void SetId(OneNoteApp ona, string modelPageName, string modelPageId, Section smartTagModelSection)
+        public void SetId(string modelPageName, string modelPageId, Section smartTagModelSection)
         {
             // Update the smartTag with a GUID when we add it to the page.
             ModelPageId = modelPageId;
 
             // Make the # a link to the model.
             // Add a '.' on the end to find the object ID. 
-            var embedLinkToModelPage = ona.OneNoteLinkToPageIdWithExtra(modelPageId,extraId:modelPageId);
+            var embedLinkToModelPage = OneNoteApplication.Instance.OneNoteLinkToPageIdWithExtra(modelPageId,extraId:modelPageId);
             SmartTagElementInDocument.Value = String.Format(hyperlinkFormatter, embedLinkToModelPage, "#") + SmartTagElementInDocument.Value.Substring(1);
-            ona.OneNoteApplication.UpdatePageContent(PageContent.ToString());
+            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(PageContent.ToString());
         }
         private readonly static string hyperlinkFormatter = "<a href=\"{0}\">{1}</a>";
 
-        public void SetLinkToPageId(OneNoteApp ona, string hierarchyElementId, string pageContentId = "")
+        public void SetLinkToPageId(string hierarchyElementId, string pageContentId = "")
         {
-            SetLink(ona, new Uri(ona.GetHyperLinkToObject(hierarchyElementId, pageContentId)));
+            SetLink(new Uri(OneNoteApplication.Instance.GetHyperLinkToObject(hierarchyElementId, pageContentId)));
         }
 
         public static IEnumerable<SmartTag> Get(XDocument pageContent, OneNotePageCursor cursor)
@@ -102,7 +102,7 @@ namespace OnenoteCapabilities
                 PageContent = pageContent,
             };
         }
-        public void AddContentAfter(OneNoteApp ona, string content)
+        public void AddContentAfter(string content)
         {
             // NOTE: THIS ASSUMES ONENOTE XML STRUCTURE.
             var parentElement = SmartTagElementInDocument.Parent;
@@ -111,8 +111,8 @@ namespace OnenoteCapabilities
                 throw new Exception("Unexpected OneNote XML encountered. Expected smart tag to be embedded in an OE element.");
             }
 
-            OneNoteApp.AddContentAfter(content, parentElement);
-            ona.OneNoteApplication.UpdatePageContent(PageContent.ToString());
+            OneNoteApplication.AddContentAfter(content, parentElement);
+            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(PageContent.ToString());
         }
 
         public static bool IsSmartTag(string elementText)
@@ -136,21 +136,21 @@ namespace OnenoteCapabilities
 
         private readonly static string isCompleteMatcher = "text-decoration:line-through"; 
 
-        public void SetCompleted(OneNoteApp ona)
+        public void SetCompleted()
         {
             var currentText = this.SmartTagElementInDocument.Value;
             this.SmartTagElementInDocument.Value = String.Format("<span style='text-decoration:line-through'>{0}</span>", currentText);
-            ona.OneNoteApplication.UpdatePageContent(PageContent.ToString());
+            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(PageContent.ToString());
         }
-        public void AddEntryToModelPage(OneNoteApp ona, string text)
+        public void AddEntryToModelPage(string text)
         {
             // TBD: It's possiblet the model page got deleted, handle that gracefully.
-            var modelPageContent = ona.GetPageContentAsXDocument(ModelPageId);
+            var modelPageContent = OneNoteApplication.Instance.GetPageContentAsXDocument(ModelPageId);
 
             // NOTE: This is a big perf hit - figure out how to refactor.
-            var page = OneNoteApp.XMLDeserialize<Page>(modelPageContent.ToString());
+            var page = OneNoteApplication.XMLDeserialize<Page>(modelPageContent.ToString());
 
-            DumbTodo.AddToPage(ona,modelPageContent, text, DateTime.Now);
+            DumbTodo.AddToPage(modelPageContent, text, DateTime.Now);
         }
     }
 }

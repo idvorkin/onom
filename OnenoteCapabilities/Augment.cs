@@ -17,20 +17,18 @@ namespace OnenoteCapabilities
     }
     public interface IPageAugmenter
     {
-        void AugmentPage(OneNoteApp ona, XDocument pageContentInXml, OneNotePageCursor cursor );
+        void AugmentPage(XDocument pageContentInXml, OneNotePageCursor cursor );
     }
 
 
     public class Augmenter
     {
-        public Augmenter(OneNoteApp ona, IEnumerable<IPageAugmenter> pageAugmentors)
+        public Augmenter(IEnumerable<IPageAugmenter> pageAugmentors)
         {
             this.pageAugmentors = pageAugmentors;
-            this.ona = ona;
         }
 
         private IEnumerable<IPageAugmenter> pageAugmentors;
-        private OneNoteApp ona;
 
         /// <summary>
         /// Augment the page.
@@ -38,7 +36,7 @@ namespace OnenoteCapabilities
 
         public void AugmentCurrentPage()
         {
-            var currentWindow = ona.OneNoteApplication.Windows.CurrentWindow;
+            var currentWindow = OneNoteApplication.Instance.InteropApplication.Windows.CurrentWindow;
             var currentLocation = new OneNotePageCursor()
             {
                 PageId = currentWindow.CurrentPageId,
@@ -47,11 +45,11 @@ namespace OnenoteCapabilities
                 NotebookId = currentWindow.CurrentNotebookId,
             };
 
-            var pageContentInXML = ona.GetPageContentAsXDocument(currentLocation.PageId);
+            var pageContentInXML = OneNoteApplication.Instance.GetPageContentAsXDocument(currentLocation.PageId);
 
             foreach (var pageAugmentor in pageAugmentors)
             {
-                pageAugmentor.AugmentPage(ona,pageContentInXML, currentLocation);
+                pageAugmentor.AugmentPage(pageContentInXML, currentLocation);
             }
         }
     }

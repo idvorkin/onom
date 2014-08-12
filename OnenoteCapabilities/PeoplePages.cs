@@ -6,10 +6,10 @@ namespace OnenoteCapabilities
     public class PeoplePages
     {
         private SettingsPeoplePages _settings;
-        public PeoplePages(OneNoteApp ona, SettingsPeoplePages settings)
+        public PeoplePages(SettingsPeoplePages settings)
         {
             this._settings = settings;
-            _templatePageCreator = new TemplatePageCreator(ona,
+            _templatePageCreator = new TemplatePageCreator(
                 templateNotebook:settings.TemplateNotebook, 
                 templateSection:settings.TemplateSection, 
                 pagesNotebook:settings.PeoplePagesNotebook, 

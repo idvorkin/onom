@@ -8,19 +8,17 @@ namespace OnenoteCapabilities
     {
         private SettingsPeoplePages settings;
         private Section peopleSection;
-        private OneNoteApp ona;
 
-        public PeopleSmartTagProcessor(OneNoteApp ona, SettingsPeoplePages settings)
+        public PeopleSmartTagProcessor(SettingsPeoplePages settings)
         {
-            this.ona = ona;
             this.settings = settings;
-            this.peopleSection = ona.GetNotebook(settings.PeoplePagesNotebook)
-                .PopulatedSection(ona, settings.PeoplePagesSection);
+            this.peopleSection = OneNoteApplication.Instance.GetNotebook(settings.PeoplePagesNotebook)
+                .PopulatedSection(settings.PeoplePagesSection);
         }
 
         public bool ShouldProcess(SmartTag st, OneNotePageCursor cursor)
         {
-            if (settings.People(ona).Contains(personFromPersonTag(st))) return true;
+            if (settings.People().Contains(personFromPersonTag(st))) return true;
             return false;
         }
 
@@ -31,18 +29,18 @@ namespace OnenoteCapabilities
 
             // get PersonPage 
 
-            var peoplePage = peopleSection.GetPage(ona,personPageTitle);
+            var peoplePage = peopleSection.GetPage(personPageTitle);
             // IMPORTANT: The smartTag has a cache of the pageContent, so if we're writing the todo on the smartTag page via another pageContent, it will be overwritten.
-            var peoplePageContent = (peoplePage.ID == cursor.PageId) ? pageContent : ona.GetPageContentAsXDocument(peoplePage);
+            var peoplePageContent = (peoplePage.ID == cursor.PageId) ? pageContent : OneNoteApplication.Instance.GetPageContentAsXDocument(peoplePage);
 
             const int toPersonTableCountOnPage = 0;
             const int fromPersonTableCountOnPage = 1;
 
             var tableOnPage = IsFromPerson(smartTag) ? fromPersonTableCountOnPage : toPersonTableCountOnPage;
-            DumbTodo.AddToPageFromDateEnableSmartTag(ona, peoplePageContent, smartTag, tableOnPage: tableOnPage);
+            DumbTodo.AddToPageFromDateEnableSmartTag(peoplePageContent, smartTag, tableOnPage: tableOnPage);
 
 
-            smartTag.SetLinkToPageId(ona, peoplePage.ID);
+            smartTag.SetLinkToPageId(peoplePage.ID);
         }
 
         public string HelpLine()

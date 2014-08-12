@@ -14,20 +14,18 @@ namespace OneNoteObjectModelTests
 
     public class TemporaryNoteBookHelper:IDisposable
     {
-        private OneNoteApp ona;
         private Notebook notebook;
         public Section DefaultSection;
         private string noteBookName;
         private string noteBookDirectory;
 
-        public TemporaryNoteBookHelper(OneNoteApp ona, string TestName)
+        public TemporaryNoteBookHelper(string TestName)
         {
-            this.ona = ona;
             noteBookName = string.Format("onomTest_{0}_{1}", TestName, Guid.NewGuid());
             noteBookDirectory =  Path.Combine(Path.GetTempPath(),noteBookName);
             Directory.CreateDirectory(this.noteBookDirectory);
-            notebook = ona.CreateNoteBook(noteBookDirectory, noteBookName);
-            DefaultSection = ona.CreateSection(notebook, "defaultSection");
+            notebook = OneNoteApplication.Instance.CreateNoteBook(noteBookDirectory, noteBookName);
+            DefaultSection = OneNoteApplication.Instance.CreateSection(notebook, "defaultSection");
         }
         public XDocument CreatePage(IPageContentAsText pageContentAsText, string pageName, Section section=null)
         {
@@ -36,13 +34,13 @@ namespace OneNoteObjectModelTests
                 section = DefaultSection;
             }
 
-            var p = ona.CreatePage(section, pageName);
+            var p = OneNoteApplication.Instance.CreatePage(section, pageName);
             // the copied page has a PageID, replace it with PageID from the newly created page.
             var filledInPageHeader = string.Format(pageContentAsText.firstLine(), p.ID, pageName);
             var pageContent = XDocument.Parse(filledInPageHeader + pageContentAsText.restOfLines());
-            ona.OneNoteApplication.UpdatePageContent(pageContent.ToString());
+            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(pageContent.ToString());
             // load the page back in as ObjectId's will be set.
-            return ona.GetPageContentAsXDocument(p);
+            return OneNoteApplication.Instance.GetPageContentAsXDocument(p);
         }
 
         public Notebook Get()
@@ -51,7 +49,7 @@ namespace OneNoteObjectModelTests
         }
         public void Dispose()
         {
-            ona.OneNoteApplication.CloseNotebook(ona.GetNotebooks().Notebook.First(n=>n.name == noteBookName).ID);
+            OneNoteApplication.Instance.InteropApplication.CloseNotebook(OneNoteApplication.Instance.GetNotebooks().Notebook.First(n=>n.name == noteBookName).ID);
             Directory.Delete(noteBookDirectory,recursive:true);
         }
     }

@@ -28,7 +28,7 @@ namespace OnenoteCapabilities
         public void ToText()
         {
             ElementForParent.Descendants().Remove();
-            OneNoteApp.AddContentAfter(FullText,ElementForParent);
+            OneNoteApplication.AddContentAfter(FullText,ElementForParent);
         }
 
         private static InkTag FromElement(XElement inkTagElement)

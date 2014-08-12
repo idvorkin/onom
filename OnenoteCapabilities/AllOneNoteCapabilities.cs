@@ -7,7 +7,6 @@ namespace OneNoteMenu
 {
     public class AllOneNoteCapabilities
     {
-        public readonly OneNoteApp ona = new OneNoteApp();
         public readonly SettingsPeoplePages SettingsPeoplePages = new SettingsPeoplePages();
         public readonly SettingsDailyPages SettingsDailyPages = new SettingsDailyPages();
         public readonly SettingsTopicPages SettingsTopicPages = new SettingsTopicPages();
@@ -19,9 +18,9 @@ namespace OneNoteMenu
 
         public AllOneNoteCapabilities ()
         {
-            DailyPages = new DailyPages(ona, SettingsDailyPages);
-            PeoplePages = new PeoplePages(ona, SettingsPeoplePages);
-            ListOfPeople = SettingsPeoplePages.People(ona).ToArray();
+            DailyPages = new DailyPages(SettingsDailyPages);
+            PeoplePages = new PeoplePages(SettingsPeoplePages);
+            ListOfPeople = SettingsPeoplePages.People().ToArray();
             // TBD: Look up a dependency injection mechanism.
             var smartTagProcessors = new List<ISmartTagProcessor>()
             {
@@ -29,21 +28,21 @@ namespace OneNoteMenu
                 new TwitterSmartTagProcessor(), 
                 new WikipediaSmartTagProcessor(), 
                 new ConnectSmartTagProcessor(), 
-                new PeopleSmartTagProcessor(ona, SettingsPeoplePages), 
-                new DailySmartTagProcessor(ona,SettingsDailyPages),
-                new PeopleAgendaSmartTagProcessor(ona,SettingsPeoplePages),
+                new PeopleSmartTagProcessor(SettingsPeoplePages), 
+                new DailySmartTagProcessor(SettingsDailyPages),
+                new PeopleAgendaSmartTagProcessor(SettingsPeoplePages),
                 // Topic smarttag processor needs to go last as it will create a topic page for any un-processed tag.
-                new TopicSmartTagTopicProcessor(ona, SettingsTopicPages)
+                new TopicSmartTagTopicProcessor(SettingsTopicPages)
             };
 
-            var smartTagAugmentor = new SmartTagAugmenter(ona, new SettingsSmartTags(), smartTagProcessors);
+            var smartTagAugmentor = new SmartTagAugmenter(new SettingsSmartTags(), smartTagProcessors);
             var pageAugmentors = new List<IPageAugmenter>
             {
                 new InkTagAugmenter(), // inkTags must go first as they are processed by the smartTagAugmentor
                 smartTagAugmentor, 
                 new SmartTodoAugmenter()
             };
-            Augmenter = new Augmenter(ona, pageAugmentors);
+            Augmenter = new Augmenter(pageAugmentors);
         }
     }
 }

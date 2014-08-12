@@ -11,12 +11,11 @@ namespace OnenoteCapabilities
     {
         public void DeleteEmptySections()
         {
-            var ona = new OneNoteObjectModel.OneNoteApp();
             var blankSections =
-                ona.GetNotebooks()
-                    .Notebook.SelectMany(n => n.PopulatedSections(ona))
-                    .Where(s => s.IsDefaultUnmodified(ona));
-            blankSections.ToList().ForEach(s => ona.OneNoteApplication.DeleteHierarchy(s.ID));
+                OneNoteApplication.Instance.GetNotebooks()
+                    .Notebook.SelectMany(n => n.PopulatedSections())
+                    .Where(s => s.IsDefaultUnmodified());
+            blankSections.ToList().ForEach(s => OneNoteApplication.Instance.InteropApplication.DeleteHierarchy(s.ID));
         }
     }
 }

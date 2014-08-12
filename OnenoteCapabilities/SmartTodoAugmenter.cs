@@ -10,7 +10,7 @@ namespace OnenoteCapabilities
 {
     public class SmartTodoAugmenter:IPageAugmenter
     {
-        public void AugmentPage(OneNoteApp ona, XDocument pageContentInXml, OneNotePageCursor cursor)
+        public void AugmentPage(XDocument pageContentInXml, OneNotePageCursor cursor)
         {
             var smartTodos = SmartTodo.Get(pageContentInXml);
 
@@ -24,12 +24,12 @@ namespace OnenoteCapabilities
 
             foreach (var smartTodo in smartTodosToProcess)
             {
-                smartTodo.SetProcessed(ona);
+                smartTodo.SetProcessed();
 
                 XDocument sourcePageContent;
                 try
                 {
-                    sourcePageContent = ona.GetPageContentAsXDocument(smartTodo.ParentPageId);
+                    sourcePageContent = OneNoteApplication.Instance.GetPageContentAsXDocument(smartTodo.ParentPageId);
                 }
                 catch (COMException)
                 {
@@ -48,17 +48,17 @@ namespace OnenoteCapabilities
                 {
                     continue;
                 }
-                smartTag.SetCompleted(ona);
+                smartTag.SetCompleted();
 
 
-                var page = OneNoteApp.XMLDeserialize<Page>(pageContentInXml.ToString());
-                var pageLink = ona.GetHyperLinkToObject(page.ID);
+                var page = OneNoteApplication.XMLDeserialize<Page>(pageContentInXml.ToString());
+                var pageLink = OneNoteApplication.Instance.GetHyperLinkToObject(page.ID);
                 var pageName = page.name;
 
                 var creationText = String.Format("Completed smartTag  '{0} {3}' via smartTodo on page <a href='{1}'> {2} </a>", 
                         smartTag.TagName(), pageLink, pageName, smartTag.TextAfterTag());
 
-                smartTag.AddEntryToModelPage(ona, creationText);
+                smartTag.AddEntryToModelPage(creationText);
 
             }
         }
