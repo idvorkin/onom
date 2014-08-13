@@ -90,6 +90,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionItemSmartTagProcessor.cs" />
     <Compile Include="AllOneNoteCapabilities.cs" />
     <Compile Include="Augment.cs" />
     <Compile Include="ConnectSmartTagProcessor.cs" />

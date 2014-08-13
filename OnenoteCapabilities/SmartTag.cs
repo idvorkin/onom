@@ -23,6 +23,10 @@ namespace OnenoteCapabilities
         {
             return ModelPageId != "";
         }
+        /// <summary>
+        /// Return the tag name without the hash sign.
+        /// </summary>
+        /// <returns></returns>
         public string TagName()
         {
             return this.FullText.Split(' ').First().Substring(1);

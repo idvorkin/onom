@@ -27,6 +27,7 @@ namespace OneNoteMenu
                 new HelpSmartTagProcessor(), 
                 new TwitterSmartTagProcessor(), 
                 new WikipediaSmartTagProcessor(), 
+                new ActionItemSmartTagProcessor(), 
                 new ConnectSmartTagProcessor(), 
                 new PeopleSmartTagProcessor(SettingsPeoplePages), 
                 new DailySmartTagProcessor(SettingsDailyPages),
