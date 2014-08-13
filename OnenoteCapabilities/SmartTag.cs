@@ -39,7 +39,7 @@ namespace OnenoteCapabilities
 
             // TOTAL HACK NEEDS UNIT TESTS -- See SetId
             SmartTagElementInDocument.Value = SmartTagElementInDocument.Value.Replace("#</a>"+TagName(),"#</a>"+linkAsHTML);
-            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(PageContent.ToString());
+            OneNoteApplication.Instance.UpdatePageContent(PageContent);
         }
         public void SetId(string modelPageName, string modelPageId, Section smartTagModelSection)
         {
@@ -50,7 +50,7 @@ namespace OnenoteCapabilities
             // Add a '.' on the end to find the object ID. 
             var embedLinkToModelPage = OneNoteApplication.Instance.OneNoteLinkToPageIdWithExtra(modelPageId,extraId:modelPageId);
             SmartTagElementInDocument.Value = String.Format(hyperlinkFormatter, embedLinkToModelPage, "#") + SmartTagElementInDocument.Value.Substring(1);
-            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(PageContent.ToString());
+            OneNoteApplication.Instance.UpdatePageContent(PageContent);
         }
         private readonly static string hyperlinkFormatter = "<a href=\"{0}\">{1}</a>";
 
@@ -112,7 +112,7 @@ namespace OnenoteCapabilities
             }
 
             OneNoteApplication.AddContentAfter(content, parentElement);
-            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(PageContent.ToString());
+            OneNoteApplication.Instance.UpdatePageContent(PageContent);
         }
 
         public static bool IsSmartTag(string elementText)
@@ -140,7 +140,7 @@ namespace OnenoteCapabilities
         {
             var currentText = this.SmartTagElementInDocument.Value;
             this.SmartTagElementInDocument.Value = String.Format("<span style='text-decoration:line-through'>{0}</span>", currentText);
-            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(PageContent.ToString());
+            OneNoteApplication.Instance.UpdatePageContent(PageContent);
         }
         public void AddEntryToModelPage(string text)
         {

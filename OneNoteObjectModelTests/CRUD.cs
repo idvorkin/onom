@@ -107,7 +107,7 @@ namespace OneNoteObjectModelTests
             var newPage1 = OneNoteApplication.Instance.CreatePage(newSection, Guid.NewGuid().ToString());
             Assert.That( OneNoteApplication.Instance.GetSections(tempNotebook).First(s => s.name == sectionName).Page.Any(p => p.ID == newPage1.ID));
             newPage1.dateTime = firstPageTime;
-            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(OneNoteApplication.XMLSerialize(newPage1));
+            OneNoteApplication.Instance.UpdatePage(newPage1);
 
             var newPage2 = OneNoteApplication.Instance.ClonePage(newSection,newPage1,"NewTitle");
             Assert.That( OneNoteApplication.Instance.GetSections(tempNotebook).First(s => s.name == sectionName).Page.Any(p => p.ID == newPage2.ID), "New ID not set");

@@ -23,7 +23,7 @@ namespace OnenoteCapabilities
         public void SetProcessed()
         {
             this.Element.Value = this.Element.Value.Replace("IsProcessed=False", "IsProcessed=True");
-            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(PageContent.ToString());
+            OneNoteApplication.Instance.UpdatePageContent(PageContent);
         }
 
         public static IEnumerable<SmartTodo> Get(XDocument pageContentInXml)

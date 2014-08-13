@@ -21,7 +21,7 @@ namespace OneNoteObjectModelTests
             // the copied page has a PageID, replace it with PageID from the newly created page.
             var filledInPage = string.Format(pageWithTwoDumbTodoTables, page.ID, page.name);
             this.pageContent = XDocument.Parse(filledInPage);
-            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(pageContent.ToString());
+            OneNoteApplication.Instance.UpdatePageContent(pageContent);
             this.pageLocation = new OneNotePageCursor()
             {
                 NotebookId = _scratchNotebook.Get().ID,

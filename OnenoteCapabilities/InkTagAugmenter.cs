@@ -13,7 +13,7 @@ namespace OnenoteCapabilities
             if (inkTags.Any())
             {
                 // toText does not update the pageContent so do it explicitly.
-                OneNoteApplication.Instance.InteropApplication.UpdatePageContent(pageContentInXml.ToString());
+                OneNoteApplication.Instance.UpdatePageContent(pageContentInXml);
             }
         }
     }

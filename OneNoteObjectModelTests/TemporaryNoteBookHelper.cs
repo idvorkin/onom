@@ -38,7 +38,7 @@ namespace OneNoteObjectModelTests
             // the copied page has a PageID, replace it with PageID from the newly created page.
             var filledInPageHeader = string.Format(pageContentAsText.firstLine(), p.ID, pageName);
             var pageContent = XDocument.Parse(filledInPageHeader + pageContentAsText.restOfLines());
-            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(pageContent.ToString());
+            OneNoteApplication.Instance.UpdatePageContent(pageContent);
             // load the page back in as ObjectId's will be set.
             return OneNoteApplication.Instance.GetPageContentAsXDocument(p);
         }
@@ -49,7 +49,7 @@ namespace OneNoteObjectModelTests
         }
         public void Dispose()
         {
-            OneNoteApplication.Instance.InteropApplication.CloseNotebook(OneNoteApplication.Instance.GetNotebooks().Notebook.First(n=>n.name == noteBookName).ID);
+            OneNoteApplication.Instance.InteropApplication.CloseNotebook(Get().ID);
             Directory.Delete(noteBookDirectory,recursive:true);
         }
     }

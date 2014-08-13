@@ -68,7 +68,7 @@ namespace OnenoteCapabilities
             RowsFromTable(currentMyAction).First().AddAfterSelf(RowsFromTable(nextMyAction).Where(RowContainsIncompleteTasks));
             RowsFromTable(currentThierAction).First().AddAfterSelf(RowsFromTable(nextThierAction).Where(RowContainsIncompleteTasks));
 
-            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(pageContent.ToString());
+            OneNoteApplication.Instance.UpdatePageContent(pageContent);
         }
 
         public string HelpLine()

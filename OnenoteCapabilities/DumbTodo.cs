@@ -42,7 +42,7 @@ namespace OnenoteCapabilities
 
             // Add row after the first row (which is assumed to be a header)
             tableElement.DescendantNodes().OfType<XElement>().First(e => e.Name.LocalName=="Row").AddAfterSelf(rowAsXML.Root);
-            OneNoteApplication.Instance.InteropApplication.UpdatePageContent(pageContentAsXML.ToString());
+            OneNoteApplication.Instance.UpdatePageContent(pageContentAsXML);
         }
 
         // If the page does not contain a todo tag, writing a todo will fail, so we need to add it explicitly if it does not exist.

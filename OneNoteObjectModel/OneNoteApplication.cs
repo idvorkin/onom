@@ -177,10 +177,12 @@ namespace OneNoteObjectModel
 
             // Update current time to be now
             newPageXML.dateTime = DateTime.Now;
-            InteropApplication.UpdatePageContent(XMLSerialize(newPageXML));
+            return UpdatePage(newPageXML);
+        }
 
-            // Return the cloned page with content.
-            return GetPageContent(newPage);
+        public void UpdatePageContent(XDocument XDoc)
+        {
+            InteropApplication.UpdatePageContent(XDoc.ToString());
         }
 
         public static bool IsSamePage(XDocument lhs, XDocument rhs)
