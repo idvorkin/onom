@@ -37,6 +37,11 @@
       <HintPath>..\ExternalAssemblies\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.OneNote, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+        <HintPath>..\InterOpAssembly\Microsoft.Office.Interop.OneNote.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Outlook, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\InterOpAssembly\Microsoft.Office.Interop.Outlook.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks">
