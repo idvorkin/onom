@@ -39,7 +39,7 @@ namespace OnenoteCapabilities
 
         public string HelpLine()
         {
-            return "#ai create an action item from the rest of the line.";
+            return "<b>#ai</b> create an action item from the rest of the line.";
         }
     }
 }
