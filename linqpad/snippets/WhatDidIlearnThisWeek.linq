@@ -14,13 +14,15 @@
 </Query>
 
 public SettingsDailyPages settings = new SettingsDailyPages();
-public OneNoteApp ona = new OneNoteObjectModel.OneNoteApp();
-public ContentProcessor contentProcessor = new ContentProcessor(new OneNoteObjectModel.OneNoteApp(),false);
+public OneNoteApplication ona = new OneNoteObjectModel.OneNoteApplication();
+public ContentProcessor contentProcessor = new ContentProcessor(false);
+Section DailyPagesSection() 
+{ 
+ 	return ona.GetNotebook(settings.DailyPagesNotebook).PopulatedSection(settings.DailyPagesSection);     
+}
 void DumpYesterdayPage()
 {
- 	var sectionForDailyPages = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook)
-						.PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);     
-	
+	var sectionForDailyPages = DailyPagesSection();
 	var today = sectionForDailyPages.Page.First(p=>p.name == (DateTime.Now.Date - TimeSpan.FromDays(1)).ToShortDateString());
 	var content = ona.GetPageContent(today);
 	// ASSUME: Outline is the outer box which contains child items.
@@ -67,11 +69,8 @@ static public DayDataView<T1> DayDateTupleToDayView<T1>(Tuple<string,T1>  t)
 
 void WhatDidILearnLastWeek()
 {
-	var sectionForDailyPages = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook)
-						.PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);     
-	
-	
-	var days = Enumerable.Range(0,9).Select(i=> (DateTime.Now - TimeSpan.FromDays(i)).ToShortDateString());
+	var sectionForDailyPages = DailyPagesSection();
+	var days = Enumerable.Range(0,7).Select(i=> (DateTime.Now - TimeSpan.FromDays(i)).ToShortDateString());
 	var pages = sectionForDailyPages.Page.Where(p=> days.Contains(p.name)).ToList();
 	GetTableRowContent(pages,"SUMMARY","What did I learn").
 	Select (DayDateTupleToDayView).
