@@ -61,6 +61,7 @@ namespace OneNotePieMenu
 
 
         public static RoutedCommand AugmentCommand = new RoutedCommand();
+        public static RoutedCommand TodayCommand = new RoutedCommand();
         public ObservableCollection<string> _observablePeople;
         public AllOneNoteCapabilities capabilities = null;
 
@@ -86,6 +87,7 @@ namespace OneNotePieMenu
             RefreshTopicLruMenu();
             CrashDumpWriter.InstallReportAndCreateCrashDumpUnhandledExceptionHandler();
             AugmentCommand.InputGestures.Add( new KeyGesture( Key.A , ModifierKeys.Control ));
+            TodayCommand.InputGestures.Add( new KeyGesture( Key.T , ModifierKeys.Control ));
             AutoMeasurement.Client.TrackTimedEvent("Init","Duration",initTimer.Elapsed);
         }
 

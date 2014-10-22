@@ -11,7 +11,8 @@
         <SolidColorBrush Opacity="0.01" Color="White"/>
     </Window.Background>
     <Window.CommandBindings>
-    <CommandBinding Command="{x:Static custom:PieMenuWindow.AugmentCommand}" Executed="Augment_OnClick"/>
+        <CommandBinding Command="{x:Static custom:PieMenuWindow.AugmentCommand}" Executed="Augment_OnClick"/>
+        <CommandBinding Command="{x:Static custom:PieMenuWindow.TodayCommand}" Executed="Today_Click"/>
     </Window.CommandBindings>
 
 
