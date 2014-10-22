@@ -46,19 +46,41 @@ IEnumerable<Tuple <string, string>> GetSmartTags(IEnumerable<Object> oes)
 		return Tuple.Create(tag, smartTagMatcher.Replace(x.t,""));
 	});
 }
+
+public class DayDataView<T>
+{
+	public string Day;
+	public string Date;
+	public T Data;
+}
+
+static public DayDataView<T1> DayDateTupleToDayView<T1>(Tuple<string,T1>  t)
+{
+	var date = DateTime.Parse(t.Item1);
+	return new DayDataView<T1> ()
+	{
+		Day = date.DayOfWeek.ToString(),
+		Date = date.ToShortDateString(),
+		Data = t.Item2
+	};
+}
+
 void WhatDidILearnLastWeek()
 {
 	var sectionForDailyPages = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook)
 						.PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection);     
 	
 	
-	var days = Enumerable.Range(0,7).Select(i=> (DateTime.Now - TimeSpan.FromDays(i)).ToShortDateString());
+	var days = Enumerable.Range(0,9).Select(i=> (DateTime.Now - TimeSpan.FromDays(i)).ToShortDateString());
 	var pages = sectionForDailyPages.Page.Where(p=> days.Contains(p.name)).ToList();
-	GetTableRowContent(pages,"SUMMARY","What did I learn").Dump("What did I learn last week");
+	GetTableRowContent(pages,"SUMMARY","What did I learn").
+	Select (DayDateTupleToDayView).
+	Dump("What did I learn last week");
 	pages.ToList().Select(p=>ona.GetPageContent(p)).Select( p => 
 	{
 		var  oes =  p.Items.OfType<Outline>().SelectMany(x=>x.OEChildren).SelectMany(x=>x.Items).OfType<OE>();
-		return new {p.name, smartTags = GetSmartTags(oes) };
+		var smartTagAndDates = Tuple.Create(p.name, GetSmartTags(oes));
+		return DayDateTupleToDayView(smartTagAndDates);
 	}
 	).Dump("Smart Tags");
 }
