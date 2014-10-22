@@ -37,6 +37,9 @@
     <ApplicationIcon>dayplanner.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSharpAnalytics.Net45">
+      <HintPath>..\ExternalAssemblies\CSharpAnalytics.Net45.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Office.Interop.OneNote, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
