@@ -62,6 +62,8 @@ namespace OneNotePieMenu
 
         public static RoutedCommand AugmentCommand = new RoutedCommand();
         public static RoutedCommand TodayCommand = new RoutedCommand();
+        public static RoutedCommand YesterdayCommand = new RoutedCommand();
+        public static RoutedCommand ThisWeekCommand = new RoutedCommand();
         public ObservableCollection<string> _observablePeople;
         public AllOneNoteCapabilities capabilities = null;
 
@@ -75,6 +77,19 @@ namespace OneNotePieMenu
             AutoMeasurement.Start(config);
         }
 
+        private void SetupHotKeys()
+        {
+            Action<RoutedCommand, Key, ModifierKeys> setHotKey = (command, key, modifier) =>
+            {
+                command.InputGestures.Add(new KeyGesture(key, modifier));
+            };
+
+            setHotKey(AugmentCommand,Key.A, ModifierKeys.Control);
+            setHotKey(TodayCommand,Key.T, ModifierKeys.Control);
+            setHotKey(YesterdayCommand,Key.Y, ModifierKeys.Control);
+            setHotKey(ThisWeekCommand,Key.W, ModifierKeys.Control);
+        }
+
         public PieMenuWindow()
         {
             var initTimer = Stopwatch.StartNew();
@@ -86,8 +101,9 @@ namespace OneNotePieMenu
             this.PeopleList.SelectedIndex = 0;
             RefreshTopicLruMenu();
             CrashDumpWriter.InstallReportAndCreateCrashDumpUnhandledExceptionHandler();
-            AugmentCommand.InputGestures.Add( new KeyGesture( Key.A , ModifierKeys.Control ));
-            TodayCommand.InputGestures.Add( new KeyGesture( Key.T , ModifierKeys.Control ));
+
+            SetupHotKeys();
+
             AutoMeasurement.Client.TrackTimedEvent("Init","Duration",initTimer.Elapsed);
         }
 

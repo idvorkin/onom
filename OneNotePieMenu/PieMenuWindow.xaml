@@ -13,6 +13,8 @@
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static custom:PieMenuWindow.AugmentCommand}" Executed="Augment_OnClick"/>
         <CommandBinding Command="{x:Static custom:PieMenuWindow.TodayCommand}" Executed="Today_Click"/>
+        <CommandBinding Command="{x:Static custom:PieMenuWindow.YesterdayCommand}" Executed="Yesterday_OnClick"/>
+        <CommandBinding Command="{x:Static custom:PieMenuWindow.ThisWeekCommand}" Executed="ThisWeek_OnClick"/>
     </Window.CommandBindings>
 
 
