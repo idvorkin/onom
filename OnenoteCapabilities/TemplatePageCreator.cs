@@ -30,7 +30,7 @@ namespace OnenoteCapabilities
         {
             var templatePage = OneNoteApplication.Instance.GetNotebook(templateNotebook)
                 .PopulatedSection(templateSection)
-                .Page.First(p => p.name == templateName);
+                .GetPage(templateName);
 
             var sectionForPages = SectionForPages();
 
@@ -56,7 +56,7 @@ namespace OnenoteCapabilities
                 sectionForPages = SectionForPages();
             }
 
-            var reloadedNewPage = sectionForPages.Page.First(p => p.name == pageTitle);
+            var reloadedNewPage = sectionForPages.GetPage(pageTitle);
             return reloadedNewPage;
         }
 
