@@ -1,10 +1,16 @@
-@echo OFF
-if EXIST "%VS140COMNTOOLS%" (
-    ECHO FOUND VS14  - CALLING vsvars32.bat
-    call "%VS140COMNTOOLS%\vsvars32.bat"
-) ELSE (
-    ECHO VS14 NOT FOUND - BUILD WILL FAIL.
+echo ON
+REM For some unknown reason can't use NOT in batch files with paths with spaces :(
+if EXIST "%VS150COMNTOOLS%" (
+        goto :pathfound
 )
+set VS150COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\
+if EXIST "%VS150COMNTOOLS%" (
+        goto :pathfound
+)
+echo VS 2017 Community NOT FOUND
+goto :eof
+:pathfound
+call "%VS150COMNTOOLS%\VsMSBuildCmd.bat"
 
 if EXIST "c:\Program Files (x86)\NUnit 2.6.4\bin\nunit-console.exe" (
     ECHO FOUND NUnit SKIPPING Installation.
