@@ -1,7 +1,7 @@
 <Query Kind="Statements">
-  <Reference Relative="..\..\InterOpAssembly\Microsoft.Office.Interop.OneNote.dll">C:\gits\onom\InterOpAssembly\Microsoft.Office.Interop.OneNote.dll</Reference>
+  <Reference Relative="..\..\OneNoteObjectModel\bin\Debug\Microsoft.Office.Interop.OneNote.dll">C:\gits\onom\OneNoteObjectModel\bin\Debug\Microsoft.Office.Interop.OneNote.dll</Reference>
   <Reference Relative="..\..\OnenoteCapabilities\bin\Debug\OnenoteCapabilities.dll">C:\gits\onom\OnenoteCapabilities\bin\Debug\OnenoteCapabilities.dll</Reference>
-  <Reference Relative="..\..\OneNoteObjectModel\bin\Debug\OneNoteObjectModel.dll">C:\gits\onom\OneNoteObjectModel\bin\Debug\OneNoteObjectModel.dll</Reference>
+  <Reference Relative="..\..\OnenoteCapabilities\bin\Debug\OneNoteObjectModel.dll">C:\gits\onom\OnenoteCapabilities\bin\Debug\OneNoteObjectModel.dll</Reference>
   <Reference>&lt;RuntimeDirectory&gt;\WPF\PresentationCore.dll</Reference>
   <Reference>&lt;RuntimeDirectory&gt;\WPF\PresentationFramework.dll</Reference>
   <Reference>&lt;RuntimeDirectory&gt;\WPF\System.Windows.Presentation.dll</Reference>
@@ -14,11 +14,12 @@
 </Query>
 
 SettingsDailyPages settings = new SettingsDailyPages();
-OneNoteApp ona = new OneNoteObjectModel.OneNoteApp();
-ContentProcessor contentProcessor = new ContentProcessor(new OneNoteObjectModel.OneNoteApp(),false);
+var ona = new OneNoteApplication();
+
+var ContentProcessor = new ContentProcessor();
 
 
-var page = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook).PopulatedSections(ona).First(s=>s.name == settings.DailyPagesSection).Page.First(p=>p.name == "Scratch");
+var page = ona.GetNotebooks().Notebook.First(n=>n.name == settings.DailyPagesNotebook).PopulatedSections().First(s=>s.name == settings.DailyPagesSection).Page.First(p=>p.name == "Scratch");
 var rowTemplate = "<one:Row lastModifiedTime=\"2014-06-28T06:11:19.000Z\" xmlns:one=\"http://schemas.microsoft.com/office/onenote/2013/onenote\"> " +
   "<one:Cell lastModifiedTime=\"2014-06-28T06:11:19.000Z\"  lastModifiedByInitials=\"ID\"> " +
     "<one:OEChildren> " +
@@ -44,11 +45,16 @@ var rowAsXML = XDocument.Parse(row);
 rowAsXML.Dump();
 
 string pageContent;
-ona.OneNoteApplication.GetPageContent(page.ID, out pageContent);
-var pageContentAsXML = XDocument.Parse(pageContent);
+var c = ona.GetPageContentAsXDocument(page);
+c.Dump("Page Content");
+
+
+var content = ona.GetPageContent(page);
+content.Dump();
+
 //pageContentAsXML.Dump();
 //pageContentAsXML.ToString().Dump();
 //pageContentAsXML.DescendantNodes().OfType<XElement>().Where(e=>e.Name.LocalName=="Row").Last().Dump();
-pageContentAsXML.DescendantNodes().OfType<XElement>().Where(e=>e.Name.LocalName=="Row").First().AddAfterSelf(rowAsXML.Root);
-pageContentAsXML.Dump();
-ona.OneNoteApplication.UpdatePageContent(pageContentAsXML.ToString());
+//pageContentAsXML.DescendantNodes().OfType<XElement>().Where(e=>e.Name.LocalName=="Row").First().AddAfterSelf(rowAsXML.Root);
+//pageContentAsXML.Dump();
+//ona.OneNoteApplication.UpdatePageContent(pageContentAsXML.ToString());
