@@ -18,8 +18,7 @@ namespace OnenoteCapabilities
 
         public bool ShouldProcess(SmartTag st, OneNotePageCursor cursor)
         {
-            if (settings.People().Contains(personFromPersonTag(st))) return true;
-            return false;
+            return settings.People().Select(x => x.ToLower()).Contains(personFromPersonTag(st).ToLower());
         }
 
         public void Process(SmartTag smartTag, XDocument pageContent, SmartTagAugmenter smartTagAugmenter, OneNotePageCursor cursor)
@@ -55,14 +54,21 @@ namespace OnenoteCapabilities
 
         public string personFromPersonTag (SmartTag smartTag)
         {
+
+            // Yucky because using strings, need to correct for casing.
+            var personUnknownCase = "";
+
             if (IsFromPerson(smartTag))
             {
-                return smartTag.TagName().Substring(4);
+                personUnknownCase =  smartTag.TagName().Substring(4);
             }
             else
             {
-                return smartTag.TagName();
+                personUnknownCase =  smartTag.TagName();
             }
+
+            var caseMatchedPerson = settings.People().FirstOrDefault(p => p.ToLower() == personUnknownCase.ToLower());
+            return caseMatchedPerson;
         }
     }
 }
