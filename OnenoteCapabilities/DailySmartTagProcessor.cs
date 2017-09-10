@@ -32,7 +32,7 @@ namespace OnenoteCapabilities
 
             // HACK: Need to find the table of interest with a better method.
             // table 0 is the tasks table which is at the top of the page. If it moves down the table number changes - GROAN.
-            var hackTableToAddTasksTo = 0;
+            var hackTableToAddTasksTo = 2;
 
             DumbTodo.AddToPageFromDateEnableSmartTag(dailyPageContent, smartTag, tableOnPage:hackTableToAddTasksTo);
 
